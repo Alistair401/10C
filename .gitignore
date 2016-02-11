@@ -126,3 +126,10 @@ SysReview/.idea/mongoSettings.xml
 
 # JIRA plugin
 atlassian-ide-plugin.xml
+
+# Missed out .idea files added by Alistair
+SysReview/.idea/SysReview.iml
+SysReview/.idea/encodings.xml
+SysReview/.idea/misc.xml
+SysReview/.idea/modules.xml
+SysReview/.idea/.name
