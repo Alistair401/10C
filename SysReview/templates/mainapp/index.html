@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'mainapp/base.html' %}
 
-</body>
-</html>
+{% load staticfiles %}
+
+{% block main_block %}
+        <div class="pure-menu pure-menu-horizontal cust-navmenu">
+        <a href="#" class="pure-menu-heading">SysReviewer</a>
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a class="pure-menu-link" href="#">Item 1</a></li>
+            </ul>
+        </div>
+    <div class="pure-g cust-maxedcontainer">
+        <div class="pure-u-1-5 cust-sidebar">
+            SideBar
+        </div>
+        <div class="pure-u-4-5 cust-maincontainer">
+            MainPane
+        </div>
+    </div>
+{% endblock %}
