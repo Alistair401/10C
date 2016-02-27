@@ -7,9 +7,32 @@
 </head>
 <body>
     <div class="cust-maxedcontainer">
-        {% block main_block %}
 
-        {% endblock %}
+        <div class="pure-menu pure-menu-horizontal cust-navmenu">
+        <a href="{% url 'index' %}" class="pure-menu-heading">SysReviewer</a>
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'profile' %}">Profile</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'reviews' %}">Reviews</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'create_review' %}">Create Review</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'queries' %}">Queries</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'create_query' %}">Create Query</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'query_results' %}">Query Results</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'abstract_pool' %}">Abstract Pool</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'document_pool' %}">Document Pool</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'final_pool' %}">Final Pool</a></li>
+            </ul>
+        </div>
+    <div class="pure-g cust-maxedcontainer">
+        <div class="pure-u-1-5 cust-sidebar">
+            SideBar
+        </div>
+        <div class="pure-u-4-5 cust-maincontainer">
+            {% block main_block %}
+
+            {% endblock %}
+        </div>
+    </div>
+
     </div>
 
 {% comment %}{% block top_bar %}{% endblock %}

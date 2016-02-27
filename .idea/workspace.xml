@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="011309f0-5a43-400d-b391-aa79d46b2306" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SysReview/templates/mainapp/base.html" afterPath="$PROJECT_DIR$/SysReview/templates/mainapp/base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SysReview/templates/mainapp/index.html" afterPath="$PROJECT_DIR$/SysReview/templates/mainapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="10c.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,8 +42,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SysReview/templates/mainapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.18218352">
-              <caret line="16" column="109" selection-start-line="16" selection-start-column="109" selection-end-line="16" selection-end-column="109" />
+            <state vertical-scroll-proportion="0.04554588">
+              <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -80,8 +82,8 @@
       <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SysReview/templates/mainapp/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.5384617">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state vertical-scroll-proportion="-20.26923">
+              <caret line="31" column="12" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -102,8 +104,8 @@
       <file leaf-file-name="profile.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SysReview/templates/mainapp/profile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.6153846">
-              <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+            <state vertical-scroll-proportion="-5.230769">
+              <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -150,7 +152,6 @@
         <option value="$PROJECT_DIR$/SysReview/SysReview/urls.py" />
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/new_query.html" />
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/query.py" />
-        <option value="$PROJECT_DIR$/SysReview/templates/mainapp/base.html" />
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/query.html" />
         <option value="$PROJECT_DIR$/SysReview/templates/queries.html" />
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/queries.html" />
@@ -160,10 +161,11 @@
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/create_review.html" />
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/document_pool.html" />
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/final_pool.html" />
-        <option value="$PROJECT_DIR$/SysReview/templates/mainapp/profile.html" />
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/query_results.html" />
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/reviews.html" />
         <option value="$PROJECT_DIR$/SysReview/mainapp/urls.py" />
+        <option value="$PROJECT_DIR$/SysReview/templates/mainapp/base.html" />
+        <option value="$PROJECT_DIR$/SysReview/templates/mainapp/profile.html" />
         <option value="$PROJECT_DIR$/SysReview/templates/mainapp/index.html" />
       </list>
     </option>
@@ -834,22 +836,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SysReview/templates/mainapp/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.5384617">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SysReview/templates/mainapp/profile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.6153846">
-          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SysReview/mainapp/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -858,10 +844,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/SysReview/templates/mainapp/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.26923">
+          <caret line="31" column="12" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SysReview/templates/mainapp/profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.230769">
+          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/SysReview/templates/mainapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18218352">
-          <caret line="16" column="109" selection-start-line="16" selection-start-column="109" selection-end-line="16" selection-end-column="109" />
+        <state vertical-scroll-proportion="0.04554588">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
           <folding />
         </state>
       </provider>
