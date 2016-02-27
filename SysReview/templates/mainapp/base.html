@@ -3,11 +3,13 @@
 {% load staticfiles %}
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'css/pure-min.css' %}">
-    <title>SysReviewer</title>
+    <title>SysReviewer {% block title %}{% endblock %}</title>
 </head>
 <body>
     <div class="cust-maxedcontainer">
-        {% block main_block %}{% endblock %}
+        {% block main_block %}
+
+        {% endblock %}
     </div>
 
 {% comment %}{% block top_bar %}{% endblock %}
