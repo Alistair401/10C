@@ -1,5 +1,3 @@
-__author__ = 'uni'
-
 from django.conf.urls import patterns, url
 from mainapp import views
 
