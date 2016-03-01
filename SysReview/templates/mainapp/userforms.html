@@ -8,14 +8,24 @@
     {% if user.is_authenticated %}
         <h1>Please logout before trying to log in or register again</h1>
     {% else %}
-        <div class="pure-g">
-            <div class="pure-u-1-2">
-                <h2>Login</h2>
-            </div>
-            <div class="cust-divider"></div>
-            <div class="pure-u-1-2">
-                <h2>Register</h2>
-            </div>
+        {% if registered %}
+            <h1>Thanks for registering!</h1>
+        {% else %}
+            <div class="pure-g">
+                <div class="pure-u-5-12">
+                    <h2>Login</h2>
+                </div>
+                <div class="cust-divider"></div>
+                <div class="pure-u-1-2">
+                    <h2>Register</h2>
+                    <br/>
+                    <form class="pure-form" id="user_form" method="post" action="/mainapp/login/" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ user_form.as_p }}
+                        <input class="pure-button pure-button-primary" type="submit" name="submit" value="Register" />
+                    </form>
+                </div>
         </div>
+        {% endif %}
     {% endif %}
 {% endblock %}

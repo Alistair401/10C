@@ -10,4 +10,10 @@ class UserLoginForm(forms.ModelForm):
 
 # Form for new users to register
 class UserRegisterForm(forms.ModelForm):
-    username = forms.CharField(widget=forms.TextInput())
+    #Overrides the meta to hide the password properly
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    #Adds fields for the username, email and password
+    class Meta:
+        model = User
+        fields = ('username','email','password')

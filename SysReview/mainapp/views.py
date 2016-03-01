@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect
+from mainapp.forms import UserRegisterForm
 
 #main home page
 def index(request):
@@ -63,7 +64,30 @@ def final_pool(request):
 
 #view for the login / register page
 def login(request):
-    context_dict = {}
+    # If registration is successful registered = True
+    registered = False
+
+    # If the view is accessed through POST
+    if request.method == 'POST':
+        # Take data from form
+        user_form = UserRegisterForm(data=request.POST)
+        # If the form is valid
+        if user_form.is_valid():
+            # Save a new user
+            user = user_form.save()
+            # Update the new user's password
+            user.set_password(user.password)
+            # Save the update
+            user.save
+            # Registration was successful
+            registered = True
+        else:
+            # Print errors with the invalid form
+            print user_form.errors
+    else:
+        # Show the registration form to the user
+        user_form = UserRegisterForm()
+    context_dict = {'user_form': user_form,'registered':registered}
     return render(request,'mainapp/userforms.html',context_dict)
 
 #view to logout
