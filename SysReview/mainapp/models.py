@@ -4,7 +4,9 @@ from django.template.defaultfilters import slugify
 
 # Create your models here.
 class Review(models.Model):
-    name = models.CharField(max_length=128, unique=True)
+    # Primary key for the review is a 128 char name
+    name = models.CharField(max_length=128, unique=True, primary_key=True)
+    # Slug for url paths
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
@@ -16,7 +18,9 @@ class Review(models.Model):
 
 
 class Query(models.Model):
+    # Queries are identified by their relation to a review
     review = models.ForeignKey(Review)
+    # Name of the query given by the user
     name = models.CharField(max_length=128, unique=True)
 
     def __unicode__(self):
@@ -25,18 +29,33 @@ class Query(models.Model):
 
 class Document(models.Model):
     review = models.ForeignKey(Review)
-
+    # Title of the document returned by the API
     title = models.TextField(unique=True)
+    # Authors of the document returned by the API
     authors = models.TextField()
+    # Abstract of the document returned by the API
     abstract = models.TextField()
+    # Link to the document returned by the API
     documentURL = models.URLField()
-    documentFree = models.BooleanField()
+
+    #documentFree = models.BooleanField()
+
+    # ID of the document returned by the API
     pubmedID = models.CharField(max_length=128)
+    # Citations for the document returned for the API
     citation = models.CharField(max_length=128)
 
-    abstractPool = models.BooleanField(default=True)
-    documentPool = models.BooleanField(default=False)
-    finalPool = models.BooleanField(default=False)
+    # abstractPool = models.BooleanField(default=True)
+    # documentPool = models.BooleanField(default=False)
+    # finalPool = models.BooleanField(default=False)
+
+    # Is this document in the abstract, document or final pool?
+    POOL_CHOICES = (
+        (1,"Abstract"),
+        (2,"Document"),
+        (3,"Final"),
+    )
+    currentPool = models.IntegerField(choices=POOL_CHOICES)
 
     def __unicode__(self):
         return self.title
