@@ -1,0 +1,21 @@
+{% extends 'mainapp/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} Profile {% endblock %}
+
+{% block main_block %}
+    {% if user.is_authenticated %}
+        <h1>Please logout before trying to log in or register again</h1>
+    {% else %}
+        <div class="pure-g">
+            <div class="pure-u-1-2">
+                <h2>Login</h2>
+            </div>
+            <div class="cust-divider"></div>
+            <div class="pure-u-1-2">
+                <h2>Register</h2>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -55,7 +55,7 @@ class Document(models.Model):
         (2,"Document"),
         (3,"Final"),
     )
-    currentPool = models.IntegerField(choices=POOL_CHOICES)
+    currentPool = models.IntegerField(choices=POOL_CHOICES,default=1)
 
     def __unicode__(self):
         return self.title

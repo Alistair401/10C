@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout, authenticate, login
+from django.http import HttpResponseRedirect
 
 #main home page
 def index(request):
@@ -8,7 +11,6 @@ def index(request):
 #view profile and edit profile
 def profile(request):
     context_dict = {}
-
     return render(request,'mainapp/profile.html',context_dict)
 
 #view saved reviews
@@ -58,3 +60,17 @@ def final_pool(request):
     context_dict = {}
 
     return render(request,'mainapp/final_pool.html',context_dict)
+
+#view for the login / register page
+def login(request):
+    context_dict = {}
+    return render(request,'mainapp/userforms.html',context_dict)
+
+#view to logout
+#being logged in is required
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+    # Take the user back to the homepage.
+    return HttpResponseRedirect('/mainapp/')
