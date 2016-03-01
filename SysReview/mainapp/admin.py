@@ -10,7 +10,7 @@ class QueryAdmin(admin.ModelAdmin):
     list_display = ('pk','name','review')
 
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ('pk','title','review','abstractPool','documentPool','finalPool')
+    list_display = ('pk','title','review','currentPool')
 
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Query, QueryAdmin)
