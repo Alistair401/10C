@@ -6,7 +6,7 @@
     <title>SysReviewer {% block title %}{% endblock %}</title>
 </head>
 <body>
-    <div class="cust-maxedcontainer">
+    <div class="cust-maxedcontainer cust-shadowbox">
 
         <div class="pure-menu pure-menu-horizontal cust-navmenu">
         <a href="{% url 'index' %}" class="pure-menu-heading">SysReviewer</a>
@@ -45,9 +45,5 @@
     </div>
 
     </div>
-
-{% comment %}{% block top_bar %}{% endblock %}
-{% block side_bar %}{% endblock %}
-{% block main_pane %}{% endblock %}{% endcomment %}
 </body>
 </html>
