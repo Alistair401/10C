@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
-from mainapp.forms import UserRegisterForm, UserLoginForm
+from mainapp.forms import UserRegisterForm
+from django.contrib.auth.models import User
 
 #main home page
 def index(request):
@@ -67,40 +68,42 @@ def user_login(request):
     # If registration is successful registered = True
     registered = False
     loggedIn = False
+    invalid = False
 
     # If the view is accessed through POST
     if request.method == 'POST':
+        user_form = UserRegisterForm()
+
         # If the login button is pressed
         if 'login' in request.POST:
-            # Take the data from the form
-            user_form = UserLoginForm(data=request.POST)
-            if user_form.is_valid():
-                # Get the username and password entered in the form
-                username = request.POST.get('username')
-                password = request.POST.get('password')
-                # Authenticate the user
-                user = authenticate(username=username, password=password)
-                # If the authentication is sucessful
-                if user:
-                    login(request, user)
-                    return HttpResponseRedirect('/mainapp/')
-                else:
-                    # Bad login details were provided. So we can't log the user in.
-                    print "Invalid login details: {0}, {1}".format(username, password)
-                    return HttpResponse("Invalid login details supplied.")
+            # Get the username and password entered in the form
+            form_username = request.POST.get('username')
+            form_password = request.POST.get('password')
+            # Authenticate the user
+            user = authenticate(username=form_username, password=form_password)
+            print user
+            # If the authentication is sucessful
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/mainapp/login')
+            else:
+                # Bad login details were provided. So we can't log the user in.
+                print "Invalid login details:{0},{1}".format(form_username,form_password)
+                invalid = True
 
         # If the register button is pressed
-        else:
+        elif 'register' in request.POST:
             # Take data from form
             user_form = UserRegisterForm(data=request.POST)
             # If the form is valid
             if user_form.is_valid():
                 # Save a new user
                 user = user_form.save()
-                # Update the new user's password
-                user.set_password(user.password)
+                user.save()
+                # Hash the new user's password
+                user.set_password(request.POST.get('password'))
                 # Save the update
-                user.save
+                user.save()
                 # Registration was successful
                 registered = True
         #else:
@@ -109,8 +112,7 @@ def user_login(request):
     else:
         # Show the registration form to the user
         user_form = UserRegisterForm()
-        login_form = UserLoginForm()
-    context_dict = {'user_form': user_form,'registered':registered,'login_form':login_form}
+    context_dict = {'user_form': user_form,'registered':registered,'invalid':invalid}
     return render(request,'mainapp/userforms.html',context_dict)
 
 #view to logout

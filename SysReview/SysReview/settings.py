@@ -59,6 +59,8 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'SysReview.urls'
 
+LOGIN_URL = '/mainapp/login'
+
 WSGI_APPLICATION = 'SysReview.wsgi.application'
 
 

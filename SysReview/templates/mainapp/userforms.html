@@ -8,21 +8,31 @@
     {% if user.is_authenticated %}
         <h1>Please logout before trying to log in or register again</h1>
     {% else %}
-        {% if registered %}
-            <h1>Thanks for registering!</h1>
-        {% else %}
             <div class="pure-g">
                 <div class="pure-u-5-12">
                     <h2>Login</h2>
-                    <form class="pure-form" id="login_form" method="post" action="/mainapp/login/" enctype="multipart/form-data">
+                    {% if invalid %}
+                        <div class="cust-aside-error">Your username/password combo wasn't valid</div>
+                        <br/>
+                    {% endif %}
+                    <form class="pure-form" id="login_form" method="post" action="/mainapp/login/">
                         {% csrf_token %}
-                        {{ login_form.as_p }}
+                        Username: <input type="text" name="username" value="" size="20" />
+                        <br/>
+                        <br/>
+                        Password: <input type="password" name="password" value="" size="20" />
+                        <br/>
+                        <br/>
                         <input class="pure-button pure-button-primary" type="submit" name="login" value="Login" />
                     </form>
                 </div>
-                <div class="cust-divider"></div>
+                <div class="pure-u-1-24"><div class="cust-divider"></div></div>
+
                 <div class="pure-u-1-2">
                     <h2>Register</h2>
+                    {% if registered %}
+                        <div class="cust-aside">Registration successful</div>
+                    {% endif %}
                     <br/>
                     <form class="pure-form" id="user_form" method="post" action="/mainapp/login/" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -30,7 +40,7 @@
                         <input class="pure-button pure-button-primary" type="submit" name="register" value="Register" />
                     </form>
                 </div>
+            </div>
         </div>
-        {% endif %}
     {% endif %}
 {% endblock %}
