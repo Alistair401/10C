@@ -24,6 +24,7 @@ var/
 .installed.cfg
 *.egg
 
+
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
@@ -133,3 +134,7 @@ SysReview/.idea/encodings.xml
 SysReview/.idea/misc.xml
 SysReview/.idea/modules.xml
 SysReview/.idea/.name
+
+# More files to ignore
+*.pyc
+*.sqlite3
