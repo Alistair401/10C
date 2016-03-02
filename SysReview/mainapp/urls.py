@@ -13,6 +13,6 @@ urlpatterns = patterns('',
                        url(r'^document_pool/$',views.document_pool,name='document_pool'),
                        url(r'^final_pool/$',views.final_pool,name='final_pool'),
                        url(r'^login/$',views.user_login,name='login_register'),
-                       url(r'^logout/$',views.logout,name='logout'),
+                       url(r'^logout/$',views.user_logout,name='logout'),
                        )
 

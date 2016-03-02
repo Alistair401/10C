@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -21,7 +22,18 @@ class Query(models.Model):
     # Queries are identified by their relation to a review
     review = models.ForeignKey(Review)
     # Name of the query given by the user
-    name = models.CharField(max_length=128, unique=True)
+    name = models.CharField(max_length=128)
+
+    def __unicode__(self):
+        return self.name
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User)
+    name = models.CharField(max_length=50,unique=False)
+    surname = models.CharField(max_length=50,unique=False)
+    bio = models.CharField(max_length=500,unique=False)
+    institution = models.CharField(max_length=100,unique=False)
+    reviews = models.ManyToManyField(Review)
 
     def __unicode__(self):
         return self.name
@@ -30,7 +42,7 @@ class Query(models.Model):
 class Document(models.Model):
     review = models.ForeignKey(Review)
     # Title of the document returned by the API
-    title = models.TextField(unique=True)
+    title = models.TextField()
     # Authors of the document returned by the API
     authors = models.TextField()
     # Abstract of the document returned by the API

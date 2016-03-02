@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
-from mainapp.forms import UserRegisterForm
+from mainapp.forms import UserRegisterForm, UserProfileForm
+from mainapp.models import UserProfile
 from django.contrib.auth.models import User
 
 #main home page
@@ -11,8 +12,45 @@ def index(request):
     return render(request, 'mainapp/index.html', context_dict)
 
 #view profile and edit profile
+@login_required
 def profile(request):
-    context_dict = {}
+    saved = False
+    current_user = request.user
+    if request.method == 'POST':
+        profile_form = UserProfileForm(data=request.POST)
+        if profile_form.is_valid:
+            profile = UserProfile.objects.all().get_or_create(user=current_user)[0]
+            profile.save()
+
+            entered_name = request.POST.get('name')
+            if (entered_name != ""):
+                profile.name = entered_name
+
+            entered_surname = request.POST.get('surname')
+            if (entered_surname != ""):
+                profile.surname = entered_surname
+
+            entered_bio = request.POST.get('bio')
+            if (entered_bio != ""):
+                profile.bio = entered_bio
+
+            entered_institution = request.POST.get('institution')
+            if (entered_institution != ""):
+                profile.institution = entered_institution
+
+            profile.save()
+            saved = True
+    else:
+        profile_form = UserProfileForm()
+    current_profile = UserProfile.objects.all().get_or_create(user=current_user)[0]
+    profile_name = current_profile.name
+    profile_surname = current_profile.surname
+    profile_bio = current_profile.bio
+    profile_institution = current_profile.institution
+
+    context_dict = {'profile_form':profile_form,'saved':saved,'profile_name':profile_name,
+                    'profile_surname':profile_surname,'profile_bio':profile_bio,
+                    'profile_institution':profile_institution}
     return render(request,'mainapp/profile.html',context_dict)
 
 #view saved reviews
@@ -67,7 +105,6 @@ def final_pool(request):
 def user_login(request):
     # If registration is successful registered = True
     registered = False
-    loggedIn = False
     invalid = False
 
     # If the view is accessed through POST
@@ -85,7 +122,7 @@ def user_login(request):
             # If the authentication is sucessful
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('/mainapp/login')
+                return HttpResponseRedirect('/mainapp/')
             else:
                 # Bad login details were provided. So we can't log the user in.
                 print "Invalid login details:{0},{1}".format(form_username,form_password)

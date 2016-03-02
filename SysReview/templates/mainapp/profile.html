@@ -6,8 +6,48 @@
 
 {% block main_block %}
     {% if user.is_authenticated %}
-        <h1>This is your profile page</h1>
+        <h2>Your Profile</h2>
+        {% if saved %}
+            <div class="cust-aside">Changes saved</div>
+            <br/>
+        {% endif %}
+        <form class="pure-form pure-form-aligned" id="profile_form" method="post" action="/mainapp/profile/">
+            {% csrf_token %}
+            {{ profile_form.non_field_errors }}
+            <div class="pure-control-group">
+                <label>Username:</label>
+                {{ user.username }}
+
+            </div>
+            <div class="pure-control-group">
+                {% comment %}{{ profile_form.name.errors }}{% endcomment %}
+                <label>Name:</label>
+                {{ profile_form.name }}
+                {{ profile_name }}
+            </div>
+            <div class="pure-control-group">
+                <label>Surname:</label>
+                {% comment %}{{ profile_form.surname.errors }}{% endcomment %}
+                {{ profile_form.surname }}
+                {{ profile_surname }}
+            </div>
+            <div class="pure-control-group">
+                <label>Bio:</label>
+                {% comment %}{{ profile_form.bio.errors }}{% endcomment %}
+                {{ profile_form.bio }}
+                {{ profile_bio }}
+            </div>
+            <div class="pure-control-group">
+                <label>Institution:</label>
+                {% comment %}{{ profile_form.institution.errors }}{% endcomment%}
+                {{ profile_form.institution }}
+                {{ profile_institution }}
+            </div>
+            <div class="pure-controls">
+                <input class="pure-button pure-button-primary" type="submit" name="submit" value="Submit changes" />
+            </div>
+        </form>
     {% else %}
-        <h1>Make a profile or log in</h1>
+        <h1>Please log in</h1>
     {% endif %}
 {% endblock %}
