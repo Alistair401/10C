@@ -138,3 +138,4 @@ SysReview/.idea/.name
 # More files to ignore
 *.pyc
 *.sqlite3
+SysReview/mainapp/migrations/*
