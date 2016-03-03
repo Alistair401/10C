@@ -28,11 +28,22 @@ class Query(models.Model):
         return self.name
 
 class UserProfile(models.Model):
+    # The user the profile is linked to
     user = models.ForeignKey(User)
+
+    # The user's first name
     name = models.CharField(max_length=50,unique=False)
+
+    # The user's surname
     surname = models.CharField(max_length=50,unique=False)
+
+    # The user's bio
     bio = models.CharField(max_length=500,unique=False)
+
+    # The user's institution
     institution = models.CharField(max_length=100,unique=False)
+
+    # (WIP) The reviews started by the user
     reviews = models.ManyToManyField(Review)
 
     def __unicode__(self):
@@ -40,13 +51,18 @@ class UserProfile(models.Model):
 
 
 class Document(models.Model):
+    # The review that contains the document
     review = models.ForeignKey(Review)
+
     # Title of the document returned by the API
     title = models.TextField()
+
     # Authors of the document returned by the API
     authors = models.TextField()
+
     # Abstract of the document returned by the API
     abstract = models.TextField()
+
     # Link to the document returned by the API
     documentURL = models.URLField()
 

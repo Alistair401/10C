@@ -14,35 +14,53 @@ def index(request):
 #view profile and edit profile
 @login_required
 def profile(request):
+    # Has the form just been saved?
     saved = False
-    current_user = request.user
-    if request.method == 'POST':
-        profile_form = UserProfileForm(data=request.POST)
-        if profile_form.is_valid:
-            profile = UserProfile.objects.all().get_or_create(user=current_user)[0]
-            profile.save()
 
+    # The current user object
+    current_user = request.user
+
+    # Get the user's associated profile or create on if none exist
+    current_profile = UserProfile.objects.all().get_or_create(user=current_user)[0]
+
+    # Save for good measure
+    current_profile.save()
+
+    # If the form is submitted
+    if request.method == 'POST':
+
+        # The form data
+        profile_form = UserProfileForm(data=request.POST)
+
+        # If the form is valid
+        if profile_form.is_valid:
+
+            # If the form's field wasn't left empty save it to the profile
             entered_name = request.POST.get('name')
             if (entered_name != ""):
-                profile.name = entered_name
+                current_profile.name = entered_name
 
             entered_surname = request.POST.get('surname')
             if (entered_surname != ""):
-                profile.surname = entered_surname
+                current_profile.surname = entered_surname
 
             entered_bio = request.POST.get('bio')
             if (entered_bio != ""):
-                profile.bio = entered_bio
+                current_profile.bio = entered_bio
 
             entered_institution = request.POST.get('institution')
             if (entered_institution != ""):
-                profile.institution = entered_institution
+                current_profile.institution = entered_institution
 
-            profile.save()
+            # Saves the profile
+            current_profile.save()
+
+            # The profile has been saved and the html can now be rendered to reflect that
             saved = True
     else:
+        # Create a new form
         profile_form = UserProfileForm()
-    current_profile = UserProfile.objects.all().get_or_create(user=current_user)[0]
+
     profile_name = current_profile.name
     profile_surname = current_profile.surname
     profile_bio = current_profile.bio
