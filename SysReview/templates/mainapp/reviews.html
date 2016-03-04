@@ -7,5 +7,9 @@
 {% block main_block %}
 
     <h1>Skeleton Reviews Page</h1>
+    <br/>
+    {% for review in review_list %}
+        <h2>{{ review }}</h2>
+    {% endfor %}
 
 {% endblock %}

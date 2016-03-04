@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from mainapp.forms import UserRegisterForm, UserProfileForm
-from mainapp.models import UserProfile
+from mainapp.models import UserProfile, Review
 from django.contrib.auth.models import User
 
 #main home page
@@ -73,7 +73,20 @@ def profile(request):
 
 #view saved reviews
 def reviews(request):
-    context_dict = {}
+    # Get the current user so that we can get the linked reviews
+    current_user = request.user
+
+    review_list = []
+    # Get the linked reviews
+    user_reviews = current_user.review_set.all()
+
+    # If user_reviews isn't empty
+    if user_reviews:
+        # Loop through all the reviews
+        for rev in user_reviews:
+            # Get their name to pass to the context_dict
+            review_list += [rev.name]
+    context_dict = {'review_list':review_list}
 
     return render(request,'mainapp/reviews.html',context_dict)
 
@@ -136,7 +149,6 @@ def user_login(request):
             form_password = request.POST.get('password')
             # Authenticate the user
             user = authenticate(username=form_username, password=form_password)
-            print user
             # If the authentication is sucessful
             if user is not None:
                 login(request, user)

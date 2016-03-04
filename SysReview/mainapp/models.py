@@ -5,8 +5,11 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Review(models.Model):
-    # Primary key for the review is a 128 char name
-    name = models.CharField(max_length=128, unique=True, primary_key=True)
+
+    # Foreign key linking this review to a user
+    researcher = models.ForeignKey(User)
+    # Unique char name for the review
+    name = models.CharField(max_length=128,primary_key=True,unique=True)
     # Slug for url paths
     slug = models.SlugField()
 
@@ -20,7 +23,7 @@ class Review(models.Model):
 
 class Query(models.Model):
     # Queries are identified by their relation to a review
-    review = models.ForeignKey(Review)
+    review = models.ForeignKey(Review,unique = True)
     # Name of the query given by the user
     name = models.CharField(max_length=128)
 
