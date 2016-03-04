@@ -8,8 +8,13 @@
 
     <h1>Skeleton Reviews Page</h1>
     <br/>
-    {% for review in review_list %}
-        <h2>{{ review }}</h2>
-    {% endfor %}
-
+    <div class="cust-well pure-u-4-5">
+        <div class="pure-menu pure-menu-scrollable">
+            <ul class="pure-menu-list">
+                {% for review in review_list %}
+                    <li class="pure-menu-item"><a class="pure-menu-link cust-blacktext" href="#">{{ review }}</a> </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}

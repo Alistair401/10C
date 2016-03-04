@@ -1,7 +1,7 @@
 from django import forms
 from mainapp.models import Query,Document,Review
 from django.contrib.auth.models import User
-from mainapp.models import UserProfile
+from mainapp.models import UserProfile, Review
 
 # Form for new users to register
 class UserRegisterForm(forms.ModelForm):
@@ -27,3 +27,9 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('name','surname','bio','institution',)
+
+class CreateReviewForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Must be unique'}))
+    class Meta:
+        model = Review
+        fields = ('name',)

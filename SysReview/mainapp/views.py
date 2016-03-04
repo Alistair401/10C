@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
-from mainapp.forms import UserRegisterForm, UserProfileForm
+from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm
 from mainapp.models import UserProfile, Review
 from django.contrib.auth.models import User
 
@@ -91,9 +91,19 @@ def reviews(request):
     return render(request,'mainapp/reviews.html',context_dict)
 
 #created new reviews
+@login_required
 def create_review(request):
-    context_dict = {}
+    current_user = request.user
+    if (request.method == 'POST'):
+        review_form = CreateReviewForm(data=request.POST)
+        if review_form.is_valid:
+            entered_name = request.POST.get('name')
+            current_review = Review.objects.create(researcher=current_user,name=entered_name)
+            current_review.save()
+    else:
+        review_form = CreateReviewForm()
 
+    context_dict = {'review_form':review_form}
     return render(request,'mainapp/create_review.html',context_dict)
 
 #view saved queries
