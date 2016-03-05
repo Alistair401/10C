@@ -114,9 +114,12 @@ def queries(request):
 
 #create new query
 def create_query(request):
-    context_dict = {}
+    result_list= []
 
-    return render(request,'mainapp/create_query.html',context_dict)
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+
+    return render(request,'mainapp/create_query.html',{'result_list':result_list})
 
 #view query results and authorise queries and add to abstract pool
 def query_results(request):

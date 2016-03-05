@@ -27,7 +27,7 @@ class Query(models.Model):
     # Name of the query given by the user
     query_string = models.TextField()
     # Number of results returned from query
-    pool_size = models.IntegerField()
+    pool_size = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.name
@@ -55,30 +55,30 @@ class UserProfile(models.Model):
         return self.name
 
 
-class Paper(models.Model):
-    # The review that contains the paper
+class Document(models.Model):
+    # The review that contains the Document
     review = models.ForeignKey(Review)
 
-    # Title of the paper returned by the API
+    # Title of the Document returned by the API
     title = models.TextField()
 
-    # Authors of the paper returned by the API
+    # Authors of the Document returned by the API
     authors = models.TextField()
 
-    # Abstract of the paper returned by the API
+    # Abstract of the Document returned by the API
     abstract = models.TextField()
 
-    # Publish date of the paper returned by the API
-    publish_date=models.DateField()
+    # Publish date of the Document returned by the API
+    #publish_date=models.DateField()
 
-    # Link to the paper returned by the API
-    paperURL = models.URLField()
+    # Link to the Document returned by the API
+    documentURL = models.URLField()
 
-    #paperFree = models.BooleanField()
+    #DocumentFree = models.BooleanField()
 
-    # ID of the paper returned by the API
+    # ID of the Document returned by the API
     #pubmedID = models.CharField(max_length=128)
-    # Citations for the paper returned for the API
+    # Citations for the Document returned for the API
     #citation = models.CharField(max_length=128)
 
     # abstractPool = models.BooleanField(default=True)
@@ -93,7 +93,8 @@ class Paper(models.Model):
     )
     currentPool = models.IntegerField(choices=POOL_CHOICES,default=1)
 
-    notes = models.TextField()
+    # notes option
+    notes = models.TextField(default="")
 
     def __unicode__(self):
         return self.title

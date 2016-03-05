@@ -7,7 +7,7 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ('pk','name')
 
 class QueryAdmin(admin.ModelAdmin):
-    list_display = ('pk','name','review')
+    list_display = ('pk','review')
 
 class DocumentAdmin(admin.ModelAdmin):
     list_display = ('pk','title','review','currentPool')
