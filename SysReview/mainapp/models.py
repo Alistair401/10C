@@ -25,7 +25,9 @@ class Query(models.Model):
     # Queries are identified by their relation to a review
     review = models.ForeignKey(Review,unique = True)
     # Name of the query given by the user
-    name = models.CharField(max_length=128)
+    query_string = models.TextField()
+    # Number of results returned from query
+    pool_size = models.IntegerField()
 
     def __unicode__(self):
         return self.name
@@ -53,28 +55,31 @@ class UserProfile(models.Model):
         return self.name
 
 
-class Document(models.Model):
-    # The review that contains the document
+class Paper(models.Model):
+    # The review that contains the paper
     review = models.ForeignKey(Review)
 
-    # Title of the document returned by the API
+    # Title of the paper returned by the API
     title = models.TextField()
 
-    # Authors of the document returned by the API
+    # Authors of the paper returned by the API
     authors = models.TextField()
 
-    # Abstract of the document returned by the API
+    # Abstract of the paper returned by the API
     abstract = models.TextField()
 
-    # Link to the document returned by the API
-    documentURL = models.URLField()
+    # Publish date of the paper returned by the API
+    publish_date=models.DateField()
 
-    #documentFree = models.BooleanField()
+    # Link to the paper returned by the API
+    paperURL = models.URLField()
 
-    # ID of the document returned by the API
-    pubmedID = models.CharField(max_length=128)
-    # Citations for the document returned for the API
-    citation = models.CharField(max_length=128)
+    #paperFree = models.BooleanField()
+
+    # ID of the paper returned by the API
+    #pubmedID = models.CharField(max_length=128)
+    # Citations for the paper returned for the API
+    #citation = models.CharField(max_length=128)
 
     # abstractPool = models.BooleanField(default=True)
     # documentPool = models.BooleanField(default=False)
@@ -87,6 +92,8 @@ class Document(models.Model):
         (3,"Final"),
     )
     currentPool = models.IntegerField(choices=POOL_CHOICES,default=1)
+
+    notes = models.TextField()
 
     def __unicode__(self):
         return self.title
