@@ -8,11 +8,11 @@
 
     <h1>{{ review_name }} review</h1>
     <ul>
-        <li><a href="{% url 'create_query' review_name_slug %}">Create new query</a> </li>
-        <li><a href="{% url 'queries' review_name_slug %}">View Queries</a> </li>
-        <li><a href="{% url 'abstract_pool' review_name_slug %}">View Abstract Pool</a> </li>
-        <li><a href="{% url 'document_pool' review_name_slug %}">View Document Pool</a> </li>
-        <li><a href="{% url 'final_pool' review_name_slug %}">View Final Pool</a> </li>
+        <a class="pure-button pure-button-primary" href="{% url 'create_query' review_name_slug %}">Create new query</a>
+        <a class="pure-button pure-button-primary" href="{% url 'queries' review_name_slug %}">View Queries</a>
+        <a class="pure-button pure-button-primary" href="{% url 'abstract_pool' review_name_slug %}">View Abstract Pool</a>
+        <a class="pure-button pure-button-primary"  href="{% url 'document_pool' review_name_slug %}">View Document Pool</a>
+        <a class="pure-button pure-button-primary" href="{% url 'final_pool' review_name_slug %}">View Final Pool</a>
     </ul>
 
 {% endblock %}
