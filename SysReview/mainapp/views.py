@@ -85,7 +85,7 @@ def reviews(request):
         # Loop through all the reviews
         for rev in user_reviews:
             # Get their name to pass to the context_dict
-            review_list += [rev.name]
+            review_list += [rev]
     context_dict = {'review_list':review_list}
 
     return render(request,'mainapp/reviews.html',context_dict)
