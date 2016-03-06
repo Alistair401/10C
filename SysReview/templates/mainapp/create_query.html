@@ -7,18 +7,21 @@
 {% block main_block %}
     <h1>Create Query</h1>
 
-    <form class="pure-form" id="query_form" method="post" action="{% url 'create_query' review_name_slug %}">
-        {% csrf_token %}
-            <!-- Display the search form elements here -->
-            <h3>Advanced Query input</h3>
-            <input class="pure-input-rounded" type="text" size="100" name="query" value="" id="query" />
-            <input class="pure-button pure-button-primary" type="submit" name="submit" value="Search" />
-            <br />
-            <h3>Novice Query input</h3>
-            <input class="pure-input-rounded" type="text" size="100" name="query" value="" id="query" />
-            <input class="pure-button pure-button-primary" type="submit" name="submit" value="Search" />
-            <br />
-            </form>
-    <br />
+    {% if submitted %}
+            <div class="cust-aside">Query submitted</div>
+            <br/>
+    {% endif %}
 
+    <form class="pure-form" id="advanced_query" method="post" action="{% url 'create_query' review_name_slug %}">
+        {% csrf_token %}
+        <div class="pure-control-group">
+            <label>Advanced Query: </label>
+            <textarea name="query_string" value="" size="20" ></textarea>
+        </div>
+        <div class="pure-controls">
+            <input class="pure-button pure-button-primary" type="submit" name="advanced" value="Submit" />
+        </div>
+
+
+        </form>
 {% endblock %}

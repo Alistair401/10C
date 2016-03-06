@@ -23,14 +23,14 @@ class Review(models.Model):
 
 class Query(models.Model):
     # Queries are identified by their relation to a review
-    review = models.ForeignKey(Review,unique = True)
+    review = models.ForeignKey(Review)
     # Name of the query given by the user
     query_string = models.TextField()
     # Number of results returned from query
     pool_size = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return self.name
+        return self.query_string
 
 class UserProfile(models.Model):
     # The user the profile is linked to
