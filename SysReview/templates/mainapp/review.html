@@ -1,0 +1,20 @@
+{% extends 'mainapp/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} {{ review_name }} {% endblock %}
+
+{% block main_block %}
+
+    <h1>{{ review_name }} review</h1>
+    <ul>
+        <li><a href="{% url 'create_query' review_name_slug %}">Create new query</a> </li>
+        <li><a href="{% url 'queries' review_name_slug %}">View Queries</a> </li>
+        <li><a href="{% url 'abstract_pool' review_name_slug %}">View Abstract Pool</a> </li>
+        <li><a href="{% url 'document_pool' review_name_slug %}">View Document Pool</a> </li>
+        <li><a href="{% url 'final_pool' review_name_slug %}">View Final Pool</a> </li>
+    </ul>
+
+{% endblock %}
+
+<!--{% url 'review' review.slug %}-->

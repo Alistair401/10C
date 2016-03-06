@@ -5,21 +5,20 @@
 {% block title %} Create Query {% endblock %}
 
 {% block main_block %}
+    <h1>Create Query</h1>
 
-   <div id="create-query-tabs">
-       <h3>Advanced Query</h3>
-       <section>
+    <form class="pure-form" id="query_form" method="post" action="{% url 'create_query' review_name_slug %}">
+        {% csrf_token %}
+            <!-- Display the search form elements here -->
+            <h3>Advanced Query input</h3>
+            <input class="pure-input-rounded" type="text" size="100" name="query" value="" id="query" />
+            <input class="pure-button-primary" type="submit" name="submit" value="Search" />
+            <br />
+            <h3>Novice Query input</h3>
+            <input class="pure-input-rounded" type="text" size="100" name="query" value="" id="query" />
+            <input class="pure-button-primary" type="submit" name="submit" value="Search" />
+            <br />
+            </form>
+    <br />
 
-       </section>
-       <h3>Novice Query</h3>
-       <section>
-
-       </section>
-   </div>
-
-    <button id="about-btn"> Click Me - I'm Javascript on Speed</button>
-
-    <p>This is a example</p>
-
-    <p>This is another example</p>
 {% endblock %}

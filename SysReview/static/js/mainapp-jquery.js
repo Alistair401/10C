@@ -1,19 +1,16 @@
 $(document).ready(function() {
 
-       $('#create-query-tabs').steps({
-    headerTag:"h3",
-    bodyTag: "section",
-    transitionEffect: "slideLeft",
-    enableFinishButton: false,
-    enablePagination: false,
-    enableAllSteps: true,
-    titleTemplate: "#title#",
-    cssClass: "tabcontrol"
-    })
-
-     $("#about-btn").click( function(event) {
-        alert("You clicked the button using JQuery!");
+       $("ul#tabs li").click(function(e){
+        if (!$(this).hasClass("active")) {
+            var tabNum = $(this).index();
+            var nthChild = tabNum+1;
+            $("ul#tabs li.active").removeClass("active");
+            $(this).addClass("active");
+            $("ul#tab li.active").removeClass("active");
+            $("ul#tab li:nth-child("+nthChild+")").addClass("active");
+        }
     });
+
 
 });
 

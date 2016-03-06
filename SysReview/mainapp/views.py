@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm
-from mainapp.models import UserProfile, Review
+from mainapp.models import UserProfile, Review, Query
 from django.contrib.auth.models import User
 
 #main home page
@@ -90,6 +90,24 @@ def reviews(request):
 
     return render(request,'mainapp/reviews.html',context_dict)
 
+#page for selected review
+def review(request, review_name_slug):
+
+    context_dict={}
+
+    try:
+        review = Review.objects.get(slug=review_name_slug)
+        context_dict['review_name']=review.name
+
+        context_dict['review'] = review
+
+        context_dict['review_name_slug'] = review_name_slug
+
+    except Review.DoesNotExist:
+        pass
+
+    return render(request, 'mainapp/review.html', context_dict)
+
 #created new reviews
 @login_required
 def create_review(request):
@@ -107,19 +125,23 @@ def create_review(request):
     return render(request,'mainapp/create_review.html',context_dict)
 
 #view saved queries
-def queries(request):
+def queries(request, review_name_slug):
     context_dict = {}
 
     return render(request,'mainapp/queries.html',context_dict)
 
 #create new query
-def create_query(request):
+def create_query(request, review_name_slug):
+    review = Review.objects.get(slug=review_name_slug)
     result_list= []
 
     if request.method == 'POST':
-        query = request.POST['query'].strip()
+        newQuery = request.POST['query_form'].strip()
+        query = Query(review=review, query_string=newQuery)
+        query.save()
 
-    return render(request,'mainapp/create_query.html',{'result_list':result_list})
+    context_dict = {'review_name_slug': review_name_slug}
+    return render(request,'mainapp/create_query.html', context_dict)
 
 #view query results and authorise queries and add to abstract pool
 def query_results(request):
@@ -128,19 +150,19 @@ def query_results(request):
     return render(request,'mainapp/query_results.html',context_dict)
 
 #view abstract pool and authorise abstracts and add to document pool
-def abstract_pool(request):
+def abstract_pool(request,review_name_slug):
     context_dict = {}
 
     return render(request,'mainapp/abstract_pool.html',context_dict)
 
 #view document pool and authorise documents and add to final pool
-def document_pool(request):
+def document_pool(request,review_name_slug):
     context_dict = {}
 
     return render(request,'mainapp/document_pool.html',context_dict)
 
 #view final pool and edit final pool
-def final_pool(request):
+def final_pool(request,review_name_slug):
     context_dict = {}
 
     return render(request,'mainapp/final_pool.html',context_dict)
