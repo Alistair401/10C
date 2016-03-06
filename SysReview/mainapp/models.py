@@ -48,8 +48,11 @@ class UserProfile(models.Model):
     # The user's institution
     institution = models.CharField(max_length=100,unique=False)
 
-    # (WIP) The reviews started by the user
+    # The reviews started by the user
     reviews = models.ManyToManyField(Review)
+
+    # The currently selected review
+    current_review = models.CharField(max_length=128,unique=False)
 
     def __unicode__(self):
         return self.name

@@ -6,14 +6,24 @@
 
 {% block main_block %}
 
-    <h1>{{ review_name }} review</h1>
-    <ul>
-        <a class="pure-button pure-button-primary" href="{% url 'create_query' review_name_slug %}">Create new query</a>
-        <a class="pure-button pure-button-primary" href="{% url 'queries' review_name_slug %}">View Queries</a>
-        <a class="pure-button pure-button-primary" href="{% url 'abstract_pool' review_name_slug %}">View Abstract Pool</a>
-        <a class="pure-button pure-button-primary"  href="{% url 'document_pool' review_name_slug %}">View Document Pool</a>
-        <a class="pure-button pure-button-primary" href="{% url 'final_pool' review_name_slug %}">View Final Pool</a>
-    </ul>
+
+    <form class="pure-form">
+        <div class="pure-control-group">
+            <label><h1>Review: {{ review_name }}</h1></label>
+            <input type="button" class="pure-button pure-button-primary cust-focus-button" value="Work on this review">
+        </div>
+    </form>
+    <br/>
+    <div class="pure-menu pure-menu-horizontal">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'create_query' review_name_slug %}">Create Query</a></li>
+            <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'queries' review_name_slug %}">Queries</a></li>
+            <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'abstract_pool' review_name_slug %}">Abstract Pool</a></li>
+            <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link"  href="{% url 'document_pool' review_name_slug %}">Document Pool</a></li>
+            <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'final_pool' review_name_slug %}">Final Pool</a></li>
+        </ul>
+    </div>
+
 
 {% endblock %}
 
