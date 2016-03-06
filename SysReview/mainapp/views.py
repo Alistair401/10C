@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
-from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm
+from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm, CreateAdvancedQuery
 from mainapp.models import UserProfile, Review, Query
 from django.contrib.auth.models import User
 
@@ -132,15 +132,25 @@ def queries(request, review_name_slug):
 
 #create new query
 def create_query(request, review_name_slug):
+    #has a query been submitted
+    submitted = False
+
+    #get review for saving to primary key
     review = Review.objects.get(slug=review_name_slug)
-    result_list= []
+
 
     if request.method == 'POST':
-        newQuery = request.POST['query_form'].strip()
-        query = Query(review=review, query_string=newQuery)
-        query.save()
-
-    context_dict = {'review_name_slug': review_name_slug}
+        #if advanced search submitted
+        if 'advanced' in request.POST:
+            advanced_query = CreateAdvancedQuery(data=request.POST)
+            if advanced_query.is_valid():
+                newQuery = request.POST.get('query_string') # get query submitted
+                query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
+                query.save()
+                submitted=True #set query to submitted
+    else:
+        advanced_query = CreateAdvancedQuery()
+    context_dict = {'review_name_slug': review_name_slug, 'advanced_query':advanced_query, 'submitted':submitted}
     return render(request,'mainapp/create_query.html', context_dict)
 
 #view query results and authorise queries and add to abstract pool

@@ -33,3 +33,11 @@ class CreateReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ('name',)
+
+#form for new advanced query
+class CreateAdvancedQuery(forms.ModelForm):
+    query = forms.Textarea()
+
+    class Meta:
+        model = Query
+        fields = ('query_string',)
