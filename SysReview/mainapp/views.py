@@ -85,23 +85,27 @@ def reviews(request):
         # Loop through all the reviews
         for rev in user_reviews:
             # Get their name to pass to the context_dict
-            review_list += [rev.name]
+            review_list += [rev]
     context_dict = {'review_list':review_list}
 
     return render(request,'mainapp/reviews.html',context_dict)
 
 #page for selected review
+@login_required
 def review(request, review_name_slug):
 
     context_dict={}
 
     try:
         review = Review.objects.get(slug=review_name_slug)
+
         context_dict['review_name']=review.name
 
         context_dict['review'] = review
 
         context_dict['review_name_slug'] = review_name_slug
+
+
 
     except Review.DoesNotExist:
         pass
@@ -111,17 +115,23 @@ def review(request, review_name_slug):
 #created new reviews
 @login_required
 def create_review(request):
+    created = False
+    failure = False
     current_user = request.user
     if (request.method == 'POST'):
-        review_form = CreateReviewForm(data=request.POST)
+        review_form = CreateReviewForm(request.POST)
         if review_form.is_valid:
             entered_name = request.POST.get('name')
-            current_review = Review.objects.create(researcher=current_user,name=entered_name)
-            current_review.save()
+            if not Review.objects.all().filter(name=entered_name):
+                current_review = Review.objects.create(researcher=current_user,name=entered_name)
+                current_review.save()
+                created = True
+            else:
+                failure = True;
     else:
         review_form = CreateReviewForm()
 
-    context_dict = {'review_form':review_form}
+    context_dict = {'review_form':review_form,'created':created,'failure':failure}
     return render(request,'mainapp/create_review.html',context_dict)
 
 #view saved queries
