@@ -6,13 +6,25 @@
 
 {% block main_block %}
 
+    {% if working %}
+        <h1>Review: {{ review_name }}</h1>
+        <br/>
+        <div class="cust-aside">
+            This is your currently selected review
+        </div>
+        <br/>
+        You can use the links at the top of the page or the buttons below to navigate to your pools and queries
+        <br/>
 
-    <form class="pure-form">
+    {% else %}
+        <form class="pure-form" method="post">
+        {% csrf_token %}
         <div class="pure-control-group">
             <label><h1>Review: {{ review_name }}</h1></label>
-            <input type="button" class="pure-button pure-button-primary cust-focus-button" value="Work on this review">
+            <input type="submit" class="pure-button pure-button-primary" name='workon' value="Work on this review">
         </div>
     </form>
+    {% endif %}
     <br/>
     <div class="pure-menu pure-menu-horizontal">
         <ul class="pure-menu-list">
