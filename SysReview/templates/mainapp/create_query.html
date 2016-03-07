@@ -5,8 +5,9 @@
 {% block title %} Create Query {% endblock %}
 
 {% block main_block %}
-    <h1>Create Query</h1>
+    <script type="text/javascript" src="{% static 'js/jquery.numberedtextarea.js' %}"></script>
 
+    <h1>Create Query</h1>
     {% if submitted %}
             <div class="cust-aside">Query submitted</div>
             <br/>
