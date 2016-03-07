@@ -41,3 +41,4 @@ class CreateAdvancedQuery(forms.ModelForm):
     class Meta:
         model = Query
         fields = ('query_string',)
+

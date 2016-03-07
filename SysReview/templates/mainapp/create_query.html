@@ -12,11 +12,12 @@
             <br/>
     {% endif %}
 
-    <form class="pure-form" id="advanced_query" method="post" action="{% url 'create_query' review_name_slug %}">
+    <form class="pure-form pure-form-aligned" id="advanced_query" method="post" action="{% url 'create_query' review_name_slug %}">
         {% csrf_token %}
+
         <div class="pure-control-group">
             <label>Advanced Query: </label>
-            <textarea name="query_string" value="" size="20" ></textarea>
+            <textarea name="query_string" value="" rows="20" cols="100" autofocus ></textarea>
         </div>
         <div class="pure-controls">
             <input class="pure-button pure-button-primary" type="submit" name="advanced" value="Submit" />
