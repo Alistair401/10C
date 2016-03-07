@@ -1,6 +1,5 @@
 $(document).ready(function() {
-
-       $("ul#tabs li").click(function(e){
+    $("ul#tabs li").click(function(e){
         if (!$(this).hasClass("active")) {
             var tabNum = $(this).index();
             var nthChild = tabNum+1;
@@ -10,7 +9,6 @@ $(document).ready(function() {
             $("ul#tab li:nth-child("+nthChild+")").addClass("active");
         }
     });
-
-
 });
+
 
