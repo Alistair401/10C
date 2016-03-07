@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-{% block title %} Create Query {% endblock %}
+{% block title %} Query Editor {% endblock %}
 
 {% block main_block %}
     <script type="text/javascript" src="{% static 'js/jquery.numberedtextarea.js' %}"></script>
@@ -15,13 +15,9 @@
 
     <form class="pure-form pure-form-aligned" id="advanced_query" method="post" action="{% url 'create_query' review_name_slug %}">
         {% csrf_token %}
-
-        <div class="pure-control-group">
-            <label>Advanced Query: </label>
-            <textarea name="query_string" value="" rows="20" cols="100" autofocus ></textarea>
-        </div>
-        <div class="pure-controls">
-            <input class="pure-button pure-button-primary" type="submit" name="advanced" value="Submit" />
-        </div>
+        <label>Advanced Query: </label>
+        <textarea name="query_string" value="" rows="20" cols="100" autofocus ></textarea>
+        <br/>
+        <input class="pure-button pure-button-primary" type="submit" name="advanced" value="See Results" />
     </form>
 {% endblock %}
