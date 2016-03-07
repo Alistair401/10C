@@ -93,17 +93,47 @@ def reviews(request):
 #page for selected review
 @login_required
 def review(request, review_name_slug):
-
+    # Is this review currently being worked on?
+    working = False
     context_dict={}
 
+    # The current user object
+    current_user = request.user;
+
+    # Try and get the review, fails if the review doesn't exist
     try:
+        # Get the review from the slug
         review = Review.objects.get(slug=review_name_slug)
+
+        # Get or create a UserProfile object for the user
+        current_profile = UserProfile.objects.all().get_or_create(user=current_user)[0]
+
+        # Save for good measure
+        current_profile.save()
+
+        # If this review isn't being worked on
+        if (current_profile.selected_review != review.name):
+
+            # If the request is a POST
+            if (request.method == 'POST'):
+
+                # If the POST was from the workon button
+                if 'workon' in request.POST:
+
+                    # Change the user's currently review to this one
+                    current_profile.selected_review = review.name
+                    current_profile.save()
+                    working = True
+        else:
+            working = True
 
         context_dict['review_name']=review.name
 
         context_dict['review'] = review
 
         context_dict['review_name_slug'] = review_name_slug
+
+        context_dict['working'] = working
 
 
 

@@ -40,19 +40,24 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=50,unique=False)
 
     # The user's surname
-    surname = models.CharField(max_length=50,unique=False)
+    surname = models.CharField(max_length=50,unique=False,blank=True)
 
     # The user's bio
-    bio = models.CharField(max_length=500,unique=False)
+    bio = models.CharField(max_length=500,unique=False,blank=True)
 
     # The user's institution
-    institution = models.CharField(max_length=100,unique=False)
+    institution = models.CharField(max_length=100,unique=False,blank=True)
 
-    # (WIP) The reviews started by the user
-    reviews = models.ManyToManyField(Review)
+    # The reviews started by the user
+    reviews = models.ManyToManyField(Review,blank=True)
+
+
+    # The currently selected review
+    selected_review = models.CharField(max_length=128,blank=True)
 
     def __unicode__(self):
         return self.name
+
 
 
 class Document(models.Model):
