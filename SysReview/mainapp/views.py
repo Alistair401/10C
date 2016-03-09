@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
-from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm, CreateAdvancedQuery
+from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm, CreateAdvancedQuery, AbstractPoolForm
 from mainapp.models import UserProfile, Review, Query
 from django.contrib.auth.models import User
 
@@ -202,7 +202,13 @@ def query_results(request):
 #view abstract pool and authorise abstracts and add to document pool
 def abstract_pool(request,review_name_slug):
     context_dict = {}
-
+    if request.method == 'POST':
+        APForm = AbstractPoolForm(data=request.POST)
+        if APForm.is_valid():
+            APForm.save(commit=True)
+    else:
+        APForm = AbstractPoolForm()
+    context_dict = {'review_name_slug':review_name_slug, 'APForm':APForm}
     return render(request,'mainapp/abstract_pool.html',context_dict)
 
 #view document pool and authorise documents and add to final pool
