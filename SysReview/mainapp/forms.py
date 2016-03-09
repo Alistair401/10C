@@ -37,8 +37,29 @@ class CreateReviewForm(forms.ModelForm):
 #form for new advanced query
 class CreateAdvancedQuery(forms.ModelForm):
     query = forms.Textarea()
-
     class Meta:
         model = Query
         fields = ('query_string',)
 
+
+#form for abstract pool
+class AbstractPoolForm(forms.ModelForm):
+    selected_abs = forms.MultipleChoiceField(required = True, widget = forms.CheckboxSelectMultiple) #Still need to add the choices
+    class Meta:
+        model = Document
+        fields = ('abstract', )
+
+
+#form for document pool
+class DocumentPoolForm(forms.ModelForm):
+    selected_docs = forms.MultipleChoiceField(required = True, widget = forms.CheckboxSelectMultiple) #Still need to add the choices
+    class Meta:
+        model = Document
+        fields = ('documentURL','title','authors',)
+
+
+#form for final pool
+class FinalPoolForm(forms.ModelForm):
+
+    class Meta:
+        modal = Document
