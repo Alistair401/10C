@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm, CreateAdvancedQuery, AbstractPoolForm
-from mainapp.models import UserProfile, Review, Query
+from mainapp.models import Researcher, Review, Query
 from django.contrib.auth.models import User
 from mainapp import pubmed
 
@@ -22,7 +22,7 @@ def profile(request):
     current_user = request.user
 
     # Get the user's associated profile or create on if none exist
-    current_profile = UserProfile.objects.all().get_or_create(user=current_user)[0]
+    current_profile = Researcher.objects.all().get_or_create(user=current_user)[0]
 
     # Save for good measure
     current_profile.save()
@@ -107,7 +107,7 @@ def review(request, review_name_slug):
         review = Review.objects.get(slug=review_name_slug)
 
         # Get or create a UserProfile object for the user
-        current_profile = UserProfile.objects.all().get_or_create(user=current_user)[0]
+        current_profile = Researcher.objects.all().get_or_create(user=current_user)[0]
 
         # Save for good measure
         current_profile.save()
@@ -154,7 +154,7 @@ def create_review(request):
         if review_form.is_valid:
             entered_name = request.POST.get('name').upper()
             if not Review.objects.all().filter(name=entered_name):
-                current_review = Review.objects.create(researcher=current_user,name=entered_name)
+                current_review = Review.objects.create(creator=current_user,name=entered_name)
                 current_review.save()
                 created = True
             else:

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mainapp.models import Review, Query, Document
+from mainapp.models import Review, Query, Paper
 
 
 class ReviewAdmin(admin.ModelAdmin):
@@ -14,4 +14,4 @@ class DocumentAdmin(admin.ModelAdmin):
 
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Query, QueryAdmin)
-admin.site.register(Document,DocumentAdmin)
+admin.site.register(Paper, DocumentAdmin)

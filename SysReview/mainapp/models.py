@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Review(models.Model):
 
     # Foreign key linking this review to a user
-    researcher = models.ForeignKey(User)
+    creator = models.ForeignKey(User)
     # Unique char name for the review
     name = models.CharField(max_length=128,primary_key=True,unique=True)
     # Slug for url paths
@@ -32,7 +32,7 @@ class Query(models.Model):
     def __unicode__(self):
         return self.query_string
 
-class UserProfile(models.Model):
+class Researcher(models.Model):
     # The user the profile is linked to
     user = models.ForeignKey(User)
 
@@ -60,7 +60,7 @@ class UserProfile(models.Model):
 
 
 
-class Document(models.Model):
+class Paper(models.Model):
     # The review that contains the Document
     review = models.ForeignKey(Review)
 

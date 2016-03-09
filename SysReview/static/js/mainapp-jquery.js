@@ -13,6 +13,7 @@ $(document).ready(function() {
         // if true Tab key creates indentation
         allowTabChar: true,
     });
+
 });
 
 

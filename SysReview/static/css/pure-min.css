@@ -1049,7 +1049,7 @@ a.pure-button-selected {
 .cust-well {
     box-shadow: 0px 0px 3px #000000 inset;
     background-color: #ffffff;
-    height: 80%
+    height: 60%
 }
 html::-webkit-scrollbar {
     display: none
