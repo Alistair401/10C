@@ -1075,7 +1075,6 @@ html::-webkit-scrollbar {
     transition-timing-function: ease-out
 }
 div.numberedtextarea-wrapper { position: relative; }
-
 div.numberedtextarea-wrapper textarea {
   display: block;
   -webkit-box-sizing: border-box;
@@ -1090,10 +1089,9 @@ div.numberedtextarea-line-numbers {
   bottom: 0;
   width: 50px;
   border-right: 1px solid rgba(0, 0, 0, 0.15);
-  color: rgba(0, 0, 0, 0.15);
+  color: #000000;
   overflow: hidden;
 }
-
 div.numberedtextarea-number {
   padding-right: 6px;
   text-align: right;

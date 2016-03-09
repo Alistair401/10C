@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm, CreateAdvancedQuery
 from mainapp.models import UserProfile, Review, Query
 from django.contrib.auth.models import User
+from mainapp import pubmed
 
 #main home page
 def index(request):
@@ -151,7 +152,7 @@ def create_review(request):
     if (request.method == 'POST'):
         review_form = CreateReviewForm(request.POST)
         if review_form.is_valid:
-            entered_name = request.POST.get('name')
+            entered_name = request.POST.get('name').upper()
             if not Review.objects.all().filter(name=entered_name):
                 current_review = Review.objects.create(researcher=current_user,name=entered_name)
                 current_review.save()
@@ -171,6 +172,7 @@ def queries(request, review_name_slug):
     return render(request,'mainapp/queries.html',context_dict)
 
 #create new query
+@login_required
 def create_query(request, review_name_slug):
     #has a query been submitted
     submitted = False
@@ -185,6 +187,7 @@ def create_query(request, review_name_slug):
             advanced_query = CreateAdvancedQuery(data=request.POST)
             if advanced_query.is_valid():
                 newQuery = request.POST.get('query_string') # get query submitted
+                pubmed.query(newQuery)
                 query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
                 query.save()
                 submitted=True #set query to submitted
