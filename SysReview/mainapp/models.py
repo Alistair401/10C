@@ -86,10 +86,6 @@ class Paper(models.Model):
     # Citations for the Document returned for the API
     #citation = models.CharField(max_length=128)
 
-    # abstractPool = models.BooleanField(default=True)
-    # documentPool = models.BooleanField(default=False)
-    # finalPool = models.BooleanField(default=False)
-
     # Is this document in the abstract, document or final pool?
     POOL_CHOICES = (
         (1,"Abstract"),

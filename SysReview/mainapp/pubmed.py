@@ -13,24 +13,31 @@ JOURNAL = "[journal]"
 
 def query(query_string):
     query_list = []
-    query_lines = query_string.split("\n")
-    for line in query_lines:
+    query_lines = query_string.split("\r")
+    for unformatted_line in query_lines:
+        line = unformatted_line.strip("\n")
+        keyword_line=False
         for keyword in KEYWORDS:
             if keyword in line:
                 query_list = parseKeywords(line,query_list,keyword)
+                keyword_line = True
                 break
-
+        #if not keyword_line:
+            #query_list.append(line)
 
 def summary():
     return
 
 def parseKeywords(line,list,keyword):
-    to = False
+    result = list
+    limits = [0,0]
+    line_as_list = line.split(" ")
     if " TO " in line:
         to = True
-    if (keyword == "AND "):
-        pass
-    if (keyword == "OR "):
-        pass
-    if (keyword == "NOT "):
-        pass
+        limits[0] = int(line_as_list[1])
+        limits[1] = int(line_as_list[3])
+    else:
+        limits[0] = int(line_as_list[1])
+        limits[1] = int(line_as_list[1])
+    
+    return result
