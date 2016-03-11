@@ -1096,5 +1096,28 @@ div.numberedtextarea-number {
   padding-right: 6px;
   text-align: right;
 }
+.cust-green-button{
+    background-color: #32CD32;
+    box-shadow: 0px 5px #70dc70;
 
+}
+.cust-green-link:hover {
+    background-color: #70dc70;
+    border-radius: 3px;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out
+}
+.cust-red-button{
+    background-color: #FF0000;
+    box-shadow: 0px 5px #FF6666;
+
+}
+.cust-red-link:hover {
+    background-color: #FF6666;
+    border-radius: 3px;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out
+}
 

@@ -15,46 +15,37 @@ def query(query_string):
     startIndex = 0
     query_list = []
     query_lines = query_string.split("\r")
-    index_marker = 0
     count = 0
     for unformatted_line in query_lines:
         line = unformatted_line.strip("\n")
         keyword_line=False
         for keyword in KEYWORDS:
             if keyword in line:
-                query_list,index_marker,count = parseKeywords(line,query_list,keyword,index_marker,count)
+                query_list = parseKeywords(line,query_list,keyword)
                 keyword_line = True
                 break
         if not keyword_line:
             query_list.append(line)
         print query_list
-
 def summary():
     return
 
-def parseKeywords(line,list,keyword,index,count):
+def parseKeywords(line,list,keyword):
     limits = [0,0]
     line_as_list = line.split(" ")
+    limits[0] = int(line_as_list[1])
+
     if " TO " in line:
-        to = True
-        limits[0] = int(line_as_list[1]) - index - count
-        limits[1] = int(line_as_list[3]) - index - count
+        limits[1] = int(line_as_list[3])
     else:
-        limits[0] = int(line_as_list[1]) - index - count
-        limits[1] = int(line_as_list[1]) - index - count
+        limits[1] = int(line_as_list[1])
 
-    composed_string = "("
-    for i in range(limits[0]-1,limits[1]-1):
-        composed_string += list[i] + " " + keyword
-    composed_string += list[limits[1]-1] + ")"
+    limits[0] -= 1
+    limits[1] -= 1
 
-    new_index = index + (limits[1] - limits[0]) + 1
+    result = list
+    result[limits[0]] = "(" + result[limits[0]]
+    result[limits[1]] = result[limits[1]] + ")"
+    result.append(keyword.strip(" "))
 
-    if count == 0:
-        result = [composed_string] + list[limits[1]:len(list)-1]
-    else:
-        result = list[:count-1]
-        result.append(composed_string)
-        result += list[limits[1]:len(list)-1]
-    new_count = count + 1
-    return result,new_index,new_count
+    return result
