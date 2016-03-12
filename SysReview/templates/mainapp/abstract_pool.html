@@ -6,6 +6,38 @@
 
 {% block main_block %}
 
-    <h1>Skeleton Abstract Pool Page </h1>
+    <h1>Abstract pool for {{review_name}} </h1>
+    Below are the abstracts you have added to the abstract pool.</br>
+    Select which ones you'd like add to the document pool, or which ones you'd like to remove from the abstract pool.
+    </br>
+    </br>
+    <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "abstract_pool">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll" /></th>
+                <th>Abstract</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input type="checkbox" id="1" /></td>
+            <td>Abstract1</td>
+        </tr>
+
+        <tr>
+            <td><input type="checkbox" id="2" /></td>
+            <td>Abstract2</td>
+        </tr>
+
+        <tr>
+            <td><input type="checkbox" id="3" /></td>
+            <td>Abstract3</td>
+        </tr>
+    </tbody>
+    </table>
+    </br></br>
+     <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Add selected abstract(s) to document pool" />
+     <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected abstract(s) from abstract pool" />
+
 
 {% endblock %}
