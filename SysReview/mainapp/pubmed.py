@@ -37,9 +37,10 @@ def make_query(query_string):
     response = urllib2.urlopen(QUERY_URL+encoded_query)
     dom = parse(response)
     IDs = dom.getElementsByTagName("Id")
+    result = []
     for i in IDs:
-        print getText(i.childNodes)
-    return
+        result.append(getText(i.childNodes))
+    return result
 
 def summary():
     return
