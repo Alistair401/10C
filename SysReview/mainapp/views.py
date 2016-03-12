@@ -165,6 +165,8 @@ def create_review(request):
     context_dict = {'review_form':review_form,'created':created,'failure':failure}
     return render(request,'mainapp/create_review.html',context_dict)
 
+
+
 #view saved queries
 def queries(request, review_name_slug):
     context_dict = {}
@@ -195,6 +197,36 @@ def create_query(request, review_name_slug):
         advanced_query = CreateAdvancedQuery()
     context_dict = {'review_name_slug': review_name_slug, 'advanced_query':advanced_query, 'submitted':submitted}
     return render(request,'mainapp/create_query.html', context_dict)
+
+#temp advanced query view
+@login_required
+def create_standard_query(request, review_name_slug):
+    #has a query been submitted
+    submitted = False
+
+    #get review for saving to primary key
+    review = Review.objects.get(slug=review_name_slug)
+
+
+    if request.method == 'POST':
+        #if advanced search submitted
+        if 'standard' in request.POST:
+                keyWords=request.POST.getlist('standard_input')
+                newQuery=""
+                if keyWords != 'null':
+                    operands=request.POST.getlist('standard_operand',None)
+                    for i in range(len(keyWords)):
+                         newQuery+=keyWords[i]+" "
+                         if i < len(operands):
+                             newQuery+=operands[i]+" "
+
+                query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
+                query.save()
+                submitted=True #set query to submitted
+
+    context_dict = {'review_name_slug': review_name_slug, 'submitted':submitted}
+    return render(request,'mainapp/create_standard_query.html', context_dict)
+
 
 #view query results and authorise queries and add to abstract pool
 def query_results(request):
