@@ -1,5 +1,6 @@
 import json
 import urllib, urllib2
+from xml.dom.minidom import *
 from mainapp.models import Query
 
 BASE_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
@@ -12,10 +13,8 @@ JOURNAL = "[journal]"
 
 
 def query(query_string):
-    startIndex = 0
     query_list = []
     query_lines = query_string.split("\r")
-    count = 0
     for unformatted_line in query_lines:
         line = unformatted_line.strip("\n")
         keyword_line=False
@@ -26,7 +25,19 @@ def query(query_string):
                 break
         if not keyword_line:
             query_list.append(line)
-        print query_list
+    while "-" in query_list:
+        query_list.remove("-")
+    query_string = ""
+    for i in query_list:
+        query_string += i + " "
+    return make_query(query_string)
+
+def make_query(query_string):
+    encoded_query = urllib.pathname2url(query_string)
+    response = urllib2.urlopen(QUERY_URL+encoded_query)
+    dom = parse(response)
+    return
+
 def summary():
     return
 
@@ -44,8 +55,11 @@ def parseKeywords(line,list,keyword):
     limits[1] -= 1
 
     result = list
-    result[limits[0]] = "(" + result[limits[0]]
-    result[limits[1]] = result[limits[1]] + ")"
-    result.append(keyword.strip(" "))
-
+    for i in range(limits[0],limits[1]+1):
+        if i == 0:
+            result[i] = result[i] + ")"
+        else:
+            result[i] = keyword.strip(" ") + " " + result[i] + ")"
+        result[0] = "(" + result[0]
+    result.append("-")
     return result

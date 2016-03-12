@@ -239,8 +239,8 @@ def abstract_pool(request,review_name_slug):
     context_dict = {}
     if request.method == 'POST':
         APForm = AbstractPoolForm(data=request.POST)
-        if APForm.is_valid():
-            APForm.save(commit=True)
+        if APForm.is_valid(): #If we have been provided with a valid form
+            APForm.save(commit=True) #Save the abstract pool to the database
     else:
         APForm = AbstractPoolForm()
     context_dict = {'review_name_slug':review_name_slug, 'APForm':APForm}

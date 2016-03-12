@@ -1122,4 +1122,37 @@ div.numberedtextarea-number {
 }
 
 
+.cust-pure-table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #cbcbcb
+}
 
+.cust-pure-table thead {
+    background-color: #0078e7;
+    color: #000;
+    text-align: left;
+    vertical-align: bottom
+}
+
+.cust-pure-table-bordered td {
+    border-bottom: 1px solid #cbcbcb
+}
+
+.cust-pure-table td,
+.cust-pure-table th {
+    border-left: 1px solid #cbcbcb;
+    border-width: 0 0 0 1px;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible;
+    padding: .5em 1em
+}
+
+.cust-pure-table td {
+    background-color: 	#FFFFFF;
+}
+.cust-pure-table-striped tr:nth-child(2n-1) td {
+    background-color: #f2f2f2
+}
