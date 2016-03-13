@@ -19,7 +19,6 @@ $(document).ready(function() {
 });
 
  //function for clone input fields for standard query creation
-
 $(document).ready(function() {
     var keyword_input_index=0;
     $("#standard_builder").change(function(){
@@ -33,6 +32,7 @@ $(document).ready(function() {
     });
 
 });
+
 
 
 

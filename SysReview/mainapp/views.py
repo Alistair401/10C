@@ -170,13 +170,26 @@ def create_review(request):
 #view saved queries
 def queries(request, review_name_slug):
 
-    # review = Review.objects.get(slug=review_name_slug)
-    # queries = Query.objects.filter(review=review)
-    # queryList =[]
+    review = Review.objects.get(slug=review_name_slug)
+    queries = Query.objects.filter(review=review)
+    queryList =[]
     # for query in queries:
+    #     queryWords=query.query_string.split()
+    #     tempString="("
+    #     for word in queryWords:
+    #         if word == 'AND':
+    #             tempString=tempString[:-1]
+    #             tempString+=") AND ("
+    #         elif word == 'NOT':
+    #             tempString=tempString[:-1]
+    #             tempString+=") NOT ("
+    #         else:
+    #             tempString+=word+" "
+    #     tempString=tempString[:-1]
+    #     tempString+=")"
+    #     queryList+=[tempString]
 
-
-    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review}
+    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'queryList':queryList}
     return render(request,'mainapp/queries.html',context_dict)
 
 #create new query
