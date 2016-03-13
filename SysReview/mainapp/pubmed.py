@@ -36,10 +36,21 @@ def make_query(query_string):
     encoded_query = urllib.pathname2url(query_string)
     response = urllib2.urlopen(QUERY_URL+encoded_query)
     dom = parse(response)
-    return
+    IDs = dom.getElementsByTagName("Id")
+    result = []
+    for i in IDs:
+        result.append(getText(i.childNodes))
+    return result
 
 def summary():
     return
+
+def getText(nodelist):
+    rc = ""
+    for node in nodelist:
+        if node.nodeType == node.TEXT_NODE:
+            rc = rc + node.data
+    return rc
 
 def parseKeywords(line,list,keyword):
     limits = [0,0]
