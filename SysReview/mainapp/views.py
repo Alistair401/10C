@@ -169,8 +169,14 @@ def create_review(request):
 
 #view saved queries
 def queries(request, review_name_slug):
-    context_dict = {}
 
+    # review = Review.objects.get(slug=review_name_slug)
+    # queries = Query.objects.filter(review=review)
+    # queryList =[]
+    # for query in queries:
+
+
+    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review}
     return render(request,'mainapp/queries.html',context_dict)
 
 #create new query
@@ -212,15 +218,14 @@ def create_standard_query(request, review_name_slug):
         #if advanced search submitted
         if 'standard' in request.POST:
             keyWords=request.POST.getlist('standard_input',None)
-            #newQuery=""
+            newQuery=""
             if keyWords[0]!='':
                 operators=request.POST.getlist('standard_operator',None)
-                #if len(operators)>1:
-                # for i in range(len(keyWords)):
-                #      newQuery+=keyWords[i]+" "
-                #      if i < len(operators):
-                #          newQuery+=operators[i]+" "
-                newQuery= [keyWords] + [operators]
+                for i in range(len(keyWords)):
+                    newQuery+=keyWords[i]+" "
+                    if operators[0]!='':
+                        if i < len(operators):
+                            newQuery+=operators[i]+" "
                 query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
                 query.save()
                 submitted=True #set query to submitted
@@ -230,8 +235,11 @@ def create_standard_query(request, review_name_slug):
 
 
 #view query results and authorise queries and add to abstract pool
-def query_results(request):
-    context_dict = {}
+def query_results(request, review_name_slug):
+
+    review = Review.objects.get(slug=review_name_slug)
+
+    context_dict = {'review_name_slug':review_name_slug}
 
     return render(request,'mainapp/query_results.html',context_dict)
 

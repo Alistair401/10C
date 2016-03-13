@@ -6,6 +6,16 @@
 
 {% block main_block %}
 
-    <h1>Skeleton Queries Page</h1>
+    <h1>Queries</h1>
 
+    <div>
+        {% if queries %}
+            {% for query in queries %}
+                {{ query }}
+            {% endfor %}
+        {% else %}
+            <strong>There are no saved queries for the {{ review.name }} review.</strong>
+        {% endif %}
+        <br />
+    </div>
 {% endblock %}
