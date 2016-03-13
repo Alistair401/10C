@@ -211,15 +211,16 @@ def create_standard_query(request, review_name_slug):
     if request.method == 'POST':
         #if advanced search submitted
         if 'standard' in request.POST:
-                keyWords=request.POST.getlist('standard_input',None)
-                newQuery=""
-                if len(keyWords)>0:
-                    operators=request.POST.getlist('standard_operator',None)
-                    for i in range(len(keyWords)):
-                         newQuery+=keyWords[i]+" "
-                         if i < len(operators):
-                             newQuery+=operators[i]+" "
-
+            keyWords=request.POST.getlist('standard_input',None)
+            #newQuery=""
+            if keyWords[0]!='':
+                operators=request.POST.getlist('standard_operator',None)
+                #if len(operators)>1:
+                # for i in range(len(keyWords)):
+                #      newQuery+=keyWords[i]+" "
+                #      if i < len(operators):
+                #          newQuery+=operators[i]+" "
+                newQuery= [keyWords] + [operators]
                 query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
                 query.save()
                 submitted=True #set query to submitted
