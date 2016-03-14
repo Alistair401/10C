@@ -23,12 +23,6 @@
                             <li class="pure-menu-item"><a class="pure-menu-link cust-blacktext" href="{% url 'create_review' %}">Create Review</a></li>
                         </ul>
                     </li>
-                    <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                        <a href="#" id="menuLink1" class="pure-menu-link">Queries</a>
-                        <ul class="pure-menu-children">
-                            <li class="pure-menu-item"><a class="pure-menu-link cust-blacktext" href="{% url 'query_results' %}">Query Results</a></li>
-                        </ul>
-                    </li>
                 {% else %}
                     <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'login_register' %}">Login/Register</a></li>
                 {% endif %}

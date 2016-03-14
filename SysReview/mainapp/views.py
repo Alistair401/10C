@@ -169,8 +169,27 @@ def create_review(request):
 
 #view saved queries
 def queries(request, review_name_slug):
-    context_dict = {}
 
+    review = Review.objects.get(slug=review_name_slug)
+    queries = Query.objects.filter(review=review)
+    queryList =[]
+    # for query in queries:
+    #     queryWords=query.query_string.split()
+    #     tempString="("
+    #     for word in queryWords:
+    #         if word == 'AND':
+    #             tempString=tempString[:-1]
+    #             tempString+=") AND ("
+    #         elif word == 'NOT':
+    #             tempString=tempString[:-1]
+    #             tempString+=") NOT ("
+    #         else:
+    #             tempString+=word+" "
+    #     tempString=tempString[:-1]
+    #     tempString+=")"
+    #     queryList+=[tempString]
+
+    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'queryList':queryList}
     return render(request,'mainapp/queries.html',context_dict)
 
 #create new query
@@ -211,27 +230,36 @@ def create_standard_query(request, review_name_slug):
     if request.method == 'POST':
         #if advanced search submitted
         if 'standard' in request.POST:
+            #get the list of query keywords
             keyWords=request.POST.getlist('standard_input',None)
-            #newQuery=""
+            newQuery=""
+            # as long as the query isn't empty
             if keyWords[0]!='':
+                # get all the query operators
                 operators=request.POST.getlist('standard_operator',None)
-                #if len(operators)>1:
-                # for i in range(len(keyWords)):
-                #      newQuery+=keyWords[i]+" "
-                #      if i < len(operators):
-                #          newQuery+=operators[i]+" "
-                newQuery= [keyWords] + [operators]
-                query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
+                for i in range(len(keyWords)):
+                    # add each keyword then operator to the query
+                    newQuery+=keyWords[i]+" "
+                    if operators[0]!='':
+                        if i < len(operators):
+                            newQuery+=operators[i]+" "
+                #create new query and set primary key to review
+                query = Query.objects.create(review=review, query_string=pubmed.std_query(newQuery))
+                # save dat shiz
                 query.save()
-                submitted=True #set query to submitted
+                #set query to submitted
+                submitted=True
 
     context_dict = {'review_name_slug': review_name_slug, 'submitted':submitted}
     return render(request,'mainapp/create_standard_query.html', context_dict)
 
 
 #view query results and authorise queries and add to abstract pool
-def query_results(request):
-    context_dict = {}
+def query_results(request, review_name_slug):
+
+    review = Review.objects.get(slug=review_name_slug)
+
+    context_dict = {'review_name_slug':review_name_slug}
 
     return render(request,'mainapp/query_results.html',context_dict)
 

@@ -6,6 +6,21 @@
 
 {% block main_block %}
 
-    <h1>Skeleton Queries Page</h1>
+    <h1>Queries</h1>
+    {% if queries %}
+        <table class="pure-table pure-table-bordered">
+            <tbody>
+                <ol>
+                    {% for query in queries %}
+                            <tr>
+                                <td>{{ query }}</td>
+                                <td><button class="pure-button pure-button-primary">Edit</button></td>
+                                <td><button class="pure-button pure-button-primary">Delete</button></td>
+                            </tr>
+                     {% endfor %}
+                </ol>
+            </tbody>
+        </table>
+    {% endif %}
 
 {% endblock %}
