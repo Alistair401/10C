@@ -217,18 +217,25 @@ def create_standard_query(request, review_name_slug):
     if request.method == 'POST':
         #if advanced search submitted
         if 'standard' in request.POST:
+            #get the list of query keywords
             keyWords=request.POST.getlist('standard_input',None)
             newQuery=""
+            # as long as the query isn't empty
             if keyWords[0]!='':
+                # get all the query operators
                 operators=request.POST.getlist('standard_operator',None)
                 for i in range(len(keyWords)):
+                    # add each keyword then operator to the query
                     newQuery+=keyWords[i]+" "
                     if operators[0]!='':
                         if i < len(operators):
                             newQuery+=operators[i]+" "
-                query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
+                #create new query and set primary key to review
+                query = Query.objects.create(review=review, query_string=pubmed.std_query(newQuery))
+                # save dat shiz
                 query.save()
-                submitted=True #set query to submitted
+                #set query to submitted
+                submitted=True
 
     context_dict = {'review_name_slug': review_name_slug, 'submitted':submitted}
     return render(request,'mainapp/create_standard_query.html', context_dict)
