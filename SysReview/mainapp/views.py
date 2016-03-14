@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm, CreateAdvancedQuery, AbstractPoolForm
-from mainapp.models import Researcher, Review, Query
+from mainapp.models import Researcher, Review, Query, Paper
 from django.contrib.auth.models import User
 from mainapp import pubmed
 
@@ -238,25 +238,23 @@ def query_results(request):
 #view abstract pool and authorise abstracts and add to document pool
 def abstract_pool(request,review_name_slug):
     context_dict = {}
-    if request.method == 'POST':
-        APForm = AbstractPoolForm(data=request.POST)
-        if APForm.is_valid(): #If we have been provided with a valid form
-            APForm.save(commit=True) #Save the abstract pool to the database
-    else:
-        APForm = AbstractPoolForm()
-    context_dict = {'review_name_slug':review_name_slug, 'APForm':APForm}
+    paper_list = Paper.objects.order_by('Title')
+    review = Review.objects.get(slug=review_name_slug)
+    context_dict = {'papers':paper_list, 'review_name':review.name}
     return render(request,'mainapp/abstract_pool.html',context_dict)
 
 #view document pool and authorise documents and add to final pool
 def document_pool(request,review_name_slug):
     context_dict = {}
-
+    review = Review.objects.get(slug=review_name_slug)
+    context_dict['review_name'] = review.name
     return render(request,'mainapp/document_pool.html',context_dict)
 
 #view final pool and edit final pool
 def final_pool(request,review_name_slug):
     context_dict = {}
-
+    review = Review.objects.get(slug=review_name_slug)
+    context_dict['review_name'] = review.name
     return render(request,'mainapp/final_pool.html',context_dict)
 
 #view for the login / register page

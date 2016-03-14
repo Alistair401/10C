@@ -6,6 +6,21 @@
 
 {% block main_block %}
 
-    <h1>Skeleton Final Pool Page</h1>
+    <h1>Final pool for your review, {{review_name}}.</h1>
+    Below are the documents you have added to the final pool. </br>
+    Select any that you wish to remove.
+    </br>
+    </br>
+
+    <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "abstract_pool">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll" /></th>
+                <th>Title</th>
+                <th>Abstract</th>
+                <th>Author(s)</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
 
 {% endblock %}

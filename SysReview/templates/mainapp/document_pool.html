@@ -6,6 +6,47 @@
 
 {% block main_block %}
 
-    <h1>Skeleton Document Pool</h1>
+    <h1>Document pool for your review,{{review_name}}. </h1>
+    Below are the abstracts you have added to the document pool.<br/>
+    Select which ones you'd like add to the final pool, or which ones you'd like to remove from the document pool.
+    <br/>
+    <br/>
+
+    <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "document_pool">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll" /></th>
+                <th>Title</th>
+                <th>Abstract</th>
+                <th>Author(s)</th>
+                <th>Link to document</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input type="checkbox" id="1" /></td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td><input type="checkbox" id="2" /></td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
+
+        <tr>
+            <td><input type="checkbox" id="3" /></td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
+    </tbody>
+    </table>
 
 {% endblock %}
