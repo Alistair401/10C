@@ -7,6 +7,7 @@ BASE_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
 QUERY_URL = BASE_URL + "esearch.fcgi?db=pubmed&term="
 SUMMARY_URL = BASE_URL + "esummary.fcgi?db=pubmed&id="
 FETCH_URL = BASE_URL + "efetch.fcgi?db=pubmed&id="
+ABSTRACT_EXTENSION = "&retmode=text&rettype=abstract"
 KEYWORDS = ("AND ","OR ","NOT ")
 DATE = "[pdat]"
 JOURNAL = "[journal]"
@@ -87,13 +88,24 @@ def summary(id_list):
     summary_nodes =  eSummaryResult.childNodes
     # loop through nodes and check if they're DocSums or weird empty text nodes
     docSums = []
-    # print "Text Node: " + str(eSummaryResult.TEXT_NODE) TODO: get rid of this line
     for node in summary_nodes:
         if node.nodeType != node.TEXT_NODE:
             docSums.append(node)
-    print docSums
-    # TODO: get the child nodes of the docSums, format them, return them as dictionary
+    # make a dictionary to store document summaries
     summary_dict = {}
+    # loop through nodes and get their values for each doc
+    for doc in docSums:
+        item_elements = doc.getElementsByTagName("Item")
+        for i in item_elements:
+            # get titles first
+            if i.attributes["Name"].value == "Title":
+                summary_dict[getText(doc.getElementsByTagName("Id")[0].childNodes)] = getText(i.childNodes)
+            # TODO: get authors
+            # TODO: get date published
+            # TODO: get journal
+            # TODO: get language??
+            # TODO: get hasAbstract (1 or 0)
+    print summary_dict
     return summary_dict
 
 def getText(nodelist):
@@ -127,3 +139,7 @@ def parseKeywords(line,list,keyword):
         result[0] = "(" + result[0]
     result.append("-")
     return result
+
+def getAbstract(id):
+    return ""
+    # TODO
