@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+from datetime import date
 
 
 # Create your models here.
@@ -28,6 +29,8 @@ class Query(models.Model):
     query_string = models.TextField()
     # Number of results returned from query
     pool_size = models.IntegerField(default=0)
+    # previous results to correlate with (IDs stored as a comma separated string)
+    results = models.TextField()
 
     def __unicode__(self):
         return self.query_string
@@ -74,25 +77,19 @@ class Paper(models.Model):
     abstract = models.TextField()
 
     # Publish date of the Document returned by the API
-    #publish_date=models.DateField()
+    publish_date = models.DateField(default=date.today())
 
     # Link to the Document returned by the API
-    documentURL = models.URLField()
-
-    #DocumentFree = models.BooleanField()
+    paper_url = models.URLField()
 
     # ID of the Document returned by the API
     #pubmedID = models.CharField(max_length=128)
     # Citations for the Document returned for the API
     #citation = models.CharField(max_length=128)
 
-    # Is this document in the abstract, document or final pool?
-    POOL_CHOICES = (
-        (1,"Abstract"),
-        (2,"Document"),
-        (3,"Final"),
-    )
-    currentPool = models.IntegerField(choices=POOL_CHOICES,default=1)
+    # which pool is this paper in?
+    abstract_relevance = models.BooleanField(default=False)
+    document_relevance = models.BooleanField(default=False)
 
     # notes option
     notes = models.TextField(default="")

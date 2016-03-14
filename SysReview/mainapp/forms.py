@@ -55,7 +55,7 @@ class DocumentPoolForm(forms.ModelForm):
     selected_docs = forms.MultipleChoiceField(required = True, widget = forms.CheckboxSelectMultiple) #Still need to add the choices
     class Meta:
         model = Paper
-        fields = ('documentURL','title','authors',)
+        fields = ('paper_url','title','authors',)
 
 
 #form for final pool

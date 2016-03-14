@@ -2,12 +2,13 @@ import json
 import urllib, urllib2
 from xml.dom.minidom import *
 from mainapp.models import Query
+import datetime
 
 BASE_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
 QUERY_URL = BASE_URL + "esearch.fcgi?db=pubmed&term="
 SUMMARY_URL = BASE_URL + "esummary.fcgi?db=pubmed&id="
 FETCH_URL = BASE_URL + "efetch.fcgi?db=pubmed&id="
-ABSTRACT_EXTENSION = "&retmode=text&rettype=abstract"
+ABSTRACT_EXTENSION = "&retmode=xml&rettype=abstract"
 KEYWORDS = ("AND ","OR ","NOT ")
 DATE = "[pdat]"
 JOURNAL = "[journal]"
@@ -49,7 +50,7 @@ def make_query(query_string):
         id_list.append(getText(i.childNodes))
     # get the summaries of the IDs
     summary_dict = summary(id_list)
-    return "TODO"
+    return summary_dict
 
 def std_query(query_string):
     # formats the string with brackets (may be redundant)
@@ -79,7 +80,6 @@ def summary(id_list):
     encoded_query = urllib.pathname2url(id_query)
     # get xml response
     response = urllib2.urlopen(SUMMARY_URL+encoded_query)
-    print SUMMARY_URL+encoded_query
     # parse using minidom
     dom = parse(response)
     # get the summary document
@@ -95,18 +95,31 @@ def summary(id_list):
     summary_dict = {}
     # loop through nodes and get their values for each doc
     for doc in docSums:
+        # get all the xml items of the document
         item_elements = doc.getElementsByTagName("Item")
+        # get the ID of the current doc
+        current_id = getText(doc.getElementsByTagName("Id")[0].childNodes)
+        # build a dictionary to fill out for each doc
+        value_dict = {"authors":[],"title":"","abstract":"","publish_date":datetime.date.today(),"paper_url":"#"}
+        summary_dict[current_id] = value_dict
         for i in item_elements:
-            # get titles first
+            # get titles
             if i.attributes["Name"].value == "Title":
-                summary_dict[getText(doc.getElementsByTagName("Id")[0].childNodes)] = getText(i.childNodes)
-            # TODO: get authors
-            # TODO: get date published
-            # TODO: get journal
-            # TODO: get language??
-            # TODO: get hasAbstract (1 or 0)
-    print summary_dict
-    return summary_dict
+                summary_dict[current_id]["title"] = getText(i.childNodes)
+            # then append authors
+            if i.attributes["Name"].value == "Author":
+                summary_dict[current_id]["authors"].append(getText(i.childNodes))
+            # then publish dates
+            if i.attributes["Name"].value == "PubDate":
+                d = getText(i.childNodes)
+                date = None
+                # sometimes the date is formatted wierdly and so can't be parsed TODO
+                try:
+                    date = datetime.datetime.strptime(d,"%Y %b %d")
+                except ValueError:
+                    pass
+                summary_dict[current_id]["publish_date"] = date
+    return getAbstracts(summary_dict)
 
 def getText(nodelist):
     # get the text attributes of xml nodes
@@ -140,6 +153,22 @@ def parseKeywords(line,list,keyword):
     result.append("-")
     return result
 
-def getAbstract(id):
-    return ""
-    # TODO
+def getAbstracts(id_dictionary):
+    # build the list of ID's to query with
+    unencoded_query = ""
+    for key in id_dictionary:
+        unencoded_query += key + ","
+    unencoded_query = unencoded_query[:-1]
+    # encode the list
+    encoded_query = urllib.pathname2url(unencoded_query)
+    # get the API response
+    response = urllib2.urlopen(FETCH_URL+encoded_query+ABSTRACT_EXTENSION)
+    print FETCH_URL+encoded_query+ABSTRACT_EXTENSION
+    # parse the xml using minidom
+    dom = parse(response)
+    # fill out the abstract entries in the result dictionary with abstracts
+    result_dict = id_dictionary
+    article_elements = dom.getElementsByTagName("PubmedArticle")
+    for element in article_elements:
+        result_dict[getText(element.getElementsByTagName("PMID")[0].childNodes)]["abstract"] = getText(element.getElementsByTagName("AbstractText")[0].childNodes)
+    return id_dictionary
