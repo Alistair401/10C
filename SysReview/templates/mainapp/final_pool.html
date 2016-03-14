@@ -7,20 +7,43 @@
 {% block main_block %}
 
     <h1>Final pool for your review, {{review_name}}.</h1>
+    {% if papers %}
     Below are the documents you have added to the final pool. </br>
     Select any that you wish to remove.
     </br>
     </br>
 
-    <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "abstract_pool">
-        <thead>
-            <tr>
-                <th><input type="checkbox" id="selectAll" /></th>
-                <th>Title</th>
-                <th>Abstract</th>
-                <th>Author(s)</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
+   <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "final_pool">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll" /></th>
+                    <th>Title</th>
+                    <th>Abstract</th>
+                    <th>Author(s)</th>
+                    <th>Link to Document</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for paper in papers %}
+                    <tr>
+                        <td><input type="checkbox" id="1" /></td>
+                        <td>{{paper.title}}</td>
+                        <td>{{paper.abstract}}</td>
+                        <td>{{paper.authors}}</td>
+                        <td>{{paper.documentURL}}</td>
+                        <td>{{paper.notes}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+         <br><br>
+            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected document(s) from final pool" />
+    {% else %}
+        <h2> There are no documents in your final pool!</h2>
+    {% endif %}
+
 
 {% endblock %}

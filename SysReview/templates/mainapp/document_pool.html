@@ -7,46 +7,42 @@
 {% block main_block %}
 
     <h1>Document pool for your review,{{review_name}}. </h1>
+    {% if papers %}
     Below are the abstracts you have added to the document pool.<br/>
     Select which ones you'd like add to the final pool, or which ones you'd like to remove from the document pool.
     <br/>
     <br/>
 
     <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "document_pool">
-        <thead>
-            <tr>
-                <th><input type="checkbox" id="selectAll" /></th>
-                <th>Title</th>
-                <th>Abstract</th>
-                <th>Author(s)</th>
-                <th>Link to document</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><input type="checkbox" id="1" /></td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-        </tr>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll" /></th>
+                    <th>Title</th>
+                    <th>Abstract</th>
+                    <th>Author(s)</th>
+                    <th>Link to Document</th>
+                </tr>
+            </thead>
 
-        <tr>
-            <td><input type="checkbox" id="2" /></td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-        </tr>
+            <tbody>
+                {% for paper in papers %}
+                    <tr>
+                        <td><input type="checkbox" id="1" /></td>
+                        <td>{{paper.title}}</td>
+                        <td>{{paper.abstract}}</td>
+                        <td>{{paper.authors}}</td>
+                        <td>{{paper.documentURL}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-        <tr>
-            <td><input type="checkbox" id="3" /></td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-        </tr>
-    </tbody>
-    </table>
+         <br><br>
+            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Add selected document(s) to final pool" />
+            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected document(s) from document pool" />
+    {% else %}
+        <h2> There are no documents in your document pool!</h2>
+    {% endif %}
+
 
 {% endblock %}

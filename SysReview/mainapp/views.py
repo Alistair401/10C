@@ -266,8 +266,8 @@ def query_results(request, review_name_slug):
 #view abstract pool and authorise abstracts and add to document pool
 def abstract_pool(request,review_name_slug):
     context_dict = {}
-    paper_list = Paper.objects.order_by('Title')
     review = Review.objects.get(slug=review_name_slug)
+    paper_list = Paper.objects.filter(review=review, currentPool = 1).order_by('title')
     context_dict = {'papers':paper_list, 'review_name':review.name}
     return render(request,'mainapp/abstract_pool.html',context_dict)
 
@@ -275,14 +275,16 @@ def abstract_pool(request,review_name_slug):
 def document_pool(request,review_name_slug):
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)
-    context_dict['review_name'] = review.name
+    paper_list = Paper.objects.filter(review=review, currentPool = 2).order_by('title')
+    context_dict = {'review_name':review.name, 'papers':paper_list}
     return render(request,'mainapp/document_pool.html',context_dict)
 
 #view final pool and edit final pool
 def final_pool(request,review_name_slug):
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)
-    context_dict['review_name'] = review.name
+    paper_list = Paper.objects.filter(review=review, currentPool = 3).order_by('title')
+    context_dict = {'review_name':review.name, 'papers':paper_list}
     return render(request,'mainapp/final_pool.html',context_dict)
 
 #view for the login / register page
