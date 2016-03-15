@@ -8,10 +8,9 @@
 
     <h1>Final pool for your review, {{review_name}}.</h1>
     {% if papers %}
-    Below are the documents you have added to the final pool. </br>
+    Below are the documents you have added to the final pool. <br>
     Select any that you wish to remove.
-    </br>
-    </br>
+    <br><br>
 
    <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "final_pool">
             <thead>
@@ -28,11 +27,11 @@
             <tbody>
                 {% for paper in papers %}
                     <tr>
-                        <td><input type="checkbox" id="1" /></td>
+                        <td><input type="checkbox" /></td>
                         <td>{{paper.title}}</td>
                         <td>{{paper.abstract}}</td>
                         <td>{{paper.authors}}</td>
-                        <td>{{paper.documentURL}}</td>
+                        <td>{{paper.paper_url}}</td>
                         <td>{{paper.notes}}</td>
                     </tr>
                 {% endfor %}
