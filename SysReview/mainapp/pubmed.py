@@ -44,12 +44,15 @@ def make_query(query_string):
     dom = parse(response)
     # get all the ID elements
     id_elements = dom.getElementsByTagName("Id")
+    # get the formatted query
+    query_translation = getText(dom.getElementsByTagName("QueryTranslation")[0].childNodes)
     # put them in a list
     id_list = []
     for i in id_elements:
         id_list.append(getText(i.childNodes))
     # get the summaries of the IDs
     summary_dict = summary(id_list)
+    summary_dict["QueryTranslation"] = query_translation
     return summary_dict
 
 def std_query(query_string):
