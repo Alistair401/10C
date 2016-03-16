@@ -5,6 +5,7 @@
 {% block title %} Final Pool {% endblock %}
 
 {% block main_block %}
+    <script type="text/javascript" src="{% static 'js/mainapp-jquery.js' %}"></script>
 
     <h1>Final pool for your review, {{review_name}}.</h1>
     {% if papers %}
@@ -20,6 +21,7 @@
                     <th>Abstract</th>
                     <th>Author(s)</th>
                     <th>Link to Document</th>
+                    <th>Publish Date</th>
                     <th>Notes</th>
                 </tr>
             </thead>
@@ -27,11 +29,12 @@
             <tbody>
                 {% for paper in papers %}
                     <tr>
-                        <td><input type="checkbox" /></td>
+                        <td><input type="checkbox" class = "case"/></td>
                         <td>{{paper.title}}</td>
                         <td>{{paper.abstract}}</td>
                         <td>{{paper.authors}}</td>
                         <td>{{paper.paper_url}}</td>
+                        <td>{{paper.publish_date}}</td>
                         <td>{{paper.notes}}</td>
                     </tr>
                 {% endfor %}

@@ -264,6 +264,7 @@ def query_results(request, review_name_slug):
     return render(request,'mainapp/query_results.html',context_dict)
 
 #view abstract pool and authorise abstracts and add to document pool
+@login_required
 def abstract_pool(request,review_name_slug):
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)
@@ -272,6 +273,7 @@ def abstract_pool(request,review_name_slug):
     return render(request,'mainapp/abstract_pool.html',context_dict)
 
 #view document pool and authorise documents and add to final pool
+@login_required
 def document_pool(request,review_name_slug):
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)
@@ -280,6 +282,7 @@ def document_pool(request,review_name_slug):
     return render(request,'mainapp/document_pool.html',context_dict)
 
 #view final pool and edit final pool
+@login_required
 def final_pool(request,review_name_slug):
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)

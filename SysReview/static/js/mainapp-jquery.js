@@ -1,4 +1,4 @@
-$(document).ready(function() {
+//$(document).ready(function() {
     /*$("ul#tabs li").click(function(e){
         if (!$(this).hasClass("active")) {
             var tabNum = $(this).index();
@@ -9,14 +9,14 @@ $(document).ready(function() {
             $("ul#tab li:nth-child("+nthChild+")").addClass("active");
         }
     });*/
-    $('textarea').numberedtextarea({
+  //  $('textarea').numberedtextarea({
         // if true Tab key creates indentation
-        allowTabChar: true,
-    });
+    //    allowTabChar: true,
+   // });
 
 
 
-});
+//});
 
  //function for clone input fields for standard query creation
 $(document).ready(function() {
@@ -31,6 +31,22 @@ $(document).ready(function() {
         }
     });
 
+});
+
+$(document).ready(function() {
+    // add multiple select / deselect functionality
+    $("#selectAll").click(function () {
+          $('.case').prop('checked', this.checked);
+    });
+    // if all checkbox are selected, check the selectall checkbox
+    // and viceversa
+    $(".case").click(function(){
+        if($(".case").length == $(".case:checked").length) {
+            $("#selectAll").prop("checked", "checked");
+        } else {
+            $("#selectAll").removeProp("checked");
+        }
+    });
 });
 
 
