@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    /*$("ul#tabs li").click(function(e){
+/*$(document).ready(function() {
+    /!*$("ul#tabs li").click(function(e){
         if (!$(this).hasClass("active")) {
             var tabNum = $(this).index();
             var nthChild = tabNum+1;
@@ -8,15 +8,12 @@ $(document).ready(function() {
             $("ul#tab li.active").removeClass("active");
             $("ul#tab li:nth-child("+nthChild+")").addClass("active");
         }
-    });*/
-    $('textarea').numberedtextarea({
-        // if true Tab key creates indentation
-        allowTabChar: true,
-    });
+    });*!/
 
 
 
-});
+
+});*/
 
  //function for clone input fields for standard query creation
 $(document).ready(function() {
@@ -36,13 +33,9 @@ $(document).ready(function() {
         }
     });
 
-});
-
-//jquery for saved queries page
-$(document).ready(function() {
-
     //delete table row if deletebutton with id containing deleteQuery
     $("[id*='deleteQuery']").click(function(){
+        alert("yep")
         //var of delete buttons td parent
         var td=$(this).parent();
          //var of td tr parent
@@ -52,8 +45,13 @@ $(document).ready(function() {
         tr.fadeOut(400, function(){
             tr.remove()
         })
-    })
-});
+    });
 
+    $('textarea').numberedtextarea({
+        // if true Tab key creates indentation
+        allowTabChar: true
+    });
+
+});
 
 
