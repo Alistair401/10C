@@ -41,8 +41,34 @@ $(document).ready(function() {
         }
     });
 
+    $("#add2DP").click(function(){
+        var confirmMessage = confirm("Are you sure you want to add the selected pages to the document pool? (These will be removed from the abstract pool)");
+        if (confirmMessage){
+            $("#abstract_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    $(this).fadeOut(400, function(){
+                        $(this).remove();
+                    });
+                }
+            });
+        }
+    });
+
     $("#removefromDP").click(function(){
         var confirmMessage = confirm("Are you sure you want to remove the selected pages from the document pool? (These will be added back into the abstract pool)");
+        if (confirmMessage){
+            $("#document_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    $(this).fadeOut(400, function(){
+                        $(this).remove();
+                    });
+                }
+            });
+        }
+    });
+
+    $("#add2FP").click(function(){
+        var confirmMessage = confirm("Are you sure you want to add the selected pages to the final pool? (These will be removed from the document pool)");
         if (confirmMessage){
             $("#document_pool tbody tr").each(function(){
                 if($(this).find('input:checkbox:checked').length == 1){
