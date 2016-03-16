@@ -28,11 +28,33 @@ $(document).ready(function() {
         }
     });
 
+    $("#removefromAP").click(function(){
+        var confirmMessage = confirm("Are you sure you want to remove the selected pages from the abstract pool?");
+        if (confirmMessage){
+            $('input[type="checkbox"]:checked').closest("tr").remove();
+        }
+    });
+
+    $("#removefromDP").click(function(){
+        var confirmMessage = confirm("Are you sure you want to remove the selected pages from the document pool? (These will be added back into the abstract pool)");
+        if (confirmMessage){
+            $('input[type="checkbox"]:checked').closest("tr").remove();
+        }
+    });
+
+    $("#removefromFP").click(function(){
+        var confirmMessage = confirm("Are you sure you want to remove the selected pages from the final pool? (These will be added back into the document pool)");
+        if (confirmMessage){
+            $('input[type="checkbox"]:checked').closest("tr").remove();
+        }
+    });
+
+
     //if operator selector changed
     $("#standard_builder").change(function(){
         //find option selected
         var type = $(this).find("option:selected").val();
-        //if not undefines
+        //if not undefined
         if(type != undefined){
             //clone keyword box and place after last operator selector
             $("#standard_keywords").clone().insertAfter('#standard_builder:last-child').val('');
