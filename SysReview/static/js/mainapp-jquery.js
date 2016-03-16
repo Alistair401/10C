@@ -31,21 +31,39 @@ $(document).ready(function() {
     $("#removefromAP").click(function(){
         var confirmMessage = confirm("Are you sure you want to remove the selected pages from the abstract pool?");
         if (confirmMessage){
-            $('input[type="checkbox"]:checked').closest("tr").remove();
+            $("#abstract_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    $(this).fadeOut(400, function(){
+                        $(this).remove();
+                    });
+                }
+            });
         }
     });
 
     $("#removefromDP").click(function(){
         var confirmMessage = confirm("Are you sure you want to remove the selected pages from the document pool? (These will be added back into the abstract pool)");
         if (confirmMessage){
-            $('input[type="checkbox"]:checked').closest("tr").remove();
+            $("#document_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    $(this).fadeOut(400, function(){
+                        $(this).remove();
+                    });
+                }
+            });
         }
     });
 
     $("#removefromFP").click(function(){
         var confirmMessage = confirm("Are you sure you want to remove the selected pages from the final pool? (These will be added back into the document pool)");
         if (confirmMessage){
-            $('input[type="checkbox"]:checked').closest("tr").remove();
+            $("#final_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    $(this).fadeOut(400, function(){
+                        $(this).remove();
+                    });
+                }
+            });
         }
     });
 
