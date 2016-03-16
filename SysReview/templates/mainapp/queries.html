@@ -26,6 +26,5 @@
         <strong>No saved queries for {{review.name}}</strong>
     {% endif %}
     <br />
-    <a class="pure-button pure-button-primary" href="{% url 'standard_query' review_name_slug %}">Create Standard Query</a></li>
     <a class="pure-button pure-button-primary" href="{% url 'create_query' review_name_slug %}">Create Query</a></li>
 {% endblock %}

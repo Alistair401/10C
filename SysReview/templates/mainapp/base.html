@@ -36,9 +36,19 @@
         <div class="pure-u-1-5 cust-sidebar">
             {% if user.is_authenticated and not review_name_slug == None and not review_name_slug == "" %}
                 <b>{{ review_name_slug }}</b>
+                <br/>
+                <br/>
                 <div class="pure-menu pure-menu-vertical">
                     <ul class="pure-menu-list">
                         <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'create_query' review_name_slug %}">Create Query</a></li>
+                        <br/>
+                        <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'queries' review_name_slug %}">Queries</a></li>
+                        <br/>
+                        <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'abstract_pool' review_name_slug %}">Abstract Pool</a></li>
+                        <br/>
+                        <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'document_pool' review_name_slug %}">Document Pool</a></li>
+                        <br/>
+                        <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'final_pool' review_name_slug %}">Final Pool</a></li>
                     </ul>
                 </div>
             {% endif %}
