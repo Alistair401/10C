@@ -29,67 +29,89 @@ $(document).ready(function() {
     });
 
     $("#removefromAP").click(function(){
-        var confirmMessage = confirm("Are you sure you want to remove the selected pages from the abstract pool?");
-        if (confirmMessage){
-            $("#abstract_pool tbody tr").each(function(){
-                if($(this).find('input:checkbox:checked').length == 1){
-                    $(this).fadeOut(400, function(){
-                        $(this).remove();
-                    });
-                }
-            });
+        if ($('#abstract_pool :checkbox:checked').length > 0){
+            var confirmMessage = confirm("Are you sure you want to remove the selected pages from the abstract pool?");
+            if (confirmMessage){
+                $("#abstract_pool tbody tr").each(function(){
+                    if($(this).find('input:checkbox:checked').length == 1){
+                        $(this).fadeOut(400, function(){
+                            $(this).remove();
+                        });
+                    }
+                });
+            }
+        } else {
+                var al = alert("WARNING: \nNo papers are selected to be removed from pool!")
         }
     });
 
+
+
     $("#add2DP").click(function(){
-        var confirmMessage = confirm("Are you sure you want to add the selected pages to the document pool? (These will be removed from the abstract pool)");
-        if (confirmMessage){
-            $("#abstract_pool tbody tr").each(function(){
-                if($(this).find('input:checkbox:checked').length == 1){
-                    $(this).fadeOut(400, function(){
-                        $(this).remove();
-                    });
-                }
-            });
+        if ($('#abstract_pool :checkbox:checked').length > 0){
+            var confirmMessage = confirm("Are you sure you want to add the selected pages to the document pool?\n(These will be removed from the abstract pool)");
+            if (confirmMessage){
+                $("#abstract_pool tbody tr").each(function(){
+                    if($(this).find('input:checkbox:checked').length == 1){
+                        $(this).fadeOut(400, function(){
+                            $(this).remove();
+                        });
+                    }
+                });
+            }
+        } else {
+                var al = alert("WARNING: No papers are selected! \nPlease select papers to add to document pool")
         }
     });
 
     $("#removefromDP").click(function(){
-        var confirmMessage = confirm("Are you sure you want to remove the selected pages from the document pool? (These will be added back into the abstract pool)");
-        if (confirmMessage){
-            $("#document_pool tbody tr").each(function(){
-                if($(this).find('input:checkbox:checked').length == 1){
-                    $(this).fadeOut(400, function(){
-                        $(this).remove();
-                    });
-                }
-            });
+        if ($('#document_pool :checkbox:checked').length > 0){
+            var confirmMessage = confirm("Are you sure you want to remove the selected pages from the document pool?\n(These will be added back into the abstract pool)");
+            if (confirmMessage){
+                $("#document_pool tbody tr").each(function(){
+                    if($(this).find('input:checkbox:checked').length == 1){
+                        $(this).fadeOut(400, function(){
+                            $(this).remove();
+                        });
+                    }
+                });
+            }
+        } else {
+                var al = alert("WARNING: \nNo papers are selected to be removed from pool!")
         }
     });
 
     $("#add2FP").click(function(){
-        var confirmMessage = confirm("Are you sure you want to add the selected pages to the final pool? (These will be removed from the document pool)");
-        if (confirmMessage){
-            $("#document_pool tbody tr").each(function(){
-                if($(this).find('input:checkbox:checked').length == 1){
-                    $(this).fadeOut(400, function(){
-                        $(this).remove();
-                    });
-                }
-            });
+        if ($('#document_pool :checkbox:checked').length > 0){
+            var confirmMessage = confirm("Are you sure you want to remove the selected pages from the document pool?\n(These will be added back into the abstract pool)");
+            if (confirmMessage){
+                $("#document_pool tbody tr").each(function(){
+                    if($(this).find('input:checkbox:checked').length == 1){
+                        $(this).fadeOut(400, function(){
+                            $(this).remove();
+                        });
+                    }
+                });
+            }
+        } else {
+                var al = alert("WARNING: No papers are selected! \nPlease select papers to add to final pool")
         }
     });
 
     $("#removefromFP").click(function(){
-        var confirmMessage = confirm("Are you sure you want to remove the selected pages from the final pool? (These will be added back into the document pool)");
-        if (confirmMessage){
-            $("#final_pool tbody tr").each(function(){
-                if($(this).find('input:checkbox:checked').length == 1){
-                    $(this).fadeOut(400, function(){
-                        $(this).remove();
-                    });
-                }
-            });
+        if ($('#final_pool :checkbox:checked').length > 0){
+            var confirmMessage = confirm("Are you sure you want to remove the selected pages from the final pool? (These will be added back into the document pool)");
+            if (confirmMessage){
+                $("#final_pool tbody tr").each(function(){
+                    if($(this).find('input:checkbox:checked').length == 1){
+                        $(this).fadeOut(400, function(){
+                            $(this).remove();
+                        });
+                    }
+                });
+            }
+        } else {
+                var al = alert("WARNING: \nNo papers are selected to be removed from pool!")
         }
     });
 
