@@ -121,6 +121,7 @@ $(document).ready(function() {
             var tr=td.parent();
             //slice id name so only pk left
             var pk=this.id.slice(11);
+            //ajax post call
          	$.ajax({type:	"POST",
                     url:	pk+"/delete_query/",
                     data:	"pk="+pk,

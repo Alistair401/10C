@@ -375,6 +375,7 @@ def user_logout(request):
     # Take the user back to the homepage.
     return HttpResponseRedirect('/mainapp/')
 
+#view for deleting queries
 @csrf_exempt
 def delete_query(request, review_name_slug,id):
     Query.objects.filter(pk=id).delete();
