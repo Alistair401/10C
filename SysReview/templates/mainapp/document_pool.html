@@ -5,6 +5,7 @@
 {% block title %} Document Pool {% endblock %}
 
 {% block main_block %}
+    <script type="text/javascript" src="{% static 'js/mainapp-jquery.js' %}"></script>
 
     <h1>Document pool for your review,{{review_name}}. </h1>
     {% if papers %}
@@ -21,17 +22,19 @@
                     <th>Abstract</th>
                     <th>Author(s)</th>
                     <th>Link to Document</th>
+                    <th>Publish Date</th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for paper in papers %}
                     <tr>
-                        <td><input type="checkbox" /></td>
+                        <td><input type="checkbox" class = "case"/></td>
                         <td>{{paper.title}}</td>
                         <td>{{paper.abstract}}</td>
                         <td>{{paper.authors}}</td>
                         <td>{{paper.paper_url}}</td>
+                        <td>{{paper.publish_date}}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -39,7 +42,7 @@
 
          <br><br>
             <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Add selected document(s) to final pool" />
-            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected document(s) from document pool" />
+            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected document(s) from document pool" id ="removefromDP" />
     {% else %}
         <h2> There are no documents in your document pool!</h2>
     {% endif %}

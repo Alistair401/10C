@@ -5,6 +5,7 @@
 {% block title %} Abstract Pool {% endblock %}
 
 {% block main_block %}
+    <script type="text/javascript" src="{% static 'js/mainapp-jquery.js' %}"></script>
 
     <h1>Abstract pool for your review, {{review_name}}. </h1>
     {% if papers %}
@@ -18,24 +19,26 @@
                     <th>Title</th>
                     <th>Abstract</th>
                     <th>Author(s)</th>
+                    <th>Publish Date</th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for paper in papers %}
-                    <tr>
-                        <td><input type="checkbox" /></td>
+                    <tr id="paper{{paper.pk}}">
+                        <td><input type="checkbox" class="case"/></td>
                         <td>{{paper.title}}</td>
                         <td>{{paper.abstract}}</td>
                         <td>{{paper.authors}}</td>
+                        <td>{{paper.publish_date}}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
 
         <br><br>
-            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Add selected abstract(s) to document pool" />
-            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected abstract(s) from abstract pool" />
+            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Add selected abstract(s) to document pool" id = "add2DP"/>
+            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected abstract(s) from abstract pool" id = "removefromAP"/>
     {% else %}
         <h2> There are no abstracts in your abstract pool!</h2>
     {% endif %}
