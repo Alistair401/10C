@@ -35,7 +35,6 @@ $(document).ready(function() {
 
     //delete table row if deletebutton with id containing deleteQuery
     $("[id*='deleteQuery']").click(function(){
-        alert("yep")
         //var of delete buttons td parent
         var td=$(this).parent();
          //var of td tr parent
