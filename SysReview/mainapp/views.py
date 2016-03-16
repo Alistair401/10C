@@ -17,7 +17,7 @@ def index(request):
     if user.is_authenticated:
         # Get the currently worked on review
         try:
-            current_review_slug = Researcher.objects.all().get_or_create(user=user)[0].selected_review
+            review_name_slug = Researcher.objects.all().get_or_create(user=user)[0].selected_review
         except TypeError:
             pass
     context_dict["review_name_slug"] = review_name_slug
@@ -231,8 +231,8 @@ def create_query(request, review_name_slug):
             advanced_query = CreateAdvancedQuery(data=request.POST)
             if advanced_query.is_valid():
                 newQuery = request.POST.get('query_string') # get query submitted
-                pubmed.query_advanced(newQuery)
-                query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
+                query_dict = pubmed.query_advanced(newQuery)
+                query = Query.objects.create(review=review, query_string=query_dict["QueryTranslation"]) #create new query and set primary key to review
                 query.save()
                 submitted=True #set query to submitted
     else:
@@ -240,6 +240,8 @@ def create_query(request, review_name_slug):
     context_dict = {'review_name_slug': review_name_slug, 'advanced_query':advanced_query, 'submitted':submitted}
     return render(request,'mainapp/create_query.html', context_dict)
 
+
+# TODO: merge this with create_query
 #temp advanced query view
 @login_required
 def create_standard_query(request, review_name_slug):
@@ -267,7 +269,8 @@ def create_standard_query(request, review_name_slug):
                         if i < len(operators):
                             newQuery+=operators[i]+" "
                 #create new query and set primary key to review
-                query = Query.objects.create(review=review, query_string=pubmed.query_novice(newQuery))
+                query_dict = pubmed.query_novice(newQuery)
+                query = Query.objects.create(review=review, query_string=query_dict["QueryTranslation"])
                 # save dat shiz
                 query.save()
                 #set query to submitted
@@ -275,7 +278,6 @@ def create_standard_query(request, review_name_slug):
 
     context_dict = {'review_name_slug': review_name_slug, 'submitted':submitted}
     return render(request,'mainapp/create_standard_query.html', context_dict)
-
 
 #view query results and authorise queries and add to abstract pool
 @login_required
@@ -286,7 +288,6 @@ def query_results(request, review_name_slug):
     context_dict = {'review_name_slug':review_name_slug}
 
     return render(request,'mainapp/query_results.html',context_dict)
-
 
 #view abstract pool and authorise abstracts and add to document pool
 @login_required
