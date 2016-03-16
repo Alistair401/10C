@@ -9,30 +9,39 @@
     <title>SysReviewer {% block title %}{% endblock %}</title>
 </head>
 <body>
-    <div class="cust-maxedcontainer cust-shadowbox">
-
-        <div class="pure-menu pure-menu-horizontal cust-navmenu">
+<div class="cust-maxedcontainer cust-shadowbox">
+    <div class="pure-menu pure-menu-horizontal cust-navmenu">
         <a href="{% url 'index' %}" class="pure-menu-heading">SysReviewer</a>
-            <ul class="pure-menu-list">
-                {% if user.is_authenticated %}
-                    <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'profile' %}">Profile</a></li>
-                    <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'logout' %}">Logout</a></li>
-                    <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                        <a href="#" id="menuLink1" class="pure-menu-link">Reviews</a>
-                        <ul class="pure-menu-children">
-                            <li class="pure-menu-item"><a class="pure-menu-link cust-blacktext" href="{% url 'reviews' %}">Your Reviews</a></li>
-                            <li class="pure-menu-item"><a class="pure-menu-link cust-blacktext" href="{% url 'create_review' %}">Create Review</a></li>
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'login_register' %}">Login/Register</a></li>
-                {% endif %}
+        <ul class="pure-menu-list">
+            {% if user.is_authenticated %}
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'profile' %}">Profile</a></li>
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{% url 'logout' %}">Logout</a></li>
+                <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                    <a href="#" id="menuLink1" class="pure-menu-link">Reviews</a>
+                    <ul class="pure-menu-children">
+                        <li class="pure-menu-item"><a class="pure-menu-link cust-blacktext" href="{% url 'reviews' %}">Your
+                            Reviews</a></li>
+                        <li class="pure-menu-item"><a class="pure-menu-link cust-blacktext"
+                                                      href="{% url 'create_review' %}">Create Review</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li class="pure-menu-item"><a class="pure-menu-link"
+                                              href="{% url 'login_register' %}">Login/Register</a></li>
+            {% endif %}
 
-            </ul>
-        </div>
+        </ul>
+    </div>
     <div class="pure-g cust-maxedcontainer">
         <div class="pure-u-1-5 cust-sidebar">
-            <!--TODO-->
+            {% if user.is_authenticated and not review_name_slug == None and not review_name_slug == "" %}
+                <b>{{ review_name_slug }}</b>
+                <div class="pure-menu pure-menu-vertical">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'create_query' review_name_slug %}">Create Query</a></li>
+                    </ul>
+                </div>
+            {% endif %}
         </div>
         <div class="pure-u-4-5 cust-maincontainer">
             {% block main_block %}
@@ -40,7 +49,6 @@
             {% endblock %}
         </div>
     </div>
-
-    </div>
+</div>
 </body>
 </html>
