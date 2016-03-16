@@ -16,5 +16,5 @@ urlpatterns = patterns('',
                        url(r'^logout/$',views.user_logout,name='logout'),
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/$', views.review, name='review'),
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/create_standard_query/$', views.create_standard_query, name='standard_query'),
-                       )
+                      )
 
