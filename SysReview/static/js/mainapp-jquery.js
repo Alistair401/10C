@@ -33,17 +33,29 @@ $(document).ready(function() {
         }
     });
 
-    //delete table row if deletebutton with id containing deleteQuery
+     //delete table row if deletebutton with id containing deleteQuery
     $("[id*='deleteQuery']").click(function(){
-        //var of delete buttons td parent
-        var td=$(this).parent();
-         //var of td tr parent
-        var tr=td.parent();
 
-        //fade and remove row
-        tr.fadeOut(400, function(){
-            tr.remove()
-        })
+        //e.preventDefault();
+        var deleteConfirm = confirm('Delete query?');
+        if(deleteConfirm){
+                //var of delete buttons td parent
+            var td=$(this).parent();
+             //var of td tr parent
+            var tr=td.parent();
+            //slice id name so only pk left
+            var pk=this.id.slice(11);
+         	$.ajax({type:	"POST",
+                    url:	pk+"/delete_query/",
+                    data:	"pk="+pk,
+                    success:	function() {
+                        //fade and remove row
+                        tr.fadeOut(400, function () {
+                            tr.remove()
+                        })
+                    }
+            });
+        }
     });
 
     $('textarea').numberedtextarea({
