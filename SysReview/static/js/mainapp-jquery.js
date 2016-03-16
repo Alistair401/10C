@@ -20,19 +20,25 @@
 
  //function for clone input fields for standard query creation
 $(document).ready(function() {
-    var keyword_input_index=0;
+
+    //if operator selector changed
     $("#standard_builder").change(function(){
-        keyword_input_index++;
+        //find option selected
         var type = $(this).find("option:selected").val();
+        //if not undefines
         if(type != undefined){
-            $("#standard_keywords").clone().insertAfter('#standard_builder:last-child').val('');//.attr("name","standard_input"+keyword_input_index);
-            $($(this)).clone(true).insertAfter('#standard_keywords:last-child');//.attr("name","standard_operand"+keyword_input_index);
+            //clone keyword box and place after last operator selector
+            $("#standard_keywords").clone().insertAfter('#standard_builder:last-child').val('');
+            //clone operator box and place after new keyword box, true passes on action listener to new child
+            $($(this)).clone(true).insertAfter('#standard_keywords:last-child');
+            //disable action listener for current operator selector
             $(this).off();
         }
     });
 
 });
 
+<<<<<<< HEAD
 $(document).ready(function() {
     // add multiple select / deselect functionality
     $("#selectAll").click(function () {
@@ -49,6 +55,24 @@ $(document).ready(function() {
     });
 });
 
+=======
+//jquery for saved queries page
+$(document).ready(function() {
+
+    //delete table row if deletebutton with id containing deleteQuery
+    $("[id*='deleteQuery']").click(function(){
+        //var of delete buttons td parent
+        var td=$(this).parent();
+         //var of td tr parent
+        var tr=td.parent();
+
+        //fade and remove row
+        tr.fadeOut(400, function(){
+            tr.remove()
+        })
+    })
+});
+>>>>>>> 63e6ba15b7fc03011c0006c4fa0dcbb56ac5212e
 
 
 

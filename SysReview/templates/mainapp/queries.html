@@ -8,19 +8,24 @@
 
     <h1>Queries</h1>
     {% if queries %}
-        <table class="pure-table pure-table-bordered">
+        <table class="cust-pure-table cust-pure-table-bordered cust-pure-table-scrollable">
             <tbody>
                 <ol>
                     {% for query in queries %}
-                            <tr>
-                                <td>{{ query }}</td>
-                                <td><button class="pure-button pure-button-primary">Edit</button></td>
-                                <td><button class="pure-button pure-button-primary">Delete</button></td>
+                            <tr id="query{{query.pk}}">
+                                <td>{{ query.query_string }}</td>
+                                <td><button class="pure-button pure-button-primary" id="editQuery{{query.pk}}">Edit</button></td>
+                                <td><button class="pure-button pure-button-primary" id="deleteQuery{{query.pk}}">Delete</button></td>
                             </tr>
                      {% endfor %}
                 </ol>
             </tbody>
         </table>
-    {% endif %}
 
+    {% else %}
+        <strong>No saved queries for {{review.name}}</strong>
+    {% endif %}
+    <br />
+    <a class="pure-button pure-button-primary" href="{% url 'standard_query' review_name_slug %}">Create Standard Query</a></li>
+    <a class="pure-button pure-button-primary" href="{% url 'create_query' review_name_slug %}">Create Query</a></li>
 {% endblock %}

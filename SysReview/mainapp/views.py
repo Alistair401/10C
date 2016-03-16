@@ -208,7 +208,7 @@ def create_query(request, review_name_slug):
             advanced_query = CreateAdvancedQuery(data=request.POST)
             if advanced_query.is_valid():
                 newQuery = request.POST.get('query_string') # get query submitted
-                pubmed.query(newQuery)
+                pubmed.query_advanced(newQuery)
                 query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
                 query.save()
                 submitted=True #set query to submitted
@@ -244,7 +244,7 @@ def create_standard_query(request, review_name_slug):
                         if i < len(operators):
                             newQuery+=operators[i]+" "
                 #create new query and set primary key to review
-                query = Query.objects.create(review=review, query_string=pubmed.std_query(newQuery))
+                query = Query.objects.create(review=review, query_string=pubmed.query_novice(newQuery))
                 # save dat shiz
                 query.save()
                 #set query to submitted
