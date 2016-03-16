@@ -208,7 +208,7 @@ def create_query(request, review_name_slug):
             advanced_query = CreateAdvancedQuery(data=request.POST)
             if advanced_query.is_valid():
                 newQuery = request.POST.get('query_string') # get query submitted
-                pubmed.query(newQuery)
+                pubmed.query_advanced(newQuery)
                 query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
                 query.save()
                 submitted=True #set query to submitted
@@ -244,7 +244,7 @@ def create_standard_query(request, review_name_slug):
                         if i < len(operators):
                             newQuery+=operators[i]+" "
                 #create new query and set primary key to review
-                query = Query.objects.create(review=review, query_string=pubmed.std_query(newQuery))
+                query = Query.objects.create(review=review, query_string=pubmed.query_novice(newQuery))
                 # save dat shiz
                 query.save()
                 #set query to submitted
@@ -267,7 +267,7 @@ def query_results(request, review_name_slug):
 def abstract_pool(request,review_name_slug):
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)
-    paper_list = Paper.objects.filter(review=review, abstract_relevance = True).order_by('title')
+    paper_list = Paper.objects.filter(review=review, abstract_relevance = False, document_relevance = False).order_by('title')
     context_dict = {'papers':paper_list, 'review_name':review.name}
     return render(request,'mainapp/abstract_pool.html',context_dict)
 
@@ -275,7 +275,7 @@ def abstract_pool(request,review_name_slug):
 def document_pool(request,review_name_slug):
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)
-    paper_list = Paper.objects.filter(review=review, document_relevance = True).order_by('title')
+    paper_list = Paper.objects.filter(review=review, abstract_relevance = True, document_relevance = False).order_by('title')
     context_dict = {'review_name':review.name, 'papers':paper_list}
     return render(request,'mainapp/document_pool.html',context_dict)
 
@@ -283,7 +283,7 @@ def document_pool(request,review_name_slug):
 def final_pool(request,review_name_slug):
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)
-    paper_list = Paper.objects.filter(review=review, currentPool = 3).order_by('title')
+    paper_list = Paper.objects.filter(review=review, abstract_relevance = True, document_relevance = True).order_by('title')
     context_dict = {'review_name':review.name, 'papers':paper_list}
     return render(request,'mainapp/final_pool.html',context_dict)
 
