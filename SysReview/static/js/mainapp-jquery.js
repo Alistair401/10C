@@ -9,14 +9,24 @@
             $("ul#tab li:nth-child("+nthChild+")").addClass("active");
         }
     });*!/
-
-
-
-
 });*/
 
  //function for clone input fields for standard query creation
 $(document).ready(function() {
+
+    // add multiple select / deselect functionality
+    $("#selectAll").click(function () {
+          $('.case').prop('checked', this.checked);
+    });
+    // if all checkbox are selected, check the selectall checkbox
+    // and viceversa
+    $(".case").click(function(){
+        if($(".case").length == $(".case:checked").length) {
+            $("#selectAll").prop("checked", "checked");
+        } else {
+            $("#selectAll").removeProp("checked");
+        }
+    });
 
     //if operator selector changed
     $("#standard_builder").change(function(){
@@ -52,5 +62,3 @@ $(document).ready(function() {
     });
 
 });
-
-

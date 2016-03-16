@@ -5,6 +5,7 @@
 {% block title %} Abstract Pool {% endblock %}
 
 {% block main_block %}
+    <script type="text/javascript" src="{% static 'js/mainapp-jquery.js' %}"></script>
 
     <h1>Abstract pool for your review, {{review_name}}. </h1>
     {% if papers %}
@@ -18,16 +19,18 @@
                     <th>Title</th>
                     <th>Abstract</th>
                     <th>Author(s)</th>
+                    <th>Publish Date</th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for paper in papers %}
                     <tr>
-                        <td><input type="checkbox" /></td>
+                        <td><input type="checkbox" class="case"/></td>
                         <td>{{paper.title}}</td>
                         <td>{{paper.abstract}}</td>
                         <td>{{paper.authors}}</td>
+                        <td>{{paper.publish_date}}</td>
                     </tr>
                 {% endfor %}
             </tbody>
