@@ -6,7 +6,7 @@ from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm, C
 from mainapp.models import Researcher, Review, Query, Paper
 from django.contrib.auth.models import User
 from mainapp import pubmed
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 #main home page
@@ -17,7 +17,7 @@ def index(request):
     if user.is_authenticated:
         # Get the currently worked on review
         try:
-            current_review_slug = Researcher.objects.all().get_or_create(user=user)[0].selected_review
+            review_name_slug = Researcher.objects.all().get_or_create(user=user)[0].selected_review
         except TypeError:
             pass
     context_dict["review_name_slug"] = review_name_slug
@@ -125,7 +125,7 @@ def review(request, review_name_slug):
     # Try and get the review, fails if the review doesn't exist
     try:
         # Get the review from the slug
-        review = Review.objects.get(slug=review_name_slug)
+        slugged_review = Review.objects.get(slug=review_name_slug)
 
         # Get or create a UserProfile object for the user
         current_profile = Researcher.objects.all().get_or_create(user=current_user)[0]
@@ -134,7 +134,7 @@ def review(request, review_name_slug):
         current_profile.save()
 
         # If this review isn't being worked on
-        if (current_profile.selected_review != review.slug):
+        if (current_profile.selected_review != slugged_review.slug):
 
             # If the request is a POST
             if (request.method == 'POST'):
@@ -143,15 +143,15 @@ def review(request, review_name_slug):
                 if 'workon' in request.POST:
 
                     # Change the user's currently review to this one
-                    current_profile.selected_review = review.slug
+                    current_profile.selected_review = slugged_review.slug
                     current_profile.save()
                     working = True
         else:
             working = True
 
-        context_dict['review_name']=review.name
+        context_dict['review_name']=slugged_review.name
 
-        context_dict['review'] = review
+        context_dict['review'] = slugged_review
 
         context_dict['review_name_slug'] = review_name_slug
 
@@ -231,29 +231,16 @@ def create_query(request, review_name_slug):
             advanced_query = CreateAdvancedQuery(data=request.POST)
             if advanced_query.is_valid():
                 newQuery = request.POST.get('query_string') # get query submitted
-                pubmed.query_advanced(newQuery)
-                query = Query.objects.create(review=review, query_string=newQuery) #create new query and set primary key to review
+                query_dict = pubmed.query_advanced(newQuery)
+                query = Query.objects.create(review=review, query_string=query_dict["QueryTranslation"]) #create new query and set primary key to review
                 query.save()
                 submitted=True #set query to submitted
-    else:
-        advanced_query = CreateAdvancedQuery()
-    context_dict = {'review_name_slug': review_name_slug, 'advanced_query':advanced_query, 'submitted':submitted}
-    return render(request,'mainapp/create_query.html', context_dict)
-
-#temp advanced query view
-@login_required
-def create_standard_query(request, review_name_slug):
-    #has a query been submitted
-    submitted = False
-
-    #get review for saving to primary key
-    review = Review.objects.get(slug=review_name_slug)
-
-
-    if request.method == 'POST':
-        #if advanced search submitted
+                query_dict.pop("QueryTranslation",None)
+                context_dict = {"results":query_dict,'review_name_slug': review_name_slug}
+                return render(request,'mainapp/query_results.html',context_dict)
         if 'standard' in request.POST:
             #get the list of query keywords
+            advanced_query = CreateAdvancedQuery()
             keyWords=request.POST.getlist('standard_input',None)
             newQuery=""
             # as long as the query isn't empty
@@ -267,26 +254,43 @@ def create_standard_query(request, review_name_slug):
                         if i < len(operators):
                             newQuery+=operators[i]+" "
                 #create new query and set primary key to review
-                query = Query.objects.create(review=review, query_string=pubmed.query_novice(newQuery))
+                query_dict = pubmed.query_novice(newQuery)
+                query = Query.objects.create(review=review, query_string=query_dict["QueryTranslation"])
                 # save dat shiz
                 query.save()
                 #set query to submitted
                 submitted=True
+                query_dict.pop("QueryTranslation",None)
+                context_dict = {"results":query_dict,'review_name_slug': review_name_slug}
+                return render(request,'mainapp/query_results.html',context_dict)
 
-    context_dict = {'review_name_slug': review_name_slug, 'submitted':submitted}
-    return render(request,'mainapp/create_standard_query.html', context_dict)
-
+    else:
+        advanced_query = CreateAdvancedQuery()
+    context_dict = {'review_name_slug': review_name_slug, 'advanced_query':advanced_query, 'submitted':submitted}
+    return render(request,'mainapp/create_query.html', context_dict)
 
 #view query results and authorise queries and add to abstract pool
-@login_required
-def query_results(request, review_name_slug):
-
-    review = Review.objects.get(slug=review_name_slug)
-
-    context_dict = {'review_name_slug':review_name_slug}
-
-    return render(request,'mainapp/query_results.html',context_dict)
-
+# @login_required
+# def query_results(request, review_name_slug, results_dict):
+#     # stuff for the sidebar and slugs
+#     current_user = request.user
+#     slugged_review = Review.objects.get(slug=review_name_slug)
+#     selected_review = None
+#     try:
+#         selected_review = Researcher.objects.all().get_or_create(user=current_user)[0].selected_review
+#     except TypeError:
+#         pass
+#
+#     # count the number of results in the dictionary
+#     # list them by title
+#
+#
+#
+#
+#     context_dict = {'slugged_review':slugged_review}
+#     context_dict["review_name_slug"] = selected_review
+#
+#     return render(request,'mainapp/query_results.html',context_dict)
 
 #view abstract pool and authorise abstracts and add to document pool
 @login_required
@@ -376,7 +380,6 @@ def user_logout(request):
     return HttpResponseRedirect('/mainapp/')
 
 #view for deleting queries
-@csrf_exempt
 def delete_query(request, review_name_slug,id):
     Query.objects.filter(pk=id).delete();
     return HttpResponse()
