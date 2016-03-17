@@ -67,6 +67,7 @@ $(document).ready(function() {
                     if($(this).find('input:checkbox:checked').length == 1){
                         $(this).fadeOut(400, function(){
                             $(this).remove();
+
                         });
                     }
                 });
@@ -82,10 +83,17 @@ $(document).ready(function() {
         if ($('#abstract_pool :checkbox:checked').length > 0){
             var confirmMessage = confirm("Are you sure you want to add the selected pages to the document pool?\n(These will be removed from the abstract pool)");
             if (confirmMessage){
+                var pk=this.id.slice(11);
                 $("#abstract_pool tbody tr").each(function(){
                     if($(this).find('input:checkbox:checked').length == 1){
-                        $(this).fadeOut(400, function(){
-                            $(this).remove();
+                        $.ajax({type:	"POST",
+                            url:	pk+"/add2DocPool/",
+                            data:	"pk="+pk,
+                            success:	function() {
+                                $(this).fadeOut(400, function(){
+                                    $(this).remove();
+                                });
+                            }
                         });
                     }
                 });

@@ -383,3 +383,9 @@ def user_logout(request):
 def delete_query(request, review_name_slug,id):
     Query.objects.filter(pk=id).delete();
     return HttpResponse()
+
+def add2DocPool(request, review_name_slug,id):
+    paper_list = Paper.objects.filter(pk=id).update(abstract_relevance=True)
+    paper_list.refresh_from_db()
+    return HttpResponse()
+
