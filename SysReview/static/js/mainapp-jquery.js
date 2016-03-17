@@ -163,30 +163,32 @@ $(document).ready(function() {
     });
 
      //delete table row if deletebutton with id containing deleteQuery
-    $("[id*='deleteQuery']").click(function(){
-
-        //e.preventDefault();
-        var deleteConfirm = confirm('Delete query?');
-        if(deleteConfirm){
-                //var of delete buttons td parent
-            var td=$(this).parent();
-             //var of td tr parent
-            var tr=td.parent();
+    $("[id*='deleteQuery']").click(function() {
+        var confirm = $(this).val();
+        //if button value now Confirm delete
+        if (confirm == 'Confirm delete'){
+            var td = $(this).parent();
+            //var of td tr parent
+            var tr = td.parent();
             //slice id name so only pk left
-            var pk=this.id.slice(11);
+            var pk = this.id.slice(11);
             //ajax post call
-         	$.ajax({type:	"POST",
-                    url:	pk+"/delete_query/",
-                    data:	"pk="+pk,
-                    success:	function() {
-                        //fade and remove row
-                        tr.fadeOut(400, function () {
-                            tr.remove()
-                        })
-                    }
+            $.ajax({
+                type: "POST",
+                url: pk + "/delete_query/",
+                data: "pk=" + pk,
+                success: function () {
+                    //fade and remove row
+                    tr.fadeOut(400, function () {
+                        tr.remove()
+                    })
+                }
             });
+        }else{
+            $(this).val("Confirm delete");
         }
     });
+
 
     $('textarea').numberedtextarea({
         // if true Tab key creates indentation

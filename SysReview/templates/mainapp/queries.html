@@ -14,8 +14,8 @@
                     {% for query in queries %}
                             <tr id="query{{query.pk}}">
                                 <td>{{ query.query_string }}</td>
-                                <td><button class="pure-button pure-button-primary" id="editQuery{{query.pk}}">Edit</button></td>
-                                <td><button class="pure-button pure-button-primary" id="deleteQuery{{query.pk}}">Delete</button></td>
+                                <td><input type="button" class="pure-button pure-button-primary" id="editQuery{{query.pk}}" value="edit"/></td>
+                                <td><input type="button" class="pure-button pure-button-primary" id="deleteQuery{{query.pk}}" value="delete"></td>
                             </tr>
                      {% endfor %}
                 </ol>
@@ -23,7 +23,8 @@
         </table>
 
     {% else %}
-        <strong>No saved queries for {{review.name}}</strong>
+       <strong>No saved queries for {{review.name}}</strong>
+       <br />
     {% endif %}
     <br />
     <a class="pure-button pure-button-primary" href="{% url 'create_query' review_name_slug %}">Create Query</a></li>
