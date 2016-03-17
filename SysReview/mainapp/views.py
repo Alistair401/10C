@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from mainapp import pubmed
 from django.views.decorators.csrf import csrf_exempt
 
+KEYWORDS = ("AND ","OR ","NOT ")
 
 #main home page
 def index(request):
@@ -224,75 +225,40 @@ def create_query(request, review_name_slug):
     #get review for saving to primary key
     review = Review.objects.get(slug=review_name_slug)
 
+    # create advanced query form
+    advanced_query = CreateAdvancedQuery()
 
-    if request.method == 'POST':
-        #if advanced search submitted
-        if 'advanced' in request.POST:
-            advanced_query = CreateAdvancedQuery(data=request.POST)
-            if advanced_query.is_valid():
-                newQuery = request.POST.get('query_string') # get query submitted
-                query_dict = pubmed.query_advanced(newQuery)
-                query = Query.objects.create(review=review, query_string=query_dict["QueryTranslation"]) #create new query and set primary key to review
-                query.save()
-                submitted=True #set query to submitted
-                query_dict.pop("QueryTranslation",None)
-                context_dict = {"results":query_dict,'review_name_slug': review_name_slug}
-                return render(request,'mainapp/query_results.html',context_dict)
-        if 'standard' in request.POST:
-            #get the list of query keywords
-            advanced_query = CreateAdvancedQuery()
-            keyWords=request.POST.getlist('standard_input',None)
-            newQuery=""
-            # as long as the query isn't empty
-            if keyWords[0]!='':
-                # get all the query operators
-                operators=request.POST.getlist('standard_operator',None)
-                for i in range(len(keyWords)):
-                    # add each keyword then operator to the query
-                    newQuery+=keyWords[i]+" "
-                    if operators[0]!='':
-                        if i < len(operators):
-                            newQuery+=operators[i]+" "
-                #create new query and set primary key to review
-                query_dict = pubmed.query_novice(newQuery)
-                query = Query.objects.create(review=review, query_string=query_dict["QueryTranslation"])
-                # save dat shiz
-                query.save()
-                #set query to submitted
-                submitted=True
-                query_dict.pop("QueryTranslation",None)
-                context_dict = {"results":query_dict,'review_name_slug': review_name_slug}
-                return render(request,'mainapp/query_results.html',context_dict)
+    # query = Query.objects.create(review=review, query_string=query_dict.pop("QueryTranslation",None)) #create new query and set primary key to review
+    # query.save()
+    # submitted=True  # set query to submitted
 
-    else:
-        advanced_query = CreateAdvancedQuery()
+    # elif 'standard' in request.POST:
+    #     #get the list of query keywords
+    #     advanced_query = CreateAdvancedQuery()
+    #     keyWords=request.POST.getlist('standard_input',None)
+    #     newQuery=""
+    #     # as long as the query isn't empty
+    #     if keyWords[0]!='':
+    #         # get all the query operators
+    #         operators=request.POST.getlist('standard_operator',None)
+    #         for i in range(len(keyWords)):
+    #             # add each keyword then operator to the query
+    #             newQuery+=keyWords[i]+" "
+    #             if operators[0]!='':
+    #                 if i < len(operators):
+    #                     newQuery+=operators[i]+" "
+    #         #create new query and set primary key to review
+    #         query_dict = pubmed.query_novice(newQuery)
+    #         query = Query.objects.create(review=review, query_string=query_dict.pop("QueryTranslation",None))
+    #         # save dat shiz
+    #         query.save()
+    #         #set query to submitted
+    #         submitted=True
+
     context_dict = {'review_name_slug': review_name_slug, 'advanced_query':advanced_query, 'submitted':submitted}
     return render(request,'mainapp/create_query.html', context_dict)
 
-#view query results and authorise queries and add to abstract pool
-# @login_required
-# def query_results(request, review_name_slug, results_dict):
-#     # stuff for the sidebar and slugs
-#     current_user = request.user
-#     slugged_review = Review.objects.get(slug=review_name_slug)
-#     selected_review = None
-#     try:
-#         selected_review = Researcher.objects.all().get_or_create(user=current_user)[0].selected_review
-#     except TypeError:
-#         pass
-#
-#     # count the number of results in the dictionary
-#     # list them by title
-#
-#
-#
-#
-#     context_dict = {'slugged_review':slugged_review}
-#     context_dict["review_name_slug"] = selected_review
-#
-#     return render(request,'mainapp/query_results.html',context_dict)
-
-#view abstract pool and authorise abstracts and add to document pool
+# view abstract pool and authorise abstracts and add to document pool
 @login_required
 def abstract_pool(request,review_name_slug):
     context_dict = {}
@@ -301,7 +267,7 @@ def abstract_pool(request,review_name_slug):
     context_dict = {'papers':paper_list, 'review_name':review.name}
     return render(request,'mainapp/abstract_pool.html',context_dict)
 
-#view document pool and authorise documents and add to final pool
+# view document pool and authorise documents and add to final pool
 @login_required
 def document_pool(request,review_name_slug):
     context_dict = {}
@@ -384,3 +350,74 @@ def user_logout(request):
 def delete_query(request, review_name_slug,id):
     Query.objects.filter(pk=id).delete();
     return HttpResponse()
+
+def check_API_adv(request,review_name_slug,query_string):
+    # get list of ID results from PubMed API
+    formatted = format_query_advanced(query_string)
+    id_list = pubmed.esearch_query(formatted)
+    print formatted
+    return HttpResponse(len(id_list))
+
+def check_API_std(request):
+    return HttpResponse()
+
+def format_query_advanced(query_string):
+    query_list = []
+    query_lines = query_string.split(",")
+    for unformatted_line in query_lines:
+        line = unformatted_line.strip("\n")
+        keyword_line=False
+        for keyword in KEYWORDS:
+            if keyword in line:
+                query_list = parseKeywords(line, query_list,keyword)
+                keyword_line = True
+                break
+        if not keyword_line:
+            query_list.append(line)
+    while "-" in query_list:
+        query_list.remove("-")
+    formatted_string = ""
+    for i in query_list:
+        formatted_string += i + " "
+    return formatted_string
+
+def format_query_novice(query_string):
+    # formats the string with brackets (may be redundant)
+    query_list = query_string.split(" ")
+    # removes weird empty strings from the query
+    while "" in query_list:
+        query_list.remove("")
+    # add brackets
+    for i in range(0, len(query_list)-1,2):
+        query_list[0] = "(" + query_list[0]
+        query_list[i] = query_list[i] + ")"
+    # turn list back into string
+    proper_query = ""
+    for i in query_list:
+        proper_query += i + " "
+    # get abstracts
+    return proper_query
+
+def parseKeywords(line,list,keyword):
+    # formatting stuff TODO: comment more stuff
+    limits = [0,0]
+    line_as_list = line.split(" ")
+    limits[0] = int(line_as_list[1])
+
+    if " TO " in line:
+        limits[1] = int(line_as_list[3])
+    else:
+        limits[1] = int(line_as_list[1])
+
+    limits[0] -= 1
+    limits[1] -= 1
+
+    result = list
+    for i in range(limits[0],limits[1]+1):
+        if i == 0:
+            result[i] = result[i] + ")"
+        else:
+            result[i] = keyword.strip(" ") + " " + result[i] + ")"
+        result[0] = "(" + result[0]
+    result.append("-")
+    return result

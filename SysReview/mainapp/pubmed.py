@@ -11,52 +11,11 @@ FETCH_URL = BASE_URL + "efetch.fcgi?db=pubmed&id="
 LINK_URL = BASE_URL + "elink.fcgi?dbfrom=pubmed&id="
 ABSTRACT_EXTENSION = "&retmode=xml&rettype=abstract"
 LINK_EXTENSION = "&cmd=prlinks"
-KEYWORDS = ("AND ","OR ","NOT ")
 DATE = "[pdat]"
 JOURNAL = "[journal]"
 
 
-def query_advanced(query_string):
-    # all formatting stuff TODO: comment stuff better
-    query_list = []
-    query_lines = query_string.split("\r")
-    for unformatted_line in query_lines:
-        line = unformatted_line.strip("\n")
-        keyword_line=False
-        for keyword in KEYWORDS:
-            if keyword in line:
-                query_list = parseKeywords(line, query_list,keyword)
-                keyword_line = True
-                break
-        if not keyword_line:
-            query_list.append(line)
-    while "-" in query_list:
-        query_list.remove("-")
-    query_string = ""
-    for i in query_list:
-        query_string += i + " "
-    return make_query(query_string)
-
-
-def query_novice(query_string):
-    # formats the string with brackets (may be redundant)
-    query_list = query_string.split(" ")
-    # removes weird empty strings from the query
-    while "" in query_list:
-        query_list.remove("")
-    # add brackets
-    for i in range(0, len(query_list)-1,2):
-        query_list[0] = "(" + query_list[0]
-        query_list[i] = query_list[i] + ")"
-    # turn list back into string
-    proper_query = ""
-    for i in query_list:
-        proper_query += i + " "
-    # get abstracts
-    return make_query(proper_query)
-
-
-def make_query(query_string):
+def esearch_query(query_string):
     # encode inital ID query
     encoded_query = urllib.pathname2url(query_string)
     # get xml response
@@ -71,10 +30,10 @@ def make_query(query_string):
     id_list = []
     for i in id_elements:
         id_list.append(getNodeText(i.childNodes))
-    # get the summaries of the IDs
-    summary_dict = esummary_query(id_list)
-    summary_dict["QueryTranslation"] = query_translation
-    return summary_dict
+    # # get the summaries of the IDs
+    # summary_dict = esummary_query(id_list)
+    # summary_dict["QueryTranslation"] = query_translation
+    return id_list
 
 
 def esummary_query(id_list):
@@ -129,40 +88,6 @@ def esummary_query(id_list):
     return efetch_query(summary_dict)
 
 
-def getNodeText(nodelist):
-    # get the text attributes of xml nodes
-    rc = ""
-    for node in nodelist:
-        if node.nodeType == node.TEXT_NODE:
-            rc = rc + node.data
-    return rc
-
-
-def parseKeywords(line,list,keyword):
-    # formatting stuff TODO: comment more stuff
-    limits = [0,0]
-    line_as_list = line.split(" ")
-    limits[0] = int(line_as_list[1])
-
-    if " TO " in line:
-        limits[1] = int(line_as_list[3])
-    else:
-        limits[1] = int(line_as_list[1])
-
-    limits[0] -= 1
-    limits[1] -= 1
-
-    result = list
-    for i in range(limits[0],limits[1]+1):
-        if i == 0:
-            result[i] = result[i] + ")"
-        else:
-            result[i] = keyword.strip(" ") + " " + result[i] + ")"
-        result[0] = "(" + result[0]
-    result.append("-")
-    return result
-
-
 def efetch_query(id_dictionary):
     # build the list of ID's to query with
     unencoded_query = ""
@@ -194,3 +119,12 @@ def elink_query(id):
     except:
         pass
     return None
+
+
+def getNodeText(nodelist):
+    # get the text attributes of xml nodes
+    rc = ""
+    for node in nodelist:
+        if node.nodeType == node.TEXT_NODE:
+            rc = rc + node.data
+    return rc
