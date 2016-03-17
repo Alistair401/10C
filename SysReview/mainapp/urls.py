@@ -17,6 +17,6 @@ urlpatterns = patterns('',
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/$', views.review, name='review'),
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/create_standard_query/$', views.create_standard_query, name='standard_query'),
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/queries/(?P<id>\d+)/delete_query/$',views.delete_query,name='delete_query'),
-
+                       url(r'^reviews/(?P<review_name_slug>[\w\-]+)/abstract_pool/(?P<id>\d+)/add2DocPool/$',views.add2DocPool,name='add2DocPool'),
                       )
 
