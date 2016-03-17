@@ -6,7 +6,7 @@ from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm, C
 from mainapp.models import Researcher, Review, Query, Paper
 from django.contrib.auth.models import User
 from mainapp import pubmed
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 #main home page
@@ -380,7 +380,6 @@ def user_logout(request):
     return HttpResponseRedirect('/mainapp/')
 
 #view for deleting queries
-@csrf_exempt
 def delete_query(request, review_name_slug,id):
     Query.objects.filter(pk=id).delete();
     return HttpResponse()
