@@ -13,6 +13,37 @@
 
  //function for clone input fields for standard query creation
 $(document).ready(function() {
+    //following 3 function used for enabling CSRF without forms
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    //end of enabling CSRF without forms
 
     // add multiple select / deselect functionality
     $("#selectAll").click(function () {
@@ -36,6 +67,7 @@ $(document).ready(function() {
                     if($(this).find('input:checkbox:checked').length == 1){
                         $(this).fadeOut(400, function(){
                             $(this).remove();
+
                         });
                     }
                 });
@@ -51,10 +83,17 @@ $(document).ready(function() {
         if ($('#abstract_pool :checkbox:checked').length > 0){
             var confirmMessage = confirm("Are you sure you want to add the selected pages to the document pool?\n(These will be removed from the abstract pool)");
             if (confirmMessage){
+                var pk=this.id.slice(11);
                 $("#abstract_pool tbody tr").each(function(){
                     if($(this).find('input:checkbox:checked').length == 1){
-                        $(this).fadeOut(400, function(){
-                            $(this).remove();
+                        $.ajax({type:	"POST",
+                            url:	pk+"/add2DocPool/",
+                            data:	"pk="+pk,
+                            success:	function() {
+                                $(this).fadeOut(400, function(){
+                                    $(this).remove();
+                                });
+                            }
                         });
                     }
                 });
@@ -132,30 +171,32 @@ $(document).ready(function() {
     });
 
      //delete table row if deletebutton with id containing deleteQuery
-    $("[id*='deleteQuery']").click(function(){
-
-        //e.preventDefault();
-        var deleteConfirm = confirm('Delete query?');
-        if(deleteConfirm){
-                //var of delete buttons td parent
-            var td=$(this).parent();
-             //var of td tr parent
-            var tr=td.parent();
+    $("[id*='deleteQuery']").click(function() {
+        var confirm = $(this).val();
+        //if button value now Confirm delete
+        if (confirm == 'Confirm delete'){
+            var td = $(this).parent();
+            //var of td tr parent
+            var tr = td.parent();
             //slice id name so only pk left
-            var pk=this.id.slice(11);
+            var pk = this.id.slice(11);
             //ajax post call
-         	$.ajax({type:	"POST",
-                    url:	pk+"/delete_query/",
-                    data:	"pk="+pk,
-                    success:	function() {
-                        //fade and remove row
-                        tr.fadeOut(400, function () {
-                            tr.remove()
-                        })
-                    }
+            $.ajax({
+                type: "POST",
+                url: pk + "/delete_query/",
+                data: "pk=" + pk,
+                success: function () {
+                    //fade and remove row
+                    tr.fadeOut(400, function () {
+                        tr.remove()
+                    })
+                }
             });
+        }else{
+            $(this).val("Confirm delete");
         }
     });
+
 
     $('textarea').numberedtextarea({
         // if true Tab key creates indentation

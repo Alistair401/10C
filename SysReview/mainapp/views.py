@@ -6,7 +6,7 @@ from mainapp.forms import UserRegisterForm, UserProfileForm, CreateReviewForm, C
 from mainapp.models import Researcher, Review, Query, Paper
 from django.contrib.auth.models import User
 from mainapp import pubmed
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 KEYWORDS = ("AND ","OR ","NOT ")
 
@@ -346,7 +346,6 @@ def user_logout(request):
     return HttpResponseRedirect('/mainapp/')
 
 #view for deleting queries
-@csrf_exempt
 def delete_query(request, review_name_slug,id):
     Query.objects.filter(pk=id).delete();
     return HttpResponse()
@@ -421,3 +420,9 @@ def parseKeywords(line,list,keyword):
         result[0] = "(" + result[0]
     result.append("-")
     return result
+
+def add2DocPool(request, review_name_slug,id):
+    paper_list = Paper.objects.filter(pk=id).update(abstract_relevance=True)
+    paper_list.refresh_from_db()
+    return HttpResponse()
+
