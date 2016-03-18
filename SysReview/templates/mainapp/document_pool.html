@@ -28,7 +28,7 @@
 
             <tbody>
                 {% for paper in papers %}
-                    <tr>
+                    <tr id="paper{{paper.pk}}">
                         <td><input type="checkbox" class = "case"/></td>
                         <td>{{paper.title}}</td>
                         <td>{{paper.abstract}}</td>

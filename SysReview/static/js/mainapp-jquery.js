@@ -87,7 +87,7 @@ $(document).ready(function() {
                     if($(this).find('input:checkbox:checked').length == 1){
                         var pk=this.id.slice(5)
                         $.ajax({type:	"POST",
-                            url:	pk+"/add2DocPool/",
+                            url:	pk+"/add_to_dp/",
                             data:	"pk="+pk,
                             success:	function() {
                                 $(this).fadeOut(400, function(){
@@ -109,8 +109,15 @@ $(document).ready(function() {
             if (confirmMessage){
                 $("#document_pool tbody tr").each(function(){
                     if($(this).find('input:checkbox:checked').length == 1){
-                        $(this).fadeOut(400, function(){
-                            $(this).remove();
+                        var pk=this.id.slice(5)
+                        $.ajax({type:	"POST",
+                            url:	pk+"/remove_from_dp/",
+                            data:	"pk="+pk,
+                            success:	function() {
+                                $(this).fadeOut(400, function(){
+                                    $(this).remove();
+                                });
+                            }
                         });
                     }
                 });
@@ -126,8 +133,15 @@ $(document).ready(function() {
             if (confirmMessage){
                 $("#document_pool tbody tr").each(function(){
                     if($(this).find('input:checkbox:checked').length == 1){
-                        $(this).fadeOut(400, function(){
-                            $(this).remove();
+                        var pk=this.id.slice(5)
+                        $.ajax({type:	"POST",
+                            url:	pk+"/add_to_fp/",
+                            data:	"pk="+pk,
+                            success:	function() {
+                                $(this).fadeOut(400, function(){
+                                    $(this).remove();
+                                });
+                            }
                         });
                     }
                 });
@@ -143,8 +157,15 @@ $(document).ready(function() {
             if (confirmMessage){
                 $("#final_pool tbody tr").each(function(){
                     if($(this).find('input:checkbox:checked').length == 1){
-                        $(this).fadeOut(400, function(){
-                            $(this).remove();
+                        var pk=this.id.slice(5)
+                        $.ajax({type:	"POST",
+                            url:	pk+"/remove_from_fp/",
+                            data:	"pk="+pk,
+                            success:	function() {
+                                $(this).fadeOut(400, function(){
+                                    $(this).remove();
+                                });
+                            }
                         });
                     }
                 });

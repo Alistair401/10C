@@ -17,6 +17,9 @@ urlpatterns = patterns('',
                        url(r'^logout/$',views.user_logout,name='logout'),
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/$', views.review, name='review'),
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/queries/(?P<id>\d+)/delete_query/$',views.delete_query,name='delete_query'),
-                       url(r'^reviews/(?P<review_name_slug>[\w\-]+)/abstract_pool/(?P<id>\d+)/add2DocPool/$',views.add2DocPool,name='add2DocPool'),
+                       url(r'^reviews/(?P<review_name_slug>[\w\-]+)/abstract_pool/(?P<id>\d+)/add_to_dp/$',views.add_to_dp,name='add_to_dp'),
+                       url(r'^reviews/(?P<review_name_slug>[\w\-]+)/document_pool/(?P<id>\d+)/remove_from_dp/$',views.remove_from_dp,name='remove_from_dp'),
+                       url(r'^reviews/(?P<review_name_slug>[\w\-]+)/document_pool/(?P<id>\d+)/add_to_fp/$',views.add_to_fp,name='add_to_fp'),
+                       url(r'^reviews/(?P<review_name_slug>[\w\-]+)/final_pool/(?P<id>\d+)/remove_from_fp/$',views.remove_from_fp,name='remove_from_fp'),
                       )
 

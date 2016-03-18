@@ -421,8 +421,29 @@ def parseKeywords(line,list,keyword):
     result.append("-")
     return result
 
-def add2DocPool(request, review_name_slug,id):
+def remove_from_ap(request, review_name_slug,id):
+    paper_list = Paper.objects.filter(pk=id).delete();
+    paper_list.refresh_from_db()
+    return HttpResponse()
+
+def add_to_dp(request, review_name_slug,id):
     paper_list = Paper.objects.filter(pk=id).update(abstract_relevance=True)
     paper_list.refresh_from_db()
     return HttpResponse()
+
+def remove_from_dp(request, review_name_slug,id):
+    paper_list = Paper.objects.filter(pk=id).update(abstract_relevance=False)
+    paper_list.refresh_from_db()
+    return HttpResponse()
+
+def add_to_fp(request, review_name_slug,id):
+    paper_list = Paper.objects.filter(pk=id).update(document_relevance=True)
+    paper_list.refresh_from_db()
+    return HttpResponse()
+
+def remove_from_fp(request, review_name_slug,id):
+    paper_list = Paper.objects.filter(pk=id).update(document_relevance=False)
+    paper_list.refresh_from_db()
+    return HttpResponse()
+
 
