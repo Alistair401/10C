@@ -9,17 +9,24 @@ class Review(models.Model):
 
     # Foreign key linking this review to a user
     creator = models.ForeignKey(User)
-    # Unique char name for the review
-    name = models.CharField(max_length=128,primary_key=True,unique=True)
+    # Unique char title for the review
+    title = models.CharField(max_length=128,primary_key=True,unique=True)
+    # Description of review created
+    description = models.TextField()
+    # Date review created, set default to date of creation
+    date_started=models.DateField('date created', default=date.now)
     # Slug for url paths
     slug = models.SlugField()
 
+
+
+
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.title)
         super(Review, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return self.name
+        return self.title
 
 
 class Query(models.Model):
@@ -39,7 +46,7 @@ class Researcher(models.Model):
     # The user the profile is linked to
     user = models.ForeignKey(User)
 
-    # The user's first name
+    # The user's first title
     name = models.CharField(max_length=50,unique=False)
 
     # The user's surname

@@ -3,8 +3,8 @@ from mainapp.models import Review, Query, Paper
 
 
 class ReviewAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug':('name',)}
-    list_display = ('pk','name')
+    prepopulated_fields = {'slug':('title',)}
+    list_display = ('pk','title')
 
 class QueryAdmin(admin.ModelAdmin):
     list_display = ('pk','review')

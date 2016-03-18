@@ -55,7 +55,7 @@ def profile(request):
         if profile_form.is_valid:
 
             # If the form's field wasn't left empty save it to the profile
-            entered_name = request.POST.get('name')
+            entered_name = request.POST.get('title')
             if (entered_name != ""):
                 current_profile.name = entered_name
 
@@ -107,7 +107,7 @@ def reviews(request):
     if user_reviews:
         # Loop through all the reviews
         for rev in user_reviews:
-            # Get their name to pass to the context_dict
+            # Get their title to pass to the context_dict
             review_list += [rev]
     context_dict = {'review_list':review_list,'review_name_slug':current_review_slug}
 
@@ -174,7 +174,7 @@ def create_review(request):
     if (request.method == 'POST'):
         review_form = CreateReviewForm(request.POST)
         if review_form.is_valid:
-            entered_name = request.POST.get('name').upper()
+            entered_name = request.POST.get('title').upper()
             if not Review.objects.all().filter(name=entered_name):
                 current_review = Review.objects.create(creator=current_user,name=entered_name)
                 current_review.save()
