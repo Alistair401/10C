@@ -23,16 +23,16 @@ class UserProfileForm(forms.ModelForm):
     bio = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Edit me to save this field'}))
     institution = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Edit me to save this field'}))
 
-    # Adds fields for the title, surname, bio and institution
+    # Adds fields for the name, surname, bio and institution
     class Meta:
         model = Researcher
-        fields = ('title','surname','bio','institution',)
+        fields = ('name','surname','bio','institution',)
 
 class CreateReviewForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Must be unique'}))
     class Meta:
         model = Review
-        fields = ('title',)
+        fields = ('name',)
 
 #form for new advanced query
 class CreateAdvancedQuery(forms.ModelForm):

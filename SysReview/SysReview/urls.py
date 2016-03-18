@@ -4,7 +4,7 @@ from mainapp import views
 
 urlpatterns = patterns('',
     # Examples:
-    #url(r'^$', 'mainapp.views.index', title='index'),
+    #url(r'^$', 'mainapp.views.index', name='index'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),

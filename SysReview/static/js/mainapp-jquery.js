@@ -9,7 +9,7 @@ $(document).ready(function() {
             var cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
                 var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the title we want?
+                // Does this cookie string begin with the name we want?
                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                     break;
@@ -189,7 +189,7 @@ $(document).ready(function() {
             var td = $(this).parent();
             //var of td tr parent
             var tr = td.parent();
-            //slice id title so only pk left
+            //slice id name so only pk left
             var pk = this.id.slice(11);
             //ajax post call
             $.ajax({
