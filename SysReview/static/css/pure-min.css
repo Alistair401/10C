@@ -1200,5 +1200,22 @@ div.numberedtextarea-number {
     transition-duration: 0.25s;
     transition-timing-function: ease-out;
 }
-
+.cust-button-g {
+    background-color: #32CD32;
+    border-radius: 3px;
+    box-shadow: 0px 5px #70dc70;
+    padding: .5em 1em;
+    display: inline-block;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+.cust-button-g:hover {
+    background-color: #70dc70;
+    border-radius: 3px;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+    cursor: pointer;
+}
 
