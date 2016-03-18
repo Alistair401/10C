@@ -223,41 +223,42 @@ $(document).ready(function() {
         // if true Tab key creates indentation
         allowTabChar: false
     });
-
-    $('#checkAPIadv').click(function () {
-        var txt = $('textarea#adv_textarea');
-        var unformattedquery = txt.val().split("\n");
-        var formattedquery = "";
-        $.each(unformattedquery, function (l) {
-            formattedquery = formattedquery + unformattedquery[l] + ",";
-        });
-        formattedquery = formattedquery.slice(0, -1);
-        $.ajax({
-            type: "GET",
-            url: "advquery/" + formattedquery,
-            success: function (data) {
-                $('#checkAPIadv').text("+ Add results to review");
-                $('#checkAPIadv').attr("id","confirmAdv");
-                $('#advresults').text(data.toString());
-            }
-        });
+});
+$(document).on('click', '#checkAPIadv', function () {
+    var txt = $('textarea#adv_textarea');
+    var button = $(this);
+    var unformattedquery = txt.val().split("\n");
+    var formattedquery = "";
+    $.each(unformattedquery, function (l) {
+        formattedquery = formattedquery + unformattedquery[l] + ",";
     });
-    $('#confirmAdv').click(function () {
-        var txt = $('textarea#adv_textarea');
-        var unformattedquery = txt.val().split("\n");
-        var formattedquery = "";
-        $.each(unformattedquery, function (l) {
-            formattedquery = formattedquery + unformattedquery[l] + ",";
-        });
-        formattedquery = formattedquery.slice(0, -1);
-        $.ajax({
-            type: "GET",
-            url: "advquery/" + formattedquery,
-            success: function (data) {
-                $('#confirmAdv').text("✓ Added");
-                $('#confirmAdv').attr("id","added");
-                $('#advresults').text(data.toString());
-            }
-        });
+    formattedquery = formattedquery.slice(0, -1);
+    $.ajax({
+        type: "GET",
+        url: "advquery/" + formattedquery,
+        success: function (data) {
+            $(button).text("+ Add results to review");
+            $(button).attr("id", "confirmAdv");
+            $(button).attr("class","cust-button-g");
+            $('#advresults').text(data.toString());
+        }
+    });
+});
+$(document).on('click', '#confirmAdv', function () {
+    var txt = $('textarea#adv_textarea');
+    var button = $(this);
+    var unformattedquery = txt.val().split("\n");
+    var formattedquery = "";
+    $.each(unformattedquery, function (l) {
+        formattedquery = formattedquery + unformattedquery[l] + ",";
+    });
+    formattedquery = formattedquery.slice(0, -1);
+    $.ajax({
+        type: "GET",
+        url: "saveadvquery/" + formattedquery,
+        success: function (data) {
+            $(button).text("Added");
+            $(button).attr("id","done");
+        }
     });
 });

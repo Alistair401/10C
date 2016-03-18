@@ -354,7 +354,6 @@ def check_API_adv(request,review_name_slug,query_string):
     # get list of ID results from PubMed API
     formatted = format_query_advanced(query_string)
     id_list = pubmed.esearch_query(formatted)
-    print formatted
     return HttpResponse(len(id_list))
 
 def check_API_std(request):
@@ -446,4 +445,13 @@ def remove_from_fp(request, review_name_slug,id):
     paper_list.refresh_from_db()
     return HttpResponse()
 
-
+def save_query_adv(request,review_name_slug,query_string):
+    review = Review.objects.get(slug=review_name_slug)
+    formatted = format_query_advanced(query_string)
+    id_list = pubmed.esearch_query(formatted)
+    esummary_dict = pubmed.esummary_query(id_list)
+    efetch_dict = pubmed.efetch_query(esummary_dict)
+    for id, attributes in efetch_dict.iteritems():
+        paper = Paper.objects.create(review=review,title=attributes["title"],authors=str(attributes["authors"]),abstract=attributes["abstract"])
+        paper.save()
+    return HttpResponse()
