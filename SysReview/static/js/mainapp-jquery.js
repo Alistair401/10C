@@ -61,17 +61,22 @@ $(document).ready(function() {
 
     $("#removefromAP").click(function(){
         if ($('#abstract_pool :checkbox:checked').length > 0){
-            var confirmMessage = confirm("Are you sure you want to remove the selected pages from the abstract pool?");
-            if (confirmMessage){
                 $("#abstract_pool tbody tr").each(function(){
                     if($(this).find('input:checkbox:checked').length == 1){
-                        $(this).fadeOut(400, function(){
-                            $(this).remove();
-
+                        var pk=this.id.slice(5)
+                        var row = this
+                        $.ajax({
+                            type:	"POST",
+                            url:	pk+"/remove_from_ap/",
+                            data:	"pk="+pk,
+                            success: function(){
+                                $(row).fadeOut(400, function(){
+                                    $(row).remove();
+                                });
+                            }
                         });
                     }
                 });
-            }
         } else {
                 var al = alert("WARNING: \nNo papers are selected to be removed from pool!")
         }
@@ -81,95 +86,91 @@ $(document).ready(function() {
 
     $("#add2DP").click(function(){
         if ($('#abstract_pool :checkbox:checked').length > 0){
-            var confirmMessage = confirm("Are you sure you want to add the selected pages to the document pool?\n(These will be removed from the abstract pool)");
-            if (confirmMessage){
-                $("#abstract_pool tbody tr").each(function(){
-                    if($(this).find('input:checkbox:checked').length == 1){
-                        var pk=this.id.slice(5)
-                        $.ajax({type:	"POST",
-                            url:	pk+"/add_to_dp/",
-                            data:	"pk="+pk,
-                            success:	function() {
-                                $(this).fadeOut(400, function(){
-                                    $(this).remove();
-                                });
-                            }
-                        });
-                    }
-                });
-            }
+            $("#abstract_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    var pk=this.id.slice(5)
+                    var row = this
+                    $.ajax({
+                        type:	"POST",
+                        url:	pk+"/add_to_dp/",
+                        data:	"pk="+pk,
+                        success: function(){
+                            $(row).fadeOut(400, function(){
+                                $(row).remove();
+                            });
+                        }
+                    });
+                }
+            });
         } else {
-                var al = alert("WARNING: No papers are selected! \nPlease select papers to add to document pool")
+            alert("WARNING: \nNo papers are selected to be removed from pool!")
         }
     });
 
     $("#removefromDP").click(function(){
         if ($('#document_pool :checkbox:checked').length > 0){
-            var confirmMessage = confirm("Are you sure you want to remove the selected pages from the document pool?\n(These will be added back into the abstract pool)");
-            if (confirmMessage){
-                $("#document_pool tbody tr").each(function(){
-                    if($(this).find('input:checkbox:checked').length == 1){
-                        var pk=this.id.slice(5)
-                        $.ajax({type:	"POST",
-                            url:	pk+"/remove_from_dp/",
-                            data:	"pk="+pk,
-                            success:	function() {
-                                $(this).fadeOut(400, function(){
-                                    $(this).remove();
-                                });
-                            }
-                        });
-                    }
-                });
-            }
+            $("#document_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    var pk=this.id.slice(5)
+                    var row = this
+                    $.ajax({
+                        type:	"POST",
+                        url:	pk+"/remove_from_dp/",
+                        data:	"pk="+pk,
+                        success: function(){
+                            $(row).fadeOut(400, function(){
+                                $(row).remove();
+                            });
+                        }
+                    });
+                }
+            });
         } else {
-                var al = alert("WARNING: \nNo papers are selected to be removed from pool!")
+            alert("WARNING: \nNo papers are selected to be removed from pool!")
         }
     });
 
     $("#add2FP").click(function(){
         if ($('#document_pool :checkbox:checked').length > 0){
-            var confirmMessage = confirm("Are you sure you want to remove the selected pages from the document pool?\n(These will be added back into the abstract pool)");
-            if (confirmMessage){
-                $("#document_pool tbody tr").each(function(){
-                    if($(this).find('input:checkbox:checked').length == 1){
-                        var pk=this.id.slice(5)
-                        $.ajax({type:	"POST",
-                            url:	pk+"/add_to_fp/",
-                            data:	"pk="+pk,
-                            success:	function() {
-                                $(this).fadeOut(400, function(){
-                                    $(this).remove();
-                                });
-                            }
-                        });
-                    }
-                });
-            }
+            $("#document_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    var pk=this.id.slice(5)
+                    var row = this
+                    $.ajax({
+                        type:	"POST",
+                        url:	pk+"/add_to_fp/",
+                        data:	"pk="+pk,
+                        success: function(){
+                            $(row).fadeOut(400, function(){
+                                $(row).remove();
+                            });
+                        }
+                    });
+                }
+            });
         } else {
-                var al = alert("WARNING: No papers are selected! \nPlease select papers to add to final pool")
+            alert("WARNING: No papers are selected! \nPlease select papers to add to final pool")
         }
     });
 
     $("#removefromFP").click(function(){
         if ($('#final_pool :checkbox:checked').length > 0){
-            var confirmMessage = confirm("Are you sure you want to remove the selected pages from the final pool? (These will be added back into the document pool)");
-            if (confirmMessage){
                 $("#final_pool tbody tr").each(function(){
                     if($(this).find('input:checkbox:checked').length == 1){
                         var pk=this.id.slice(5)
-                        $.ajax({type:	"POST",
+                        var row = this
+                        $.ajax({
+                            type:	"POST",
                             url:	pk+"/remove_from_fp/",
                             data:	"pk="+pk,
-                            success:	function() {
-                                $(this).fadeOut(400, function(){
-                                    $(this).remove();
+                            success: function(){
+                                $(row).fadeOut(400, function(){
+                                    $(row).remove();
                                 });
                             }
                         });
                     }
                 });
-            }
         } else {
                 var al = alert("WARNING: \nNo papers are selected to be removed from pool!")
         }
