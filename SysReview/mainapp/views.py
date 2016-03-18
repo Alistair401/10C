@@ -388,28 +388,23 @@ def parseKeywords(line,list,keyword):
     return result
 
 def remove_from_ap(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).delete();
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).delete();
     return HttpResponse()
 
 def add_to_dp(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).update(abstract_relevance=True)
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).update(abstract_relevance=True)
     return HttpResponse()
 
 def remove_from_dp(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).update(abstract_relevance=False)
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).update(abstract_relevance=False)
     return HttpResponse()
 
 def add_to_fp(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).update(document_relevance=True)
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).update(document_relevance=True)
     return HttpResponse()
 
 def remove_from_fp(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).update(document_relevance=False)
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).update(document_relevance=False)
     return HttpResponse()
 
 def save_query_adv(request,review_name_slug,query_string):

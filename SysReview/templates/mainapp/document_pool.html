@@ -14,7 +14,8 @@
     <br/>
     <br/>
 
-    <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "document_pool">
+    <div class = "scrollit">
+        <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered" id = "document_pool">
             <thead>
                 <tr>
                     <th><input type="checkbox" id="selectAll" /></th>
@@ -39,6 +40,7 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
 
          <br><br>
             <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Add selected document(s) to final pool" id="add2FP"/>

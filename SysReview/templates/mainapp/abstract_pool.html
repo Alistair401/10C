@@ -12,7 +12,9 @@
         Below are the abstracts you have added to the abstract pool.<br/>
         Select which ones you'd like add to the document pool, or which ones you'd like to remove from the abstract pool.
         <br><br>
-        <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "abstract_pool">
+    <div class = "scrollit">
+
+        <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered " id = "abstract_pool">
             <thead>
                 <tr>
                     <th><input type="checkbox" id="selectAll" /></th>
@@ -22,7 +24,6 @@
                     <th>Publish Date</th>
                 </tr>
             </thead>
-
             <tbody>
                 {% for paper in papers %}
                     <tr id="paper{{paper.pk}}">
@@ -36,6 +37,7 @@
             </tbody>
         </table>
 
+    </div>
         <br><br>
             <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Add selected abstract(s) to document pool" id = "add2DP"/>
             <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected abstract(s) from abstract pool" id = "removefromAP"/>
