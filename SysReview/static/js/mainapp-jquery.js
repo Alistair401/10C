@@ -1,18 +1,6 @@
-/*$(document).ready(function() {
-    /!*$("ul#tabs li").click(function(e){
-        if (!$(this).hasClass("active")) {
-            var tabNum = $(this).index();
-            var nthChild = tabNum+1;
-            $("ul#tabs li.active").removeClass("active");
-            $(this).addClass("active");
-            $("ul#tab li.active").removeClass("active");
-            $("ul#tab li:nth-child("+nthChild+")").addClass("active");
-        }
-    });*!/
-});*/
-
- //function for clone input fields for standard query creation
 $(document).ready(function() {
+    $('#adv-form').hide();
+    $('#std-form').fadeIn();
     //following 3 function used for enabling CSRF without forms
     function getCookie(name) {
         var cookieValue = null;
@@ -175,7 +163,7 @@ $(document).ready(function() {
         }
     });
 
-
+    //function for clone input fields for standard query creation
     //if operator selector changed
     $("#standard_builder").change(function(){
         //find option selected
@@ -261,4 +249,52 @@ $(document).on('click', '#confirmAdv', function () {
             $(button).attr("id","done");
         }
     });
+});
+$(document).on('click', '#checkAPIstd', function () {
+    var query = "";
+    $('input#standard_keywords').each(function(){
+        var keyword = $(this).next().val();
+        query = query + $(this).val() + "," + keyword + ",";
+    });
+    button = $(this);
+    query = query.slice(0, -2);
+    $.ajax({
+        type: "GET",
+        url: "stdquery/" + query,
+        success: function (data) {
+            $(button).text("+ Add results to review");
+            $(button).attr("id", "confirmStd");
+            $(button).attr("class","cust-button-g");
+            $('#stdresults').text(data.toString());
+        }
+    });
+});
+$(document).on('click', '#confirmStd', function () {
+    var query = "";
+    $('input#standard_keywords').each(function(){
+        var keyword = $(this).next().val();
+        query = query + $(this).val() + "," + keyword + ",";
+    });
+    button = $(this);
+    query = query.slice(0, -2);
+    $.ajax({
+        type: "GET",
+        url: "savestdquery/" + query,
+        success: function (data) {
+            $(button).text("Added");
+            $(button).attr("id", "done");
+        }
+    });
+});
+$(document).on('click', '#switchToAdv', function () {
+    $('#std-form').hide();
+    $('#adv-form').fadeIn();
+    $(this).text("Standard Query Editor")
+    $(this).attr("id","switchToStd")
+});
+$(document).on('click', '#switchToStd', function () {
+    $('#adv-form').hide();
+    $('#std-form').fadeIn();
+    $(this).text("Advanced Query Editor")
+    $(this).attr("id","switchToAdv")
 });

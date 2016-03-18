@@ -1157,14 +1157,6 @@ div.numberedtextarea-number {
 .cust-pure-table-striped tr:nth-child(2n-1) td {
     background-color: #f2f2f2
 }
-.cust-query-result {
-    background: #6FB7E9;
-    padding: .5em 1em;
-    color: #000;
-    display: block;
-    border-bottom: solid black 2px;
-
-}
 .cust-bubble {
     background: #3C8DC5;
     padding: .5em 1em;
@@ -1173,6 +1165,7 @@ div.numberedtextarea-number {
     display: inline;
 }
 .cust-button {
+    color: white;
     background-color: #3C8DC5;
     border-radius: 3px;
     box-shadow: 0px 5px #6FB7E9;
@@ -1181,6 +1174,7 @@ div.numberedtextarea-number {
     transition-property: background-color;
     transition-duration: 0.25s;
     transition-timing-function: ease-out;
+    margin-bottom: 10px;
 }
 .cust-button:hover {
     background-color: #6FB7E9;
@@ -1189,6 +1183,10 @@ div.numberedtextarea-number {
     transition-duration: 0.25s;
     transition-timing-function: ease-out;
     cursor: pointer;
+}
+.cust-button:link{
+    text-decoration: none;
+    color: white;
 }
 .cust-notifier {
     background-color: #3C8DC5;
@@ -1218,4 +1216,3 @@ div.numberedtextarea-number {
     transition-timing-function: ease-out;
     cursor: pointer;
 }
-

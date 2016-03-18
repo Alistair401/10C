@@ -219,43 +219,7 @@ def queries(request, review_name_slug):
 #create new query
 @login_required
 def create_query(request, review_name_slug):
-    #has a query been submitted
-    submitted = False
-
-    #get review for saving to primary key
-    review = Review.objects.get(slug=review_name_slug)
-
-    # create advanced query form
-    advanced_query = CreateAdvancedQuery()
-
-    # query = Query.objects.create(review=review, query_string=query_dict.pop("QueryTranslation",None)) #create new query and set primary key to review
-    # query.save()
-    # submitted=True  # set query to submitted
-
-    # elif 'standard' in request.POST:
-    #     #get the list of query keywords
-    #     advanced_query = CreateAdvancedQuery()
-    #     keyWords=request.POST.getlist('standard_input',None)
-    #     newQuery=""
-    #     # as long as the query isn't empty
-    #     if keyWords[0]!='':
-    #         # get all the query operators
-    #         operators=request.POST.getlist('standard_operator',None)
-    #         for i in range(len(keyWords)):
-    #             # add each keyword then operator to the query
-    #             newQuery+=keyWords[i]+" "
-    #             if operators[0]!='':
-    #                 if i < len(operators):
-    #                     newQuery+=operators[i]+" "
-    #         #create new query and set primary key to review
-    #         query_dict = pubmed.query_novice(newQuery)
-    #         query = Query.objects.create(review=review, query_string=query_dict.pop("QueryTranslation",None))
-    #         # save dat shiz
-    #         query.save()
-    #         #set query to submitted
-    #         submitted=True
-
-    context_dict = {'review_name_slug': review_name_slug, 'advanced_query':advanced_query, 'submitted':submitted}
+    context_dict = {'review_name_slug': review_name_slug}
     return render(request,'mainapp/create_query.html', context_dict)
 
 # view abstract pool and authorise abstracts and add to document pool
@@ -356,8 +320,11 @@ def check_API_adv(request,review_name_slug,query_string):
     id_list = pubmed.esearch_query(formatted)
     return HttpResponse(len(id_list))
 
-def check_API_std(request):
-    return HttpResponse()
+def check_API_std(request,review_name_slug,query_string):
+    # get list of ID results from the PubMed API
+    formatted = format_query_novice(query_string)
+    id_list = pubmed.esearch_query(formatted)
+    return HttpResponse(len(id_list))
 
 def format_query_advanced(query_string):
     query_list = []
@@ -381,7 +348,7 @@ def format_query_advanced(query_string):
 
 def format_query_novice(query_string):
     # formats the string with brackets (may be redundant)
-    query_list = query_string.split(" ")
+    query_list = query_string.split(",")
     # removes weird empty strings from the query
     while "" in query_list:
         query_list.remove("")
@@ -448,6 +415,18 @@ def remove_from_fp(request, review_name_slug,id):
 def save_query_adv(request,review_name_slug,query_string):
     review = Review.objects.get(slug=review_name_slug)
     formatted = format_query_advanced(query_string)
+    id_list = pubmed.esearch_query(formatted)
+    esummary_dict = pubmed.esummary_query(id_list)
+    efetch_dict = pubmed.efetch_query(esummary_dict)
+    for id, attributes in efetch_dict.iteritems():
+        paper = Paper.objects.create(review=review,title=attributes["title"],authors=str(attributes["authors"]),abstract=attributes["abstract"])
+        paper.save()
+    return HttpResponse()
+
+def save_query_std(request,review_name_slug,query_string):
+    review = Review.objects.get(slug=review_name_slug)
+    # get list of ID results from the PubMed API
+    formatted = format_query_novice(query_string)
     id_list = pubmed.esearch_query(formatted)
     esummary_dict = pubmed.esummary_query(id_list)
     efetch_dict = pubmed.efetch_query(esummary_dict)
