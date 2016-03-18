@@ -14,14 +14,14 @@ KEYWORDS = ("AND ","OR ","NOT ")
 def index(request):
     user = request.user
     context_dict = {}
-    review_name_slug = None
+    current_review = None
     if user.is_authenticated:
         # Get the currently worked on review
         try:
-            review_name_slug = Researcher.objects.all().get_or_create(user=user)[0].selected_review
+            current_review = Researcher.objects.all().get_or_create(user=user)[0].selected_review
         except TypeError:
             pass
-    context_dict["review_name_slug"] = review_name_slug
+    context_dict["current_review"] = current_review
     return render(request, 'mainapp/index.html', context_dict)
 
 #view profile and edit profile
@@ -40,10 +40,7 @@ def profile(request):
     current_profile.save()
 
     # Get the currently worked on review
-    current_review_slug = current_profile.selected_review
-
-    print current_review_slug
-
+    current_review = current_profile.selected_review
 
     # If the form is submitted
     if request.method == 'POST':
@@ -87,7 +84,7 @@ def profile(request):
 
     context_dict = {'profile_form':profile_form,'saved':saved,'profile_name':profile_name,
                     'profile_surname':profile_surname,'profile_bio':profile_bio,
-                    'profile_institution':profile_institution,'review_name_slug':current_review_slug}
+                    'profile_institution':profile_institution,'current_review':current_review}
     return render(request,'mainapp/profile.html',context_dict)
 
 #view saved reviews
@@ -100,7 +97,7 @@ def reviews(request):
     user_reviews = current_user.review_set.all()
 
     # Get the currently worked on review
-    current_review_slug = Researcher.objects.all().get(user=current_user).selected_review
+    current_review = Researcher.objects.all().get(user=current_user).selected_review
 
 
     # If user_reviews isn't empty
@@ -109,7 +106,7 @@ def reviews(request):
         for rev in user_reviews:
             # Get their title to pass to the context_dict
             review_list += [rev]
-    context_dict = {'review_list':review_list,'review_name_slug':current_review_slug}
+    context_dict = {'review_list':review_list,'current_review':current_review}
 
     return render(request,'mainapp/reviews.html',context_dict)
 
@@ -120,16 +117,19 @@ def review(request, review_name_slug):
     working = False
     context_dict={}
 
+
     # The current user object
     current_user = request.user;
+
+    # Get or create a UserProfile object for the user
+    current_profile = Researcher.objects.all().get_or_create(user=current_user)[0]
+    current_review = current_profile.selected_review
 
     # Try and get the review, fails if the review doesn't exist
     try:
         # Get the review from the slug
         slugged_review = Review.objects.get(slug=review_name_slug)
 
-        # Get or create a UserProfile object for the user
-        current_profile = Researcher.objects.all().get_or_create(user=current_user)[0]
 
         # Save for good measure
         current_profile.save()
@@ -146,6 +146,7 @@ def review(request, review_name_slug):
                     # Change the user's currently review to this one
                     current_profile.selected_review = slugged_review.slug
                     current_profile.save()
+                    current_review = slugged_review.slug
                     working = True
         else:
             working = True
@@ -163,6 +164,7 @@ def review(request, review_name_slug):
     except Review.DoesNotExist:
         pass
 
+    context_dict['current_review'] = current_review
     return render(request, 'mainapp/review.html', context_dict)
 
 #created new reviews
@@ -171,6 +173,7 @@ def create_review(request):
     created = False
     failure = False
     current_user = request.user
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     if (request.method == 'POST'):
         review_form = CreateReviewForm(request.POST)
         if review_form.is_valid:
@@ -187,13 +190,13 @@ def create_review(request):
     # Get the currently worked on review
     current_review_slug = Researcher.objects.all().get(user=current_user).selected_review
 
-    context_dict = {'review_form':review_form,'created':created,'failure':failure,'review_name_slug':current_review_slug}
+    context_dict = {'review_form':review_form,'created':created,'failure':failure,'review_name_slug':current_review_slug,'current_review':current_review}
     return render(request,'mainapp/create_review.html',context_dict)
 
 #view saved queries
 @login_required
 def queries(request, review_name_slug):
-
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     review = Review.objects.get(slug=review_name_slug)
     queries = Query.objects.filter(review=review)
     queryList =[]
@@ -213,76 +216,44 @@ def queries(request, review_name_slug):
     #     tempString+=")"
     #     queryList+=[tempString]
 
-    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'queryList':queryList}
+    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'queryList':queryList,'current_review':current_review}
     return render(request,'mainapp/queries.html',context_dict)
 
 #create new query
 @login_required
 def create_query(request, review_name_slug):
-    #has a query been submitted
-    submitted = False
-
-    #get review for saving to primary key
-    review = Review.objects.get(slug=review_name_slug)
-
-    # create advanced query form
-    advanced_query = CreateAdvancedQuery()
-
-    # query = Query.objects.create(review=review, query_string=query_dict.pop("QueryTranslation",None)) #create new query and set primary key to review
-    # query.save()
-    # submitted=True  # set query to submitted
-
-    # elif 'standard' in request.POST:
-    #     #get the list of query keywords
-    #     advanced_query = CreateAdvancedQuery()
-    #     keyWords=request.POST.getlist('standard_input',None)
-    #     newQuery=""
-    #     # as long as the query isn't empty
-    #     if keyWords[0]!='':
-    #         # get all the query operators
-    #         operators=request.POST.getlist('standard_operator',None)
-    #         for i in range(len(keyWords)):
-    #             # add each keyword then operator to the query
-    #             newQuery+=keyWords[i]+" "
-    #             if operators[0]!='':
-    #                 if i < len(operators):
-    #                     newQuery+=operators[i]+" "
-    #         #create new query and set primary key to review
-    #         query_dict = pubmed.query_novice(newQuery)
-    #         query = Query.objects.create(review=review, query_string=query_dict.pop("QueryTranslation",None))
-    #         # save dat shiz
-    #         query.save()
-    #         #set query to submitted
-    #         submitted=True
-
-    context_dict = {'review_name_slug': review_name_slug, 'advanced_query':advanced_query, 'submitted':submitted}
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
+    context_dict = {'review_name_slug': review_name_slug,'current_review':current_review}
     return render(request,'mainapp/create_query.html', context_dict)
 
 # view abstract pool and authorise abstracts and add to document pool
 @login_required
 def abstract_pool(request,review_name_slug):
     context_dict = {}
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     review = Review.objects.get(slug=review_name_slug)
     paper_list = Paper.objects.filter(review=review, abstract_relevance = False, document_relevance = False).order_by('title')
-    context_dict = {'papers':paper_list, 'review_name':review.name}
+    context_dict = {'papers':paper_list, 'review_name':review.name,'current_review':current_review}
     return render(request,'mainapp/abstract_pool.html',context_dict)
 
 # view document pool and authorise documents and add to final pool
 @login_required
 def document_pool(request,review_name_slug):
     context_dict = {}
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     review = Review.objects.get(slug=review_name_slug)
     paper_list = Paper.objects.filter(review=review, abstract_relevance = True, document_relevance = False).order_by('title')
-    context_dict = {'review_name':review.name, 'papers':paper_list}
+    context_dict = {'review_name':review.name, 'papers':paper_list,'current_review':current_review}
     return render(request,'mainapp/document_pool.html',context_dict)
 
 #view final pool and edit final pool
 @login_required
 def final_pool(request,review_name_slug):
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)
     paper_list = Paper.objects.filter(review=review, abstract_relevance = True, document_relevance = True).order_by('title')
-    context_dict = {'review_name':review.name, 'papers':paper_list}
+    context_dict = {'review_name':review.name, 'papers':paper_list,'current_review':current_review}
     return render(request,'mainapp/final_pool.html',context_dict)
 
 #view for the login / register page
@@ -356,8 +327,11 @@ def check_API_adv(request,review_name_slug,query_string):
     id_list = pubmed.esearch_query(formatted)
     return HttpResponse(len(id_list))
 
-def check_API_std(request):
-    return HttpResponse()
+def check_API_std(request,review_name_slug,query_string):
+    # get list of ID results from the PubMed API
+    formatted = format_query_novice(query_string)
+    id_list = pubmed.esearch_query(formatted)
+    return HttpResponse(len(id_list))
 
 def format_query_advanced(query_string):
     query_list = []
@@ -381,7 +355,7 @@ def format_query_advanced(query_string):
 
 def format_query_novice(query_string):
     # formats the string with brackets (may be redundant)
-    query_list = query_string.split(" ")
+    query_list = query_string.split(",")
     # removes weird empty strings from the query
     while "" in query_list:
         query_list.remove("")
@@ -421,33 +395,40 @@ def parseKeywords(line,list,keyword):
     return result
 
 def remove_from_ap(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).delete();
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).delete();
     return HttpResponse()
 
 def add_to_dp(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).update(abstract_relevance=True)
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).update(abstract_relevance=True)
     return HttpResponse()
 
 def remove_from_dp(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).update(abstract_relevance=False)
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).update(abstract_relevance=False)
     return HttpResponse()
 
 def add_to_fp(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).update(document_relevance=True)
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).update(document_relevance=True)
     return HttpResponse()
 
 def remove_from_fp(request, review_name_slug,id):
-    paper_list = Paper.objects.filter(pk=id).update(document_relevance=False)
-    paper_list.refresh_from_db()
+    Paper.objects.filter(pk=id).update(document_relevance=False)
     return HttpResponse()
 
 def save_query_adv(request,review_name_slug,query_string):
     review = Review.objects.get(slug=review_name_slug)
     formatted = format_query_advanced(query_string)
+    id_list = pubmed.esearch_query(formatted)
+    esummary_dict = pubmed.esummary_query(id_list)
+    efetch_dict = pubmed.efetch_query(esummary_dict)
+    for id, attributes in efetch_dict.iteritems():
+        paper = Paper.objects.create(review=review,title=attributes["title"],authors=str(attributes["authors"]),abstract=attributes["abstract"])
+        paper.save()
+    return HttpResponse()
+
+def save_query_std(request,review_name_slug,query_string):
+    review = Review.objects.get(slug=review_name_slug)
+    # get list of ID results from the PubMed API
+    formatted = format_query_novice(query_string)
     id_list = pubmed.esearch_query(formatted)
     esummary_dict = pubmed.esummary_query(id_list)
     efetch_dict = pubmed.efetch_query(esummary_dict)

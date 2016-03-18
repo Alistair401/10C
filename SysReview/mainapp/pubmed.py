@@ -5,7 +5,7 @@ from mainapp.models import Query
 import datetime
 
 BASE_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
-QUERY_URL = BASE_URL + "esearch.fcgi?db=pubmed&term="
+QUERY_URL = BASE_URL + "esearch.fcgi?db=pubmed&retmax=1000&term="
 SUMMARY_URL = BASE_URL + "esummary.fcgi?db=pubmed&id="
 FETCH_URL = BASE_URL + "efetch.fcgi?db=pubmed&id="
 LINK_URL = BASE_URL + "elink.fcgi?dbfrom=pubmed&id="
@@ -104,7 +104,10 @@ def efetch_query(id_dictionary):
     result_dict = id_dictionary
     article_elements = dom.getElementsByTagName("PubmedArticle")
     for element in article_elements:
-        result_dict[getNodeText(element.getElementsByTagName("PMID")[0].childNodes)]["abstract"] = getNodeText(element.getElementsByTagName("AbstractText")[0].childNodes)
+        try:
+            result_dict[getNodeText(element.getElementsByTagName("PMID")[0].childNodes)]["abstract"] = getNodeText(element.getElementsByTagName("AbstractText")[0].childNodes)
+        except IndexError:
+            result_dict[getNodeText(element.getElementsByTagName("PMID")[0].childNodes)]["abstract"] = "No abstract available"
     return id_dictionary
 
 

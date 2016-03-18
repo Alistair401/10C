@@ -12,8 +12,8 @@
     Below are the documents you have added to the final pool. <br>
     Select any that you wish to remove.
     <br><br>
-
-   <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered cust-pure-table-scrollable" id = "final_pool">
+    <div class = "scrollit">
+        <table class = "cust-pure-table cust-pure-table-striped cust-pure-table-bordered" id = "final_pool">
             <thead>
                 <tr>
                     <th><input type="checkbox" id="selectAll" /></th>
@@ -40,6 +40,7 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
 
          <br><br>
             <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected document(s) from final pool" id="removefromFP" />
