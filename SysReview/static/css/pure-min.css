@@ -1172,3 +1172,33 @@ div.numberedtextarea-number {
     color: #fff;
     display: inline;
 }
+.cust-button {
+    background-color: #3C8DC5;
+    border-radius: 3px;
+    box-shadow: 0px 5px #6FB7E9;
+    padding: .5em 1em;
+    display: inline-block;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+.cust-button:hover {
+    background-color: #6FB7E9;
+    border-radius: 3px;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+    cursor: pointer;
+}
+.cust-notifier {
+    background-color: #3C8DC5;
+    border-radius: 3px;
+    box-shadow: 0px 5px #6FB7E9;
+    padding: .5em 1em;
+    display: inline-block;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+

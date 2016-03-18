@@ -200,7 +200,43 @@ $(document).ready(function() {
 
     $('textarea').numberedtextarea({
         // if true Tab key creates indentation
-        allowTabChar: true
+        allowTabChar: false
     });
 
+    $('#checkAPIadv').click(function () {
+        var txt = $('textarea#adv_textarea');
+        var unformattedquery = txt.val().split("\n");
+        var formattedquery = "";
+        $.each(unformattedquery, function (l) {
+            formattedquery = formattedquery + unformattedquery[l] + ",";
+        });
+        formattedquery = formattedquery.slice(0, -1);
+        $.ajax({
+            type: "GET",
+            url: "advquery/" + formattedquery,
+            success: function (data) {
+                $('#checkAPIadv').text("+ Add results to review");
+                $('#checkAPIadv').attr("id","confirmAdv");
+                $('#advresults').text(data.toString());
+            }
+        });
+    });
+    $('#confirmAdv').click(function () {
+        var txt = $('textarea#adv_textarea');
+        var unformattedquery = txt.val().split("\n");
+        var formattedquery = "";
+        $.each(unformattedquery, function (l) {
+            formattedquery = formattedquery + unformattedquery[l] + ",";
+        });
+        formattedquery = formattedquery.slice(0, -1);
+        $.ajax({
+            type: "GET",
+            url: "advquery/" + formattedquery,
+            success: function (data) {
+                $('#confirmAdv').text("✓ Added");
+                $('#confirmAdv').attr("id","added");
+                $('#advresults').text(data.toString());
+            }
+        });
+    });
 });
