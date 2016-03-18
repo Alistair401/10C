@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $('#adv-form').hide();
     $('#std-form').fadeIn();
+    $('#ajaxloading').hide();
     //following 3 function used for enabling CSRF without forms
     function getCookie(name) {
         var cookieValue = null;
@@ -229,7 +230,7 @@ $(document).on('click', '#checkAPIadv', function () {
             $(button).text("+ Add results to review");
             $(button).attr("id", "confirmAdv");
             $(button).attr("class","cust-button-g");
-            $('#advresults').text(data.toString());
+            $('#advresults').text("Number of results: " + data.toString());
         }
     });
 });
@@ -266,7 +267,7 @@ $(document).on('click', '#checkAPIstd', function () {
             $(button).text("+ Add results to review");
             $(button).attr("id", "confirmStd");
             $(button).attr("class","cust-button-g");
-            $('#stdresults').text(data.toString());
+            $('#stdresults').text("Number of results: " + data.toString());
         }
     });
 });
@@ -298,4 +299,8 @@ $(document).on('click', '#switchToStd', function () {
     $('#std-form').fadeIn();
     $(this).text("Advanced Query Editor")
     $(this).attr("id","switchToAdv")
+});
+$(document).on({
+    ajaxStart: function() {$('#ajaxloading').fadeIn()},
+     ajaxStop: function() {$('#ajaxloading').fadeOut()}
 });

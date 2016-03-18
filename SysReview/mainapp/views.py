@@ -14,14 +14,14 @@ KEYWORDS = ("AND ","OR ","NOT ")
 def index(request):
     user = request.user
     context_dict = {}
-    review_name_slug = None
+    current_review = None
     if user.is_authenticated:
         # Get the currently worked on review
         try:
-            review_name_slug = Researcher.objects.all().get_or_create(user=user)[0].selected_review
+            current_review = Researcher.objects.all().get_or_create(user=user)[0].selected_review
         except TypeError:
             pass
-    context_dict["review_name_slug"] = review_name_slug
+    context_dict["current_review"] = current_review
     return render(request, 'mainapp/index.html', context_dict)
 
 #view profile and edit profile
@@ -40,10 +40,7 @@ def profile(request):
     current_profile.save()
 
     # Get the currently worked on review
-    current_review_slug = current_profile.selected_review
-
-    print current_review_slug
-
+    current_review = current_profile.selected_review
 
     # If the form is submitted
     if request.method == 'POST':
@@ -87,7 +84,7 @@ def profile(request):
 
     context_dict = {'profile_form':profile_form,'saved':saved,'profile_name':profile_name,
                     'profile_surname':profile_surname,'profile_bio':profile_bio,
-                    'profile_institution':profile_institution,'review_name_slug':current_review_slug}
+                    'profile_institution':profile_institution,'current_review':current_review}
     return render(request,'mainapp/profile.html',context_dict)
 
 #view saved reviews
@@ -100,7 +97,7 @@ def reviews(request):
     user_reviews = current_user.review_set.all()
 
     # Get the currently worked on review
-    current_review_slug = Researcher.objects.all().get(user=current_user).selected_review
+    current_review = Researcher.objects.all().get(user=current_user).selected_review
 
 
     # If user_reviews isn't empty
@@ -109,7 +106,7 @@ def reviews(request):
         for rev in user_reviews:
             # Get their name to pass to the context_dict
             review_list += [rev]
-    context_dict = {'review_list':review_list,'review_name_slug':current_review_slug}
+    context_dict = {'review_list':review_list,'current_review':current_review}
 
     return render(request,'mainapp/reviews.html',context_dict)
 
@@ -120,16 +117,19 @@ def review(request, review_name_slug):
     working = False
     context_dict={}
 
+
     # The current user object
     current_user = request.user;
+
+    # Get or create a UserProfile object for the user
+    current_profile = Researcher.objects.all().get_or_create(user=current_user)[0]
+    current_review = current_profile.selected_review
 
     # Try and get the review, fails if the review doesn't exist
     try:
         # Get the review from the slug
         slugged_review = Review.objects.get(slug=review_name_slug)
 
-        # Get or create a UserProfile object for the user
-        current_profile = Researcher.objects.all().get_or_create(user=current_user)[0]
 
         # Save for good measure
         current_profile.save()
@@ -146,6 +146,7 @@ def review(request, review_name_slug):
                     # Change the user's currently review to this one
                     current_profile.selected_review = slugged_review.slug
                     current_profile.save()
+                    current_review = slugged_review.slug
                     working = True
         else:
             working = True
@@ -163,6 +164,7 @@ def review(request, review_name_slug):
     except Review.DoesNotExist:
         pass
 
+    context_dict['current_review'] = current_review
     return render(request, 'mainapp/review.html', context_dict)
 
 #created new reviews
@@ -171,6 +173,7 @@ def create_review(request):
     created = False
     failure = False
     current_user = request.user
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     if (request.method == 'POST'):
         review_form = CreateReviewForm(request.POST)
         if review_form.is_valid:
@@ -187,13 +190,13 @@ def create_review(request):
     # Get the currently worked on review
     current_review_slug = Researcher.objects.all().get(user=current_user).selected_review
 
-    context_dict = {'review_form':review_form,'created':created,'failure':failure,'review_name_slug':current_review_slug}
+    context_dict = {'review_form':review_form,'created':created,'failure':failure,'review_name_slug':current_review_slug,'current_review':current_review}
     return render(request,'mainapp/create_review.html',context_dict)
 
 #view saved queries
 @login_required
 def queries(request, review_name_slug):
-
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     review = Review.objects.get(slug=review_name_slug)
     queries = Query.objects.filter(review=review)
     queryList =[]
@@ -213,40 +216,44 @@ def queries(request, review_name_slug):
     #     tempString+=")"
     #     queryList+=[tempString]
 
-    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'queryList':queryList}
+    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'queryList':queryList,'current_review':current_review}
     return render(request,'mainapp/queries.html',context_dict)
 
 #create new query
 @login_required
 def create_query(request, review_name_slug):
-    context_dict = {'review_name_slug': review_name_slug}
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
+    context_dict = {'review_name_slug': review_name_slug,'current_review':current_review}
     return render(request,'mainapp/create_query.html', context_dict)
 
 # view abstract pool and authorise abstracts and add to document pool
 @login_required
 def abstract_pool(request,review_name_slug):
     context_dict = {}
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     review = Review.objects.get(slug=review_name_slug)
     paper_list = Paper.objects.filter(review=review, abstract_relevance = False, document_relevance = False).order_by('title')
-    context_dict = {'papers':paper_list, 'review_name':review.name}
+    context_dict = {'papers':paper_list, 'review_name':review.name,'current_review':current_review}
     return render(request,'mainapp/abstract_pool.html',context_dict)
 
 # view document pool and authorise documents and add to final pool
 @login_required
 def document_pool(request,review_name_slug):
     context_dict = {}
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     review = Review.objects.get(slug=review_name_slug)
     paper_list = Paper.objects.filter(review=review, abstract_relevance = True, document_relevance = False).order_by('title')
-    context_dict = {'review_name':review.name, 'papers':paper_list}
+    context_dict = {'review_name':review.name, 'papers':paper_list,'current_review':current_review}
     return render(request,'mainapp/document_pool.html',context_dict)
 
 #view final pool and edit final pool
 @login_required
 def final_pool(request,review_name_slug):
+    current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     context_dict = {}
     review = Review.objects.get(slug=review_name_slug)
     paper_list = Paper.objects.filter(review=review, abstract_relevance = True, document_relevance = True).order_by('title')
-    context_dict = {'review_name':review.name, 'papers':paper_list}
+    context_dict = {'review_name':review.name, 'papers':paper_list,'current_review':current_review}
     return render(request,'mainapp/final_pool.html',context_dict)
 
 #view for the login / register page
