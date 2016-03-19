@@ -11,33 +11,19 @@ This application was created for the University of Glasgow Computing Science Web
 
 ## Installation
 
-  * **1.** Create new directory in your workspace.
+ 1. Create new Directory in your workspace
+ 2. Open a terminal and navigate to new directory
+ 3. Clone repository by using command: ``` git clone https://github.com/Alistair401/10C.git ```
+ 4. We would recommend creating a virtual directory at this stage and ``` workon <virtualenv> ```
+ 5. Set up your virtual environment using the [requirements.txt](../master/requirements.txt) using the command: ```  pip install -r requirements.txt ```
+ 6. To deploy the app locally navigate to the SysReview directory then run the command: ```python manage.py runserver```
+ 7. To launch the SysReview application open a web browser and go to: ```http://localhost:8000/```
 
-  * **2.** Open a terminal and navigate to new directory
-
-  * **3.** Clone repository by using command:
-   
-                                      git clone https://github.com/Alistair401/10C.git
-
-  * **4.** We would recommend creating a virtual directory at this stage and workon that environment. 
-
-  * **5.** Set up your virtual environment using the [requirements.txt](../master/requirements.txt) using the command:
-        
-                                              pip install -r requirements.txt
-
-  * **6.** To deploy the app locally navigate to the SysReview directory then run the command: 
-   
-                                                 python manage.py runserver
-
-  * **7.** To lanuch the SysReview application open a web browser and go to:
-   
-                                                   http://localhost:8000/
-
-## Populate Database Instructions
+## Populate SysReview
 
 You can use the SysReview application and create your own data or you can populate the database with our test data by running the [populate_sysreview.py](../master/SysReview/populate_sysreview.py) file.
 
-The population script will create 3 users, each user will have 3 reviews and 2 oof each users reviews will have querys created.
+The population script will create 3 users with passwords set to their username, each user will have 3 reviews and 2 oof each users reviews will have querys created.
 
 User | Review | Query
 --- | --- | ---
@@ -50,6 +36,13 @@ bob | Interprofessional education: effects on professional practice and health c
 jen | Interprofessional collaboration: effects of practice-based interventions on professional practice and healthcare outcomes | (Interprofessional[All Fields] AND (cooperative behavior[MeSH Terms] OR (cooperative[All Fields] AND behavior[All Fields]) OR cooperative behavior[All Fields] OR collaboration[All Fields])) AND (effects[All Fields] AND practice-based[All Fields] AND interventions[All Fields] AND (professional practice[MeSH Terms] OR (professional[All Fields] AND practice[All Fields]) OR professional practice[All Fields]) AND (delivery of health care[MeSH Terms] OR (delivery[All Fields] AND health[All Fields] AND care[All Fields]) OR delivery of health care[All Fields] OR healthcare[All Fields]) AND outcomes[All Fields])
 jen | Risk assessment tools for the prevention of pressure ulcers | (risk assessment[MeSH Terms] OR (risk[All Fields] AND assessment[All Fields]) OR risk assessment[All Fields]) AND tools[All Fields] AND (prevention and control[Subheading] OR (prevention[All Fields] AND control[All Fields]) OR prevention and control[All Fields] OR prevention[All Fields]) AND (pressure ulcer[MeSH Terms] OR (pressure[All Fields] AND ulcer[All Fields]) OR pressure ulcer[All Fields] OR (pressure[All Fields] AND ulcers[All Fields]) OR pressure ulcers[All Fields])
 jen | Midwife-led continuity models versus other models of care for childbearing women | **No Query Created**
+
+##### Populate instructions
+
+1. In your terminal navigate to the sysreview directory
+2. Run the command: ``` python populate_sysreview.py ```
+3. The script should run and display a message followed by ```Starting SysReview population script...```
+4. The terminal will display the info in the table above and once finshed SysReview will be populated with the data objects described.
 
 ## Pubmed API Reference
 
