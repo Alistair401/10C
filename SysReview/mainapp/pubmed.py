@@ -7,7 +7,7 @@ import datetime
 BASE_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
 QUERY_URL = BASE_URL + "esearch.fcgi?db=pubmed&retmax=1000&term="
 SUMMARY_URL = BASE_URL + "esummary.fcgi?db=pubmed&id="
-FETCH_URL = BASE_URL + "efetch.fcgi?db=pubmed&id="
+FETCH_URL = BASE_URL + "efetch.fcgi"
 LINK_URL = BASE_URL + "elink.fcgi?dbfrom=pubmed&id="
 ABSTRACT_EXTENSION = "&retmode=xml&rettype=abstract"
 LINK_EXTENSION = "&cmd=prlinks"
@@ -32,6 +32,7 @@ def esearch_query(query_string):
         id_list.append(getNodeText(i.childNodes))
     return id_list
 
+
 def esearch_query_with_translation(query_string):
     # encode inital ID query
     encoded_query = urllib.pathname2url(query_string)
@@ -53,79 +54,67 @@ def esearch_query_with_translation(query_string):
     result_dict["query_translation"] = query_translation
     return result_dict
 
-def esummary_query(id_list):
+
+def efetch_query(id_list):
     # format id list to query
     id_query = ""
     for i in range(0,len(id_list)-1):
         id_query += id_list[i] + ","
     id_query += id_list[len(id_list)-1]
+    POST_data = {"id":id_query,
+                 "db":"pubmed",
+                 "retmode":"xml"}
     # encode inital ID query
-    encoded_query = urllib.pathname2url(id_query)
-    # get xml response
-    response = urllib2.urlopen(SUMMARY_URL+encoded_query)
+    encoded_query = urllib.urlencode(POST_data)
+    # get xml response from a POST request
+    request = urllib2.Request(FETCH_URL,encoded_query)
+    response = urllib2.urlopen(request)
     # parse using minidom
     dom = parse(response)
-    # get the summary document
-    eSummaryResult = dom.childNodes[1]
-    # get the child nodes of those
-    summary_nodes =  eSummaryResult.childNodes
-    # loop through nodes and check if they're DocSums or weird empty text nodes
-    docSums = []
-    for node in summary_nodes:
-        if node.nodeType != node.TEXT_NODE:
-            docSums.append(node)
-    # make a dictionary to store document summaries
-    summary_dict = {}
-    # loop through nodes and get their values for each doc
-    for doc in docSums:
-        # get all the xml items of the document
-        item_elements = doc.getElementsByTagName("Item")
-        # get the ID of the current doc
-        current_id = getNodeText(doc.getElementsByTagName("Id")[0].childNodes)
-        # build a dictionary to fill out for each doc
+    # parse the xml through getting all the labelled elements
+    PubmedArticles = dom.getElementsByTagName("PubmedArticle")
+    efetch_dict = {}
+    for article in PubmedArticles:
         value_dict = {"authors":[],"title":"","abstract":"","publish_date":datetime.date.today(),"paper_url":"#"}
-        summary_dict[current_id] = value_dict
-        for i in item_elements:
-            # get titles
-            if i.attributes["Name"].value == "Title":
-                summary_dict[current_id]["title"] = getNodeText(i.childNodes)
-            # then append authors
-            if i.attributes["Name"].value == "Author":
-                summary_dict[current_id]["authors"].append(getNodeText(i.childNodes))
-            # then publish dates
-            if i.attributes["Name"].value == "PubDate":
-                d = getNodeText(i.childNodes)
-                date = None
-                # sometimes the date is formatted wierdly and so can't be parsed TODO
-                try:
-                    date = datetime.datetime.strptime(d,"%Y %b %d")
-                except ValueError:
-                    pass
-                summary_dict[current_id]["publish_date"] = date
-    return efetch_query(summary_dict)
-
-
-def efetch_query(id_dictionary):
-    # build the list of ID's to query with
-    unencoded_query = ""
-    for key in id_dictionary:
-        unencoded_query += key + ","
-    unencoded_query = unencoded_query[:-1]
-    # encode the list
-    encoded_query = urllib.pathname2url(unencoded_query)
-    # get the API response
-    response = urllib2.urlopen(FETCH_URL+encoded_query+ABSTRACT_EXTENSION)
-    # parse the xml using minidom
-    dom = parse(response)
-    # fill out the abstract entries in the result dictionary with abstracts
-    result_dict = id_dictionary
-    article_elements = dom.getElementsByTagName("PubmedArticle")
-    for element in article_elements:
+        article_id = getNodeText(article.getElementsByTagName("PMID")[0].childNodes)
+        efetch_dict[article_id] = value_dict
+        for author in article.getElementsByTagName("Author"):
+            forename = ""
+            lastname = ""
+            try:
+                forename = getNodeText(author.getElementsByTagName("ForeName")[0].childNodes)
+            except IndexError:
+                pass
+            try:
+                lastname = getNodeText(author.getElementsByTagName("LastName")[0].childNodes)
+            except IndexError:
+                pass
+            full_name = forename + " " + lastname
+            efetch_dict[article_id]["authors"].append(full_name)
+        efetch_dict[article_id]["title"] = getNodeText(article.getElementsByTagName("ArticleTitle")[0].childNodes)
         try:
-            result_dict[getNodeText(element.getElementsByTagName("PMID")[0].childNodes)]["abstract"] = getNodeText(element.getElementsByTagName("AbstractText")[0].childNodes)
+            efetch_dict[article_id]["abstract"] = getNodeText(article.getElementsByTagName("AbstractText")[0].childNodes)
         except IndexError:
-            result_dict[getNodeText(element.getElementsByTagName("PMID")[0].childNodes)]["abstract"] = "No abstract available"
-    return id_dictionary
+            efetch_dict[article_id]["abstract"] = "No abstract available"
+        day = "01"
+        month = "Jan"
+        year = "0001"
+        article_data = article.getElementsByTagName("Article")[0]
+        date_data = article_data.getElementsByTagName("PubDate")[0]
+        try:
+            day = getNodeText(date_data.getElementsByTagName("Day")[0].childNodes)
+        except IndexError:
+            pass
+        try:
+            month = getNodeText(date_data.getElementsByTagName("Month")[0].childNodes)
+        except IndexError:
+            pass
+        try:
+            year = getNodeText(date_data.getElementsByTagName("Year")[0].childNodes)
+        except IndexError:
+            pass
+        efetch_dict[article_id]["publish_date"] = datetime.datetime.strptime(day+","+month+","+year,"%d,%b,%Y")
+    return efetch_dict
 
 
 def elink_query(id):

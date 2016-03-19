@@ -7,6 +7,7 @@ from mainapp.models import Researcher, Review, Query, Paper
 from django.contrib.auth.models import User
 from mainapp import pubmed
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.db.transaction import commit_on_success
 
 KEYWORDS = ("AND ","OR ","NOT ")
 
@@ -414,14 +415,14 @@ def remove_from_fp(request, review_name_slug,id):
     Paper.objects.filter(pk=id).update(document_relevance=False)
     return HttpResponse()
 
+@commit_on_success
 def save_query_adv(request,review_name_slug,query_string):
     review = Review.objects.get(slug=review_name_slug)
     # get list of ID results from the PubMed API
     formatted = format_query_advanced(query_string)
     esearch_result = pubmed.esearch_query_with_translation(formatted)
     id_list = esearch_result["id_list"]
-    esummary_dict = pubmed.esummary_query(id_list)
-    efetch_dict = pubmed.efetch_query(esummary_dict)
+    efetch_dict = pubmed.efetch_query(id_list)
     for id, attributes in efetch_dict.iteritems():
         paper = Paper.objects.create(review=review,title=attributes["title"],authors=str(attributes["authors"]),abstract=attributes["abstract"])
         paper.save()
@@ -432,14 +433,14 @@ def save_query_adv(request,review_name_slug,query_string):
     query_object = Query.objects.create(review=review,query_string=esearch_result["query_translation"],pool_size=len(id_list),results=id_string)
     return HttpResponse()
 
+@commit_on_success
 def save_query_std(request,review_name_slug,query_string):
     review = Review.objects.get(slug=review_name_slug)
     # get list of ID results from the PubMed API
     formatted = format_query_novice(query_string)
     esearch_result = pubmed.esearch_query_with_translation(formatted)
     id_list = esearch_result["id_list"]
-    esummary_dict = pubmed.esummary_query(id_list)
-    efetch_dict = pubmed.efetch_query(esummary_dict)
+    efetch_dict = pubmed.efetch_query(id_list)
     for id, attributes in efetch_dict.iteritems():
         paper = Paper.objects.create(review=review,title=attributes["title"],authors=str(attributes["authors"]),abstract=attributes["abstract"])
         paper.save()
