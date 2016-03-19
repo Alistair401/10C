@@ -7,6 +7,7 @@ from mainapp.models import Researcher, Review, Query, Paper
 from django.contrib.auth.models import User
 from mainapp import pubmed
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.db.transaction import commit_on_success
 
 KEYWORDS = ("AND ","OR ","NOT ")
 
@@ -115,6 +116,7 @@ def reviews(request):
 def review(request, review_name_slug):
     # Is this review currently being worked on?
     working = False
+    deleted = False
     context_dict={}
 
 
@@ -134,11 +136,20 @@ def review(request, review_name_slug):
         # Save for good measure
         current_profile.save()
 
+        # If the request is a POST
+        if (request.method == 'POST'):
+            if 'delete' in request.POST:
+                if current_review == slugged_review.slug:
+                    current_profile.selected_review=""
+                slugged_review.delete()
+                current_profile.save()
+                current_review = ""
+                deleted = True
+
         # If this review isn't being worked on
         if (current_profile.selected_review != slugged_review.slug):
 
-            # If the request is a POST
-            if (request.method == 'POST'):
+
 
                 # If the POST was from the workon button
                 if 'workon' in request.POST:
@@ -161,10 +172,13 @@ def review(request, review_name_slug):
 
 
 
+
+
     except Review.DoesNotExist:
         pass
 
     context_dict['current_review'] = current_review
+    context_dict['deleted'] = deleted
     return render(request, 'mainapp/review.html', context_dict)
 
 #created new reviews
@@ -179,18 +193,15 @@ def create_review(request):
         if review_form.is_valid:
             entered_name = request.POST.get('name').upper()
             if not Review.objects.all().filter(name=entered_name):
-                current_review = Review.objects.create(creator=current_user,name=entered_name)
-                current_review.save()
+                created_review = Review.objects.create(creator=current_user,name=entered_name)
+                created_review.save()
                 created = True
             else:
                 failure = True;
     else:
         review_form = CreateReviewForm()
 
-    # Get the currently worked on review
-    current_review_slug = Researcher.objects.all().get(user=current_user).selected_review
-
-    context_dict = {'review_form':review_form,'created':created,'failure':failure,'review_name_slug':current_review_slug,'current_review':current_review}
+    context_dict = {'review_form':review_form,'created':created,'failure':failure,'current_review':current_review}
     return render(request,'mainapp/create_review.html',context_dict)
 
 #view saved queries
@@ -417,25 +428,38 @@ def remove_from_fp(request, review_name_slug,id):
     Paper.objects.filter(pk=id).update(document_relevance=False)
     return HttpResponse()
 
+@commit_on_success
 def save_query_adv(request,review_name_slug,query_string):
     review = Review.objects.get(slug=review_name_slug)
+    # get list of ID results from the PubMed API
     formatted = format_query_advanced(query_string)
-    id_list = pubmed.esearch_query(formatted)
-    esummary_dict = pubmed.esummary_query(id_list)
-    efetch_dict = pubmed.efetch_query(esummary_dict)
+    esearch_result = pubmed.esearch_query_with_translation(formatted)
+    id_list = esearch_result["id_list"]
+    efetch_dict = pubmed.efetch_query(id_list)
     for id, attributes in efetch_dict.iteritems():
         paper = Paper.objects.create(review=review,title=attributes["title"],authors=str(attributes["authors"]),abstract=attributes["abstract"])
         paper.save()
+    id_string = ""
+    for id in id_list:
+        id_string += id + ","
+    id_string = id_string[:-1]
+    query_object = Query.objects.create(review=review,query_string=esearch_result["query_translation"],pool_size=len(id_list),results=id_string)
     return HttpResponse()
 
+@commit_on_success
 def save_query_std(request,review_name_slug,query_string):
     review = Review.objects.get(slug=review_name_slug)
     # get list of ID results from the PubMed API
     formatted = format_query_novice(query_string)
-    id_list = pubmed.esearch_query(formatted)
-    esummary_dict = pubmed.esummary_query(id_list)
-    efetch_dict = pubmed.efetch_query(esummary_dict)
+    esearch_result = pubmed.esearch_query_with_translation(formatted)
+    id_list = esearch_result["id_list"]
+    efetch_dict = pubmed.efetch_query(id_list)
     for id, attributes in efetch_dict.iteritems():
         paper = Paper.objects.create(review=review,title=attributes["title"],authors=str(attributes["authors"]),abstract=attributes["abstract"])
         paper.save()
+    id_string = ""
+    for id in id_list:
+        id_string += id + ","
+    id_string = id_string[:-1]
+    query_object = Query.objects.create(review=review,query_string=esearch_result["query_translation"],pool_size=len(id_list),results=id_string)
     return HttpResponse()

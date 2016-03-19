@@ -21,7 +21,6 @@ class Review(models.Model):
     def __unicode__(self):
         return self.name
 
-
 class Query(models.Model):
     # Queries are identified by their relation to a review
     review = models.ForeignKey(Review)
@@ -60,8 +59,6 @@ class Researcher(models.Model):
 
     def __unicode__(self):
         return self.name
-
-
 
 class Paper(models.Model):
     # The review that contains the Document

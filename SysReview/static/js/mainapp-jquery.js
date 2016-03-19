@@ -1,7 +1,9 @@
 $(document).ready(function() {
     $('#adv-form').hide();
     $('#std-form').fadeIn();
-    $('#ajaxloading').hide();
+    $('[id=ajaxloading]').each(function(){
+        $(this).hide();
+    });
     //following 3 function used for enabling CSRF without forms
     function getCookie(name) {
         var cookieValue = null;
@@ -302,6 +304,10 @@ $(document).on('click', '#switchToStd', function () {
     $(this).attr("id","switchToAdv")
 });
 $(document).on({
-    ajaxStart: function() {$('#ajaxloading').fadeIn()},
-     ajaxStop: function() {$('#ajaxloading').fadeOut()}
+    ajaxStart: function() {$('[id=ajaxloading]').fadeIn()},
+     ajaxStop: function() {$('[id=ajaxloading]').fadeOut()}
+});
+$(document).on('mouseup', '#confirmDel', function () {
+    $(this).attr("type","submit");
+    $(this).attr("value","CONFIRM DELETION");
 });
