@@ -29,9 +29,7 @@ Describe and show how to run the tests with code examples.
    * David Haughton
    * Iain Lafferty
    
-  ---
-
-**GitHub Accounts**
+## GitHub Accounts
 
   * **Alistair401:**   Alistair Miles 2125558m
   * **2080734h:**      David Haughton 2080734h
