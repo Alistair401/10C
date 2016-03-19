@@ -1,6 +1,6 @@
-# SysReview - A systematic review web application
+# SysReview 
 
-# SysReview
+# SysReview - A systematic review web application
 
 SysReview is a Systematic Review Application. The purpose of this application is to enable researchers to perform a systematic review using PubMed. A systematic review consists of a number of stages, which need to be recorded:  Query Construction, Abstract Pool Evaluation and then Document Pool Evaluation. The API to use is provided by E-Utilities which gives access to the [PubMed API.](http://www.ncbi.nlm.nih.gov/home/api.shtml "PubMed API")
 
@@ -12,9 +12,9 @@ This application was created for the University of Glasgow Computing Science Web
 
 Provide code examples and explanations of how to get the project.
 
-## API Reference
+## Pubmed API Reference
 
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+Further reading on the Pubmed API can found [here.](http://www.ncbi.nlm.nih.gov/books/NBK25500/ "Pubmed API")
 
 ## Tests
 
@@ -34,7 +34,7 @@ Describe and show how to run the tests with code examples.
   * **2080734h:**      David Haughton 2080734h
   * **Glasian:**       Iain Lafferty  9905142l
 
-## [License](10C/license)
+## [License](../master/license)
 
 The MIT License (MIT)
 
