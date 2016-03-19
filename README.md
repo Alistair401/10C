@@ -11,7 +11,13 @@ This application was created for the University of Glasgow Computing Science Web
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
+**1.** Create new directory in your workspace.
+**1.** 
+**1.** 
+**1.** 
+**1.** 
+**1.** 
+**1.** 
 
 ## Pubmed API Reference
 
@@ -19,7 +25,7 @@ Further reading on the Pubmed API can found [here.](http://www.ncbi.nlm.nih.gov/
 
 ## Tests
 
-Describe and show how to run the tests with code examples.
+**STILL TO DO**
 
 ## Contributors
 
