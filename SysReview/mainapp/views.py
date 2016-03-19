@@ -394,8 +394,11 @@ def parseKeywords(line,list,keyword):
     result.append("-")
     return result
 
-def remove_from_ap(request, review_name_slug,id):
-    Paper.objects.filter(pk=id).delete();
+def remove_from_ap(request, review_name_slug):
+    pks = request.POST.get("removed_rows")
+    print request.POST
+   # for id in list_pks:
+     #   Paper.objects.filter(pk=id).delete();
     return HttpResponse()
 
 def add_to_dp(request, review_name_slug,id):

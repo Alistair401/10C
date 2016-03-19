@@ -1220,3 +1220,8 @@ div.numberedtextarea-number {
     transition-timing-function: ease-out;
     cursor: pointer;
 }
+
+.cust-pure-table #abstract_pool {
+    overflow: scroll;
+    height: 400px
+}
