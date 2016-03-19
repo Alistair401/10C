@@ -116,6 +116,7 @@ def reviews(request):
 def review(request, review_name_slug):
     # Is this review currently being worked on?
     working = False
+    deleted = False
     context_dict={}
 
 
@@ -135,11 +136,20 @@ def review(request, review_name_slug):
         # Save for good measure
         current_profile.save()
 
+        # If the request is a POST
+        if (request.method == 'POST'):
+            if 'delete' in request.POST:
+                if current_review == slugged_review.slug:
+                    current_profile.selected_review=""
+                slugged_review.delete()
+                current_profile.save()
+                current_review = ""
+                deleted = True
+
         # If this review isn't being worked on
         if (current_profile.selected_review != slugged_review.slug):
 
-            # If the request is a POST
-            if (request.method == 'POST'):
+
 
                 # If the POST was from the workon button
                 if 'workon' in request.POST:
@@ -162,10 +172,13 @@ def review(request, review_name_slug):
 
 
 
+
+
     except Review.DoesNotExist:
         pass
 
     context_dict['current_review'] = current_review
+    context_dict['deleted'] = deleted
     return render(request, 'mainapp/review.html', context_dict)
 
 #created new reviews
@@ -180,18 +193,15 @@ def create_review(request):
         if review_form.is_valid:
             entered_name = request.POST.get('name').upper()
             if not Review.objects.all().filter(name=entered_name):
-                current_review = Review.objects.create(creator=current_user,name=entered_name)
-                current_review.save()
+                created_review = Review.objects.create(creator=current_user,name=entered_name)
+                created_review.save()
                 created = True
             else:
                 failure = True;
     else:
         review_form = CreateReviewForm()
 
-    # Get the currently worked on review
-    current_review_slug = Researcher.objects.all().get(user=current_user).selected_review
-
-    context_dict = {'review_form':review_form,'created':created,'failure':failure,'review_name_slug':current_review_slug,'current_review':current_review}
+    context_dict = {'review_form':review_form,'created':created,'failure':failure,'current_review':current_review}
     return render(request,'mainapp/create_review.html',context_dict)
 
 #view saved queries
