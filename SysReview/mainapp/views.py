@@ -405,11 +405,13 @@ def parseKeywords(line,list,keyword):
     result.append("-")
     return result
 
+@commit_on_success
 def remove_from_ap(request, review_name_slug):
-    pks = request.POST.get("removed_rows")
-    print request.POST
-   # for id in list_pks:
-     #   Paper.objects.filter(pk=id).delete();
+    pks = request.POST.get("removed_rows",None)
+    print pks
+    pks.split(",")
+    # for id in pks:
+    #     Paper.objects.filter(pk=id).delete();
     return HttpResponse()
 
 def add_to_dp(request, review_name_slug,id):
