@@ -35,7 +35,8 @@
     <div class="pure-g cust-maxedcontainer">
         <div class="pure-u-1-5 cust-sidebar">
             {% if user.is_authenticated and not current_review == None and not current_review == "" %}
-                <b>{{ current_review }}</b>
+                <br/>
+                <div class="cust-centered cust-aside"><b>{{ current_review }}</b></div>
                 <br/>
                 <br/>
                 <div class="pure-menu pure-menu-vertical">

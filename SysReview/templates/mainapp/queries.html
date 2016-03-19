@@ -8,7 +8,8 @@
 
     <h1>Queries</h1>
     {% if queries %}
-        <table class="cust-pure-table cust-pure-table-bordered cust-pure-table-scrollable">
+        <div class = "scrollit">
+        <table class="cust-pure-table cust-pure-table-bordered">
             <tbody>
                 <ol>
                     {% for query in queries %}
@@ -21,6 +22,7 @@
                 </ol>
             </tbody>
         </table>
+        </div>
 
     {% else %}
        <strong>No saved queries for {{review.name}}</strong>
