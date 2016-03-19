@@ -24,11 +24,13 @@
     {% endif %}
     <br/>
     {% if deleted %}
-        You deleted this review
+        <div class="cust-aside-error">
+            You deleted this review
+        </div>
     {% else %}
         <form method="post">
             {% csrf_token %}
-            <input type="submit" class="pure-button cust-pure-button-r" name='delete' value="Delete this review">
+            <input id="confirmDel" type="button" class="pure-button cust-pure-button-r" name='delete' value="Delete this review">
         </form>
         <br/>
     {% endif %}

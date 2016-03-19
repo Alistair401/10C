@@ -306,3 +306,7 @@ $(document).on({
     ajaxStart: function() {$('[id=ajaxloading]').fadeIn()},
      ajaxStop: function() {$('[id=ajaxloading]').fadeOut()}
 });
+$(document).on('mouseup', '#confirmDel', function () {
+    $(this).attr("type","submit");
+    $(this).attr("value","CONFIRM DELETION");
+});
