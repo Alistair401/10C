@@ -1220,17 +1220,17 @@ div.numberedtextarea-number {
     transition-timing-function: ease-out;
     cursor: pointer;
 }
-<<<<<<< HEAD
-
 .cust-pure-table #abstract_pool {
     overflow: scroll;
     height: 400px
 }
-=======
 .cust-centered{
     text-align: center;
 }
 .cust-pure-button-r{
     background-color: #FF0000;
 }
->>>>>>> 3a327475b189e996840a7a941f832f850efc9a26
+.cust-logo{
+    width: 50%;
+    padding-top: 15px;
+}

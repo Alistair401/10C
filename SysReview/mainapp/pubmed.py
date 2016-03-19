@@ -33,28 +33,6 @@ def esearch_query(query_string):
     return id_list
 
 
-def esearch_query_with_translation(query_string):
-    # encode inital ID query
-    encoded_query = urllib.pathname2url(query_string)
-    # get xml response
-    response = urllib2.urlopen(QUERY_URL+encoded_query)
-    # parse using minidom
-    dom = parse(response)
-    # get all the ID elements
-    id_elements = dom.getElementsByTagName("Id")
-    # get the formatted query
-    query_translation = getNodeText(dom.getElementsByTagName("QueryTranslation")[0].childNodes)
-    # put them in a list
-    id_list = []
-    for i in id_elements:
-        id_list.append(getNodeText(i.childNodes))
-    # # get the summaries of the IDs
-    result_dict = {}
-    result_dict["id_list"] = id_list
-    result_dict["query_translation"] = query_translation
-    return result_dict
-
-
 def efetch_query(id_list):
     # format id list to query
     id_query = ""

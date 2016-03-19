@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="280.55148mm"
+   height="58.442928mm"
+   viewBox="0 0 994.08005 207.08124"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="SysReviewer.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="386.90005"
+     inkscape:cy="171.66629"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     transform="translate(35.355339,32.776649)">
+    <rect
+       id="rect3385"
+       width="283.853"
+       height="207.08124"
+       x="-35.355339"
+       y="-32.776649"
+       style="fill:#3c8dc5;fill-opacity:1"
+       ry="0" />
+    <rect
+       ry="0"
+       style="fill:#3c8dc5;fill-opacity:1"
+       y="-32.776649"
+       x="-35.355339"
+       height="207.08124"
+       width="283.853"
+       id="rect4187" />
+    <rect
+       style="fill:#000000;fill-opacity:1"
+       id="rect4189"
+       width="780.8479"
+       height="13.131983"
+       x="161.62442"
+       y="126.82742" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-15.103644,-584.84783)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:33.2591095px;line-height:125%;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style Semi-Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="41.762569"
+       y="724.9046"
+       id="text3348"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3350"
+         x="41.762569"
+         y="724.9046"
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:149.66600037px;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style Semi-Bold'"><tspan
+   style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Bookman Old Style';-inkscape-font-specification:'Bookman Old Style Light'"
+   id="tspan3352">Sys</tspan>Reviewer</tspan></text>
+  </g>
+</svg>
