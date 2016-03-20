@@ -26,7 +26,6 @@
             </thead>
             <tbody>
                 {% for paper in papers %}
-                    <div class = "rows" >
                         <tr id="paper{{paper.pk}}">
                             <td><input type="checkbox" class="case"/></td>
                             <td>{{paper.title}}</td>
@@ -34,15 +33,19 @@
                             <td>{{paper.authors}}</td>
                             <td>{{paper.publish_date}}</td>
                         </tr>
-                    </div>
                 {% endfor %}
             </tbody>
         </table>
     </div>
         <br><br>
         <div class = "container">
-            <input class="pure-button cust-button-g" type="submit" name="abstract" value="Mark as relevant" id = "add2DP"/>
-            <input class="pure-button cust-pure-button-r" type="submit" name="abstract" value="Mark as not relevant" id = "removefromAP"/>
+<<<<<<< HEAD
+            <button class="pure-button cust-button-g" name="abstract" value="Mark as relevant" id = "add2DP"/>
+            <button class="pure-button cust-pure-button-r" name="abstract" value="Mark as not relevant" id = "removefromAP"/>
+=======
+            <input type="button" class="pure-button cust-button-g"  value="Mark as relevant" id = "add2DP"/>
+            <input type="button" class="pure-button cust-pure-button-r" type="submit" name="abstract" value="Mark as not relevant" id = "removefromAP"/>
+>>>>>>> 39f7240c311f00db1de47efc3af3fda195d74fa2
         </div>
     {% else %}
         <h2> There are no abstracts in your abstract pool!</h2>
