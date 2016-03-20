@@ -5,7 +5,7 @@ from mainapp.models import Query
 import datetime
 
 BASE_URL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
-QUERY_URL = BASE_URL + "esearch.fcgi?db=pubmed&retmax=1000&term="
+QUERY_URL = BASE_URL + "esearch.fcgi?db=pubmed&retmax=100000&term="
 SUMMARY_URL = BASE_URL + "esummary.fcgi?db=pubmed&id="
 FETCH_URL = BASE_URL + "efetch.fcgi"
 LINK_URL = BASE_URL + "elink.fcgi?dbfrom=pubmed&id="
@@ -120,7 +120,6 @@ def elink_query(efetch_result):
         except IndexError:
             result_dict[url_id]["paper_url"] = "#"
     return result_dict
-
 
 
 def getNodeText(nodelist):
