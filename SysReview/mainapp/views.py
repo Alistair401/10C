@@ -494,6 +494,7 @@ def remove_from_fp(request, review_name_slug):
     review = Review.objects.get(slug=review_name_slug)
     review.document_judged = review.document_judged - paperCounter #record number of documents judged
     review.abstracts_judged = review.abstracts_judged + paperCounter #decrease pool size as these papers    review.save()
+    review.save()
     return HttpResponse()
 
 @commit_on_success
