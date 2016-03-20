@@ -83,7 +83,7 @@ $(document).ready(function() {
         });
     });
 
-    $('textarea').numberedtextarea({
+    $('textarea#adv_textarea').numberedtextarea({
         // if true Tab key creates indentation
         allowTabChar: false
     });

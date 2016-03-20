@@ -218,7 +218,9 @@ def queries(request, review_name_slug):
     current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     review = Review.objects.get(slug=review_name_slug)
     queries = Query.objects.filter(review=review)
-    queryList =[]
+    totalAbstracts =0
+    for query in queries:
+        totalAbstracts+=query.pool_size
     # for query in queries:
     #     queryWords=query.query_string.split()
     #     tempString="("
@@ -235,7 +237,7 @@ def queries(request, review_name_slug):
     #     tempString+=")"
     #     queryList+=[tempString]
 
-    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'queryList':queryList,'current_review':current_review}
+    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'current_review':current_review,'total_abstracts':totalAbstracts}
     return render(request,'mainapp/queries.html',context_dict)
 
 #create new query
@@ -442,7 +444,6 @@ def add_to_dp(request, review_name_slug):
     pks = request.POST.get("removed_rows")
     list_pks = pks.split(",")
     paperCounter=0 #counter for number of papers judged
-
     for id in list_pks[:-1]:
         Paper.objects.filter(pk=id).update(abstract_relevance=True)
         paperCounter= paperCounter + 1 #increase counter
@@ -541,12 +542,13 @@ def query_api(request,review_name_slug):
     query=query[:-6]
     esearch_result = pubmed.esearch_query(query)
     efetch_result = pubmed.efetch_query(esearch_result)
-    for id in efetch_result:
-        result = efetch_result[id]
+    elink_result = pubmed.elink_query(efetch_result)
+    for id in elink_result:
+        result = elink_result[id]
         authors = ""
         for author in result["authors"]:
             authors += author + ", "
         authors=authors[:-2]
-        paper = Paper.objects.create(review=slugged_review,title=result["title"],authors=authors,abstract=result["abstract"],publish_date=result["publish_date"])
+        paper = Paper.objects.create(review=slugged_review,title=result["title"],authors=authors,abstract=result["abstract"],publish_date=result["publish_date"],paper_url=result["paper_url"])
     return HttpResponse()
 
