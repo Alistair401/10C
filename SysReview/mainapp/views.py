@@ -167,16 +167,8 @@ def review(request, review_name_slug):
         context_dict['review_description']=slugged_review.description
 
         context_dict['review_date_started']=slugged_review.date_started
-        
-        context_dict['review_total_papers']=slugged_review.pool_size
 
-        abstractsLeft = slugged_review.pool_size - slugged_review.abstracts_judged - slugged_review.document_judged
-
-        context_dict['abstracts_left']=abstractsLeft
-
-        context_dict['review_document_pool_size']=slugged_review.abstracts_judged
-
-        context_dict['review_final_pool']=slugged_review.document_judged
+        context_dict['pool_size']=slugged_review.pool_size
 
         context_dict['review'] = slugged_review
 
@@ -424,40 +416,79 @@ def parseKeywords(line,list,keyword):
 def remove_from_ap(request, review_name_slug):
     pks = request.POST.get("removed_rows", None)
     list_pks = pks.split(",")
+    paperCounter=0 #counter for number of papers judged
+
     for id in list_pks[:-1]:
         Paper.objects.filter(pk=id).delete();
+        paperCounter= paperCounter + 1 #increase counter
+
+    review = Review.objects.get(slug=review_name_slug)
+    review.pool_size = review.pool_size - paperCounter #decrease pool size as these papers now not relevant
+    review.abstracts_judged = review.abstracts_judged + paperCounter #record number of abstracts judged
+    review.save()
     return HttpResponse()
 
 @commit_on_success
 def add_to_dp(request, review_name_slug):
     pks = request.POST.get("removed_rows")
     list_pks = pks.split(",")
+    paperCounter=0 #counter for number of papers judged
+
     for id in list_pks[:-1]:
         Paper.objects.filter(pk=id).update(abstract_relevance=True)
+        paperCounter= paperCounter + 1 #increase counter
+
+    review = Review.objects.get(slug=review_name_slug)
+    review.abstracts_judged = review.abstracts_judged + paperCounter #record number of abstracts judged
+    review.save()
     return HttpResponse()
 
 @commit_on_success
 def remove_from_dp(request, review_name_slug):
     pks = request.POST.get("removed_rows")
     list_pks = pks.split(",")
+    paperCounter=0 #counter for number of papers judged
+
     for id in list_pks[:-1]:
         Paper.objects.filter(pk=id).update(abstract_relevance=False)
+        paperCounter= paperCounter + 1 #increase counter
+
+    review = Review.objects.get(slug=review_name_slug)
+    review.pool_size = review.pool_size - paperCounter #decrease pool size as these papers now not relevant
+    review.document_judged = review.document_judged + paperCounter #record number of documents judged
+    review.save()
+
     return HttpResponse()
 
 @commit_on_success
 def add_to_fp(request, review_name_slug):
     pks = request.POST.get("removed_rows")
     list_pks = pks.split(",")
+    paperCounter=0 #counter for number of papers judged
+
     for id in list_pks[:-1]:
         Paper.objects.filter(pk=id).update(document_relevance=True)
+        paperCounter= paperCounter + 1 #increase counter
+
+    review = Review.objects.get(slug=review_name_slug)
+    review.document_judged = review.document_judged + paperCounter #record number of documents judged
+    review.save()
+
     return HttpResponse()
 
 @commit_on_success
 def remove_from_fp(request, review_name_slug):
     pks = request.POST.get("removed_rows")
     list_pks = pks.split(",")
+    paperCounter = 0 #counter for number of papers judged
+
     for id in list_pks[:-1]:
         Paper.objects.filter(pk=id).update(document_relevance=False)
+        paperCounter= paperCounter + 1 #increase counter
+
+    review = Review.objects.get(slug=review_name_slug)
+    review.pool_size = review.pool_size - paperCounter #decrease pool size as these papers now not releva
+    review.save()
     return HttpResponse()
 
 @commit_on_success
@@ -475,6 +506,9 @@ def save_query_adv(request,review_name_slug,query_string):
         id_string += id + ","
     id_string = id_string[:-1]
     query_object = Query.objects.create(review=review,query_string=formatted,pool_size=len(esearch_result),results=id_string)
+    #set Review pool size
+    review.pool_size=len(esearch_result)
+    review.save()
     return HttpResponse()
 
 @commit_on_success
@@ -492,4 +526,7 @@ def save_query_std(request,review_name_slug,query_string):
         id_string += id + ","
     id_string = id_string[:-1]
     query_object = Query.objects.create(review=review,query_string=formatted,pool_size=len(esearch_result),results=id_string)
+    #set Review pool size
+    review.pool_size=len(esearch_result)
+    review.save()
     return HttpResponse()

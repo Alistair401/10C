@@ -15,7 +15,7 @@
         <div class="pure-menu pure-menu-scrollable">
             <ul class="pure-menu-list">
                 {% for review in review_list %}
-                    <li class="pure-menu-item"><a class="pure-menu-link cust-blacktext" href="{% url 'review' review.slug %}">{{ review.name }}</a> </li>
+                    <li class="pure-menu-item"><a class="pure-menu-link cust-blacktext" href="{% url 'review' review.slug %}">{{ review.name }} </a> </li>
                 {% endfor %}
             </ul>
         </div>

@@ -37,21 +37,10 @@
             <b>{{ review_date_started }}</b>
         </p>
         <p>
-            Total Papers in pool:
-            <b>{{ review_total_papers }}</b>
+            Pool Size:
+            <b>{{ review_pool_size }}</b>
         </p>
-        <p>
-            Abstracts to be judged:
-            <b>{{ abstracts_left }}</b>
-        </p>
-        <p>
-            Documents to be judged:
-            <b>{{ review_document_pool_size }}</b>
-        </p>
-        <p>
-            Approved Papers:
-            <b>{{ review_final_pool }}</b>
-        </p>
+
         <form method="post">
             {% csrf_token %}
             <input id="confirmDel" type="button" class="pure-button cust-pure-button-r" name='delete' value="Delete this review">
