@@ -552,3 +552,12 @@ def query_api(request,review_name_slug):
         paper = Paper.objects.create(review=slugged_review,title=result["title"],authors=authors,abstract=result["abstract"],publish_date=result["publish_date"],paper_url=result["paper_url"])
     return HttpResponse()
 
+def check_total_results(request,review_name_slug):
+    slugged_review = Review.objects.get(slug=review_name_slug)
+    query_parts = slugged_review.query_set.all()
+    query = "("
+    for part in query_parts:
+        query += part.query_string + ") AND ("
+    query=query[:-6]
+    esearch_result = pubmed.esearch_query(query)
+    return HttpResponse(len(esearch_result))

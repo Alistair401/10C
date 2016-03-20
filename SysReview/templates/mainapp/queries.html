@@ -22,9 +22,12 @@
                 </tbody>
             </table>
         </div>
-        <a id="completequeries" class="cust-button-g">Finalize Queries</a>
-        <a class="cust-button" href="{% url 'create_query' review_name_slug %}">Add Query Part</a>
         <div class="cust-notifier">Potential Abstracts: {{total_abstracts}}</div>
+        <br/>
+        <br/>
+        <a id="completequeries" class="cust-button-g cust-whitetext">Finalize Queries</a>
+        <a class="cust-button" href="{% url 'create_query' review_name_slug %}">Add Query Part</a>
+        <div id="full_query_results" class="cust-button">Check total results</div>
         <br/>
         <img id="ajaxloading" src="{% static 'css/rolling.gif' %}">
 
