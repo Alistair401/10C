@@ -5,7 +5,6 @@
 {% block title %} Abstract Pool {% endblock %}
 
 {% block main_block %}
-    <script type="text/javascript" src="{% static 'js/mainapp-jquery.js' %}"></script>
 
     <h1>Abstract pool for your review, {{review_name}}. </h1>
     {% if papers %}
@@ -39,8 +38,8 @@
     </div>
         <br><br>
         <div class = "container">
-            <input type="button" class="pure-button cust-button-g" value="Mark as relevant" id = "add2DP"/>
-            <input type="button" class="pure-button cust-pure-button-r" value="Mark as not relevant" id = "removefromAP"/>
+            <input class="pure-button cust-button-g" type="button" name="abstract" value="Mark as relevant" id = "add2DP"/>
+            <input class="pure-button cust-button-r" type="button" name="abstract" value="Mark as not relevant" id = "removefromAP"/>
         </div>
     {% else %}
         <h2> There are no abstracts in your abstract pool!</h2>

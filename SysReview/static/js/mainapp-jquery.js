@@ -69,8 +69,8 @@ $(document).ready(function() {
 
         //delete table row if deletebutton with id containing deleteQuery
     $("[id*='addNotes']").keyup(function() {
+        //store current value of textarea
         var	editText=$("[id*='addNotes']").val();
-        //var of td tr parent
         //slice id name so only pk left
         var pk = this.id.slice(8);
         //ajax post call
@@ -193,6 +193,7 @@ $(document).on('click','#savequeryadv', function () {
 $(document).on('click', "[id*='deleteQuery']", function () {
     var confirm = $(this).val();
         //if button value now Confirm delete
+<<<<<<< HEAD
     if (confirm == 'Confirm delete'){
         var td = $(this).parent();
         //var of td tr parent

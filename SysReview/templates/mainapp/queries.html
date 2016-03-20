@@ -14,12 +14,13 @@
                 {% for query in queries %}
                     <tr id="query{{ query.pk }}">
                         <td>{{ query.query_string }}</td>
-                        <td>
+<!--                        <td>
                             <form method="post"
                                   action="{% url 'create_query' review_name_slug %}">{% csrf_token %}<input
                                     class="pure-button pure-button-primary" type="submit" name="editQuery{{ query.pk }}"
                                     value="Edit"/></form>
-                        </td>
+                        </td>-->
+                        <td>{{query.pool_size}} Abstracts</td>
                         <td><input type="button" class="pure-button pure-button-primary" id="deleteQuery{{ query.pk }}"
                                    value="Delete"></td>
                     </tr>
@@ -28,6 +29,7 @@
             </table>
         </div>
         <a id="completequeries" class="cust-button-g">Finalize Queries</a>
+        <a href="{% url 'create_query' review_name_slug %}" class="pure-button pure-button-primary">Add Query Part</a>
 
     {% else %}
         <strong>No saved queries for {{review.name}}</strong>
