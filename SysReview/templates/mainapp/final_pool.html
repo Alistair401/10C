@@ -5,7 +5,6 @@
 {% block title %} Final Pool {% endblock %}
 
 {% block main_block %}
-    <script type="text/javascript" src="{% static 'js/mainapp-jquery.js' %}"></script>
 
     <h1>Final pool for your review, {{review_name}}.</h1>
     {% if papers %}
@@ -44,7 +43,7 @@
 
          <br><br>
          <div class = "container">
-            <input class="pure-button cust-pure-button-r" type="submit" name="abstract" value="Mark as not relevant" id="removefromFP" />
+            <input class="pure-button cust-button-r" type="button" name="abstract" value="Mark as not relevant" id="removefromFP" />
          </div>
     {% else %}
         <h2> There are no documents in your final pool!</h2>
