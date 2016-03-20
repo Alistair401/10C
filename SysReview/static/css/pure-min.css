@@ -1153,7 +1153,6 @@ div.container{
 .cust-pure-table-bordered td {
     border-bottom: 1px solid #cbcbcb
 }
-
 .cust-pure-table td,
 .cust-pure-table th {
     border-left: 1px solid #cbcbcb;
@@ -1251,12 +1250,11 @@ div.container{
     transition-duration: 0.25s;
     transition-timing-function: ease-out;
 }
-
-
-
-
 .cust-logo{
     width: 50%;
     padding-top: 15px;
-
+}
+.cust-remove-formatting{
+    display: block;
+    width:100%;
 }
