@@ -242,11 +242,29 @@ $(document).ready(function() {
         }
     });
 
+        //delete table row if deletebutton with id containing deleteQuery
+    $("[id*='addNotes']").keyup(function() {
+        var	editText=$("[id*='addNotes']").val()
+        //var of td tr parent
+        //slice id name so only pk left
+        var pk = this.id.slice(8);
+        //ajax post call
+        $.ajax({
+            type: "POST",
+            url: pk + "/add_notes/",
+            data: {'pk': pk,'editText':editText},
+            success: function () {
+            }
+        });
+    });
 
     $('textarea').numberedtextarea({
         // if true Tab key creates indentation
         allowTabChar: false
     });
+
+
+
 });
 $(document).on('click', '#checkAPIadv', function () {
     var txt = $('textarea#adv_textarea');
@@ -342,3 +360,4 @@ $(document).on('mouseup', '#confirmDel', function () {
     $(this).attr("type","submit");
     $(this).attr("value","CONFIRM DELETION");
 });
+

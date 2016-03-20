@@ -536,3 +536,10 @@ def save_query_std(request,review_name_slug,query_string):
     review.pool_size=len(esearch_result)
     review.save()
     return HttpResponse()
+
+#function for adding notes to paper in final pool
+def add_notes(request,review_name_slug,id):
+    notes = request.POST['editText']
+    Paper.objects.filter(pk=id).update(notes=notes)
+    return HttpResponse()
+
