@@ -192,37 +192,34 @@ $(document).on('click','#savequeryadv', function () {
 });
 $(document).on('click', "[id*='deleteQuery']", function () {
     var confirm = $(this).val();
-    //if button value now Confirm delete
-    if (confirm == 'Confirm delete') {
-        var td = $(this).parent();
         //if button value now Confirm delete
-        if (confirm == 'Confirm delete') {
-            var td = $(this).parent();
-            //var of td tr parent
-            var tr = td.parent();
-            //slice id name so only pk left
-            var pk = this.id.slice(11);
-            //ajax post call
-            $.ajax({
-                type: "POST",
-                url: pk + "/delete_query/",
-                data: "pk=" + pk,
-                success: function () {
-                    //fade and remove row
-                    tr.fadeOut(400, function () {
-                        tr.remove()
-                    })
-                }
-            });
-        }
-
-
-    } else {
+    if (confirm == 'Confirm delete'){
+        var td = $(this).parent();
+        //var of td tr parent
+        var tr = td.parent();
+        //slice id name so only pk left
+        var pk = this.id.slice(11);
+        //ajax post call
+        $.ajax({
+            type: "POST",
+            url: pk + "/delete_query/",
+            data: "pk=" + pk,
+            success: function () {
+                //fade and remove row
+                tr.fadeOut(400, function () {
+                    tr.remove()
+                })
+            }
+        });
+    }else{
         $(this).val("Confirm delete");
     }
 });
+
+
 $(document).on('click','#add2DP',function(){
     var removed_rows = "";
+    var button = $(this);
     if ($('#abstract_pool :checkbox:checked').length > 0){  // If at least 1 checkbox is checked
         var confirm = $(this).val();
         if (confirm == 'Confirm?'){
@@ -237,6 +234,7 @@ $(document).on('click','#add2DP',function(){
                 url:        "add_to_dp/",
                 data:       {'removed_rows':removed_rows},
                 success: function(){
+                    $(button).val("Mark as relevant");
                     $("#abstract_pool tbody tr").each(function(){   //For each row in table
                         if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
                             var row = this;
@@ -244,6 +242,8 @@ $(document).on('click','#add2DP',function(){
                                 $(row).remove()
                             });
                         }
+
+                        $(this).val("Mark as relevant");
                     });
                 }
             });
@@ -254,6 +254,7 @@ $(document).on('click','#add2DP',function(){
 });
 $(document).on('click',"#removefromFP",function(){
     var removed_rows = "";
+    var button = $(this);
     if ($('#final_pool :checkbox:checked').length > 0){
             var confirm = $(this).val();
             if (confirm == 'Confirm?'){
@@ -269,6 +270,7 @@ $(document).on('click',"#removefromFP",function(){
                     url:        "remove_from_fp/",
                     data:       {'removed_rows':removed_rows},
                     success: function(){
+                        $(button).val("Mark as not relevant");
                         $("#final_pool tbody tr").each(function(){   //For each row in table
                             if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
                                 var row = this;
@@ -286,6 +288,7 @@ $(document).on('click',"#removefromFP",function(){
 });
 $(document).on('click','#removefromDP',function(){
     var removed_rows = "";
+    var button = $(this);
     if ($('#document_pool :checkbox:checked').length > 0){
             var confirm = $(this).val();
             if (confirm == 'Confirm?'){
@@ -300,6 +303,7 @@ $(document).on('click','#removefromDP',function(){
                     url:        "remove_from_dp/",
                     data:       {'removed_rows':removed_rows},
                     success: function(){
+                        $(button).val("Mark as not relevant");
                         $("#document_pool tbody tr").each(function(){   //For each row in table
                             if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
                                 var row = this;
@@ -317,6 +321,7 @@ $(document).on('click','#removefromDP',function(){
 });
 $(document).on('click','#add2FP',function(){
     var removed_rows = "";
+    var button = $(this);
     if ($('#document_pool :checkbox:checked').length > 0){
             var confirm = $(this).val();
             if (confirm == 'Confirm?'){
@@ -331,6 +336,7 @@ $(document).on('click','#add2FP',function(){
                     url:        "add_to_fp/",
                     data:       {'removed_rows':removed_rows},
                     success: function(){
+                        $(button).val("Mark as relevant");
                         $("#document_pool tbody tr").each(function(){   //For each row in table
                             if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
                                 var row = this
@@ -348,10 +354,11 @@ $(document).on('click','#add2FP',function(){
         }
 });
 $(document).on('click','#removefromAP',function(){
+    var removed_rows = "";
+    var button = $(this);
     if ($('#abstract_pool :checkbox:checked').length > 0){
             var confirm = $(this).val();
             if (confirm == 'Confirm?'){
-                var removed_rows = "";  //List to hold row id's being removed
                 $("#abstract_pool tbody tr").each(function(){   //For each row in table
                     if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
                         var pk = this.id.slice(5); //Set the pk variable to the row id (ONLY THE NUMBER)
@@ -363,6 +370,7 @@ $(document).on('click','#removefromAP',function(){
                     url: "remove_from_ap/",
                     data: {'removed_rows':removed_rows},
                     success: function(){
+                        $(button).val("Mark as not relevant");
                         $("#abstract_pool tbody tr").each(function(){   //For each row in table
                             if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
                                 var row = this;

@@ -95,17 +95,32 @@ def efetch_query(id_list):
     return efetch_dict
 
 
-def elink_query(id):
-    encoded_query = urllib.pathname2url(id)
-    response = urllib2.urlopen(LINK_URL+encoded_query+LINK_EXTENSION)
+def elink_query(efetch_result):
+    id_query = ""
+    for key in efetch_result.iterkeys():
+        id_query += key + ","
+    id_query = id_query[:-1]
+    POST_data = {"id":id_query,
+                 "dbfrom":"pubmed",
+                 "retmode":"xml",
+                 "cmd":"prlinks",}
+    # encode inital ID query
+    encoded_query = urllib.urlencode(POST_data)
+    # get xml response from a POST request
+    request = urllib2.Request(LINK_URL,encoded_query)
+    response = urllib2.urlopen(request)
     dom = parse(response)
-    link_element = None
-    try:
-        link_element = dom.getElementsByTagName("Url")[0]
-        return getNodeText(link_element.childNodes)
-    except:
-        pass
-    return None
+    url_sets = dom.getElementsByTagName("IdUrlSet")
+    result_dict = efetch_result
+    for url_set in url_sets:
+        url_id = getNodeText(url_set.getElementsByTagName("Id")[0].childNodes)
+        try:
+            url_link = getNodeText(url_set.getElementsByTagName("Url")[0].childNodes)
+            result_dict[url_id]["paper_url"] = url_link
+        except IndexError:
+            result_dict[url_id]["paper_url"] = "#"
+    return result_dict
+
 
 
 def getNodeText(nodelist):
