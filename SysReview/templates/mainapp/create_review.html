@@ -6,7 +6,7 @@
 
 {% block main_block %}
 
-    <h1>Skeleton Create Review Page</h1>
+    <h1>Create Review</h1>
     {% if created %}
         <div class="cust-aside">Successfully created review</div>
         <br/>
@@ -15,12 +15,18 @@
         <div class="cust-aside-error">A review with that name already exists</div>
         <br/>
     {% endif %}
-    <form class="pure-form" id="review_form" method="post" action="/mainapp/create_review/" enctype="multipart/form-data">
+    <form class="pure-form pure-form-aligned" id="review_form" method="post" action="/mainapp/create_review/" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="pure-control-group">
             <label>Review Name:</label>
             {{ review_form.name }}
         </div>
-        <input class="pure-button pure-button-primary" type="submit" name="submit" value="Create" />
+        <div class="pure-control-group">
+             <label>Description:</label>
+            {{ review_form.description }}
+        </div>
+        <div class="pure-controls">
+            <input class="pure-button pure-button-primary" type="submit" name="submit" value="Create" />
+        </div>
     </form>
 {% endblock %}

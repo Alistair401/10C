@@ -2,6 +2,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from datetime import date
+from django.utils import timezone
 
 
 # Create your models here.
@@ -11,6 +12,16 @@ class Review(models.Model):
     creator = models.ForeignKey(User)
     # Unique char name for the review
     name = models.CharField(max_length=128,primary_key=True,unique=True)
+    # user description of query
+    description = models.TextField(default="")
+    #date review started
+    date_started = models.DateField(default=date.today())
+    #Total papers in pool
+    pool_size=models.IntegerField(default=0)
+    #number of abstracts judged
+    abstracts_judged=models.IntegerField(default=0)
+    #number of documents judged
+    document_judged=models.IntegerField(default=0)
     # Slug for url paths
     slug = models.SlugField()
 

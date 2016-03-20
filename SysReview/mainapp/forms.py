@@ -30,9 +30,10 @@ class UserProfileForm(forms.ModelForm):
 
 class CreateReviewForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Must be unique'}))
+    description = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Enter a description'}))
     class Meta:
         model = Review
-        fields = ('name',)
+        fields = ('name','description')
 
 #form for new advanced query
 class CreateAdvancedQuery(forms.ModelForm):

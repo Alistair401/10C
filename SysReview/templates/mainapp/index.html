@@ -5,6 +5,12 @@
 {% block main_block %}
     <img class="cust-logo" src={% static "css/SysReviewer.svg" %}>
 
+    {% if user.is_authenticated %}
+
+    <h1>Welcome {{user}} you are currently working on the {{ current_review }} review.</h1>
+
+    {% else %}
+
     <div class="pure-g">
         <div class="pure-u-24-24">
             <h2 >Welcome to SysReviewer - The Systematic Review App</h2>
@@ -26,4 +32,5 @@
 
         <a href="{% url 'login_register' %}" class="pure-button pure-button-primary">Login</a>
         <a href="{% url 'login_register' %}" class="pure-button pure-button-primary">Register</a>
+    {% endif %}
 {% endblock %}

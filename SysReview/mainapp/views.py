@@ -164,6 +164,20 @@ def review(request, review_name_slug):
 
         context_dict['review_name']=slugged_review.name
 
+        context_dict['review_description']=slugged_review.description
+
+        context_dict['review_date_started']=slugged_review.date_started
+        
+        context_dict['review_total_papers']=slugged_review.pool_size
+
+        abstractsLeft = slugged_review.pool_size - slugged_review.abstracts_judged - slugged_review.document_judged
+
+        context_dict['abstracts_left']=abstractsLeft
+
+        context_dict['review_document_pool_size']=slugged_review.abstracts_judged
+
+        context_dict['review_final_pool']=slugged_review.document_judged
+
         context_dict['review'] = slugged_review
 
         context_dict['review_name_slug'] = review_name_slug
@@ -192,8 +206,9 @@ def create_review(request):
         review_form = CreateReviewForm(request.POST)
         if review_form.is_valid:
             entered_name = request.POST.get('name').upper()
+            entered_description = request.POST.get('description')
             if not Review.objects.all().filter(name=entered_name):
-                created_review = Review.objects.create(creator=current_user,name=entered_name)
+                created_review = Review.objects.create(creator=current_user,name=entered_name,description=entered_description)
                 created_review.save()
                 created = True
             else:
