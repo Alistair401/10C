@@ -31,7 +31,7 @@
                     <tr id="paper{{paper.pk}}">
                         <td><input type="checkbox" class = "case"/></td>
                         <td>{{paper.title}}</td>
-                        <td>{{paper.abstract}}</td>
+                        <td><div class = abstract>{{paper.abstract}}</div></td>
                         <td>{{paper.authors}}</td>
                         <td>{{paper.paper_url}}</td>
                         <td>{{paper.publish_date}}</td>
@@ -43,7 +43,7 @@
     </div>
 
          <br><br>
-            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected document(s) from final pool" id="removefromFP" />
+            <input class="pure-button cust-pure-button-r" type="submit" name="abstract" value="Mark as not relevant" id="removefromFP" />
     {% else %}
         <h2> There are no documents in your final pool!</h2>
     {% endif %}

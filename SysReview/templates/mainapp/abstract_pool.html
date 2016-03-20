@@ -24,13 +24,12 @@
                     <th>Publish Date</th>
                 </tr>
             </thead>
-
             <tbody>
                 {% for paper in papers %}
                     <tr id="paper{{paper.pk}}">
                         <td><input type="checkbox" class="case"/></td>
                         <td>{{paper.title}}</td>
-                        <td>{{paper.abstract}}</td>
+                        <td><div class = abstract>{{paper.abstract}}</div></td>
                         <td>{{paper.authors}}</td>
                         <td>{{paper.publish_date}}</td>
                     </tr>
@@ -39,8 +38,8 @@
         </table>
     </div>
         <br><br>
-            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Add selected abstract(s) to document pool" id = "add2DP"/>
-            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected abstract(s) from abstract pool" id = "removefromAP"/>
+            <input class="pure-button cust-button-g" type="submit" name="abstract" value="Mark as relevant" id = "add2DP"/>
+            <input class="pure-button cust-pure-button-r" type="submit" name="abstract" value="Mark as not relevant" id = "removefromAP"/>
     {% else %}
         <h2> There are no abstracts in your abstract pool!</h2>
     {% endif %}

@@ -5,9 +5,10 @@
 {% block main_block %}
     <img class="cust-logo" src={% static "css/SysReviewer.svg" %}>
 
-    {% if user.is_authenticated %}
+   {% if user.is_authenticated %}
 
-    <h1>Welcome {{user}} you are currently working on the {{ current_review }} review.</h1>
+    <h1>Welcome back, {{user}}!<br>
+    You are currently working on the {{ current_review }} review.</h1>
 
     {% else %}
 
