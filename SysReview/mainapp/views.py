@@ -89,6 +89,7 @@ def profile(request):
     return render(request,'mainapp/profile.html',context_dict)
 
 #view saved reviews
+@login_required
 def reviews(request):
     # Get the current user so that we can get the linked reviews
     current_user = request.user
@@ -121,7 +122,7 @@ def review(request, review_name_slug):
 
 
     # The current user object
-    current_user = request.user;
+    current_user = request.user
 
     # Get or create a UserProfile object for the user
     current_profile = Researcher.objects.all().get_or_create(user=current_user)[0]
@@ -180,10 +181,6 @@ def review(request, review_name_slug):
 
         context_dict['working'] = working
 
-
-
-
-
     except Review.DoesNotExist:
         pass
 
@@ -208,7 +205,7 @@ def create_review(request):
                 created_review.save()
                 created = True
             else:
-                failure = True;
+                failure = True
     else:
         review_form = CreateReviewForm()
 
@@ -508,18 +505,17 @@ def remove_from_fp(request, review_name_slug):
 
 def save_query_adv(request, review_name_slug, query_string):
     review = Review.objects.get(slug=review_name_slug)
-    # get list of ID results from the PubMed API
     formatted = format_query_advanced(query_string)
     esearch_result = pubmed.esearch_query(formatted)
+    id_string = ""
     for id in esearch_result:
-        esearch_result += id + ","
+        id_string += id + ","
     id_string = esearch_result[:-1]
     query_object = Query.objects.create(review=review,query_string=formatted,pool_size=len(esearch_result),results=id_string)
     return HttpResponse()
 
 def save_query_std(request, review_name_slug, query_string):
     review = Review.objects.get(slug=review_name_slug)
-    # get list of ID results from the PubMed API
     formatted = format_query_novice(query_string)
     esearch_result = pubmed.esearch_query(formatted)
     id_string = ""
@@ -534,3 +530,23 @@ def add_notes(request,review_name_slug,id):
     notes = request.POST['editText']
     Paper.objects.filter(pk=id).update(notes=notes)
     return HttpResponse()
+
+@commit_on_success
+def query_api(request,review_name_slug):
+    slugged_review = Review.objects.get(slug=review_name_slug)
+    query_parts = slugged_review.query_set.all()
+    query = "("
+    for part in query_parts:
+        query += part.query_string + ") AND ("
+    query=query[:-6]
+    esearch_result = pubmed.esearch_query(query)
+    efetch_result = pubmed.efetch_query(esearch_result)
+    for id in efetch_result:
+        result = efetch_result[id]
+        authors = ""
+        for author in result["authors"]:
+            authors += author + ", "
+        authors=authors[:-2]
+        paper = Paper.objects.create(review=slugged_review,title=result["title"],authors=authors,abstract=result["abstract"],publish_date=result["publish_date"])
+    return HttpResponse()
+

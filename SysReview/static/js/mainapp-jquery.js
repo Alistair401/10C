@@ -147,7 +147,6 @@ $(document).on('mouseup','#confirmDel', function () {
     $(this).attr("type","submit");
     $(this).attr("value","CONFIRM DELETION");
 });
-
 $(document).on('input','#standard_builder,#standard_keywords',function(){
     $("#savequerystd").text("Check Part Results");
     $("#savequerystd").attr("class","cust-button");
@@ -191,33 +190,38 @@ $(document).on('click','#savequeryadv', function () {
         }
     });
 });
-
-$(document).on('click',"[id*='deleteQuery']",function(){
+$(document).on('click', "[id*='deleteQuery']", function () {
     var confirm = $(this).val();
-       //if button value now Confirm delete
-    if (confirm == 'Confirm delete'){
+    //if button value now Confirm delete
+    if (confirm == 'Confirm delete') {
         var td = $(this).parent();
-        var tr = td.parent();
-        //slice id name so only pk left
-        var pk = this.id.slice(11);
-        //ajax post call
-        $.ajax({
-            type: "POST",
-            url: pk + "/delete_query/",
-            data: "pk=" + pk,
-            success: function () {
-                //fade and remove row
-                tr.fadeOut(400, function () {
-                    tr.remove()
-                })
-            }
-        });
-    }else{
+        //if button value now Confirm delete
+        if (confirm == 'Confirm delete') {
+            var td = $(this).parent();
+            //var of td tr parent
+            var tr = td.parent();
+            //slice id name so only pk left
+            var pk = this.id.slice(11);
+            //ajax post call
+            $.ajax({
+                type: "POST",
+                url: pk + "/delete_query/",
+                data: "pk=" + pk,
+                success: function () {
+                    //fade and remove row
+                    tr.fadeOut(400, function () {
+                        tr.remove()
+                    })
+                }
+            });
+        }
+
+
+    } else {
         $(this).val("Confirm delete");
     }
 });
-
-$(document).unbind("click").on('click','#add2DP',function(){
+$(document).on('click','#add2DP',function(){
     var removed_rows = "";
     if ($('#abstract_pool :checkbox:checked').length > 0){  // If at least 1 checkbox is checked
         var confirm = $(this).val();
@@ -248,7 +252,6 @@ $(document).unbind("click").on('click','#add2DP',function(){
         }
     }
 });
-
 $(document).on('click',"#removefromFP",function(){
     var removed_rows = "";
     if ($('#final_pool :checkbox:checked').length > 0){
@@ -375,4 +378,21 @@ $(document).on('click','#removefromAP',function(){
             }
         }
 });
+$(document).on('click','#completequeries',function(){
+    var button = $(this);
+    var confirm = button.data("confirm");
+    if (confirm == "confirm") {
+        $.ajax({
+            type: "GET",
+            url: "completequeries/",
+            success: function (data) {
+                button.text("Results added to pools")
+            }
+        });
+    } else {
+        button.data("confirm","confirm");
+        button.text("Click again to confirm")
+    }
+});
+
 
