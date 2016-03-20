@@ -4,4 +4,26 @@
 
 {% block main_block %}
     <img class="cust-logo" src={% static "css/SysReviewer.svg" %}>
+
+    <div class="pure-g">
+        <div class="pure-u-24-24">
+            <h2 >Welcome to SysReviewer - The Systematic Review App</h2>
+        </div>
+    </div>
+        <p>Powered by PubMed, SysReview gives you the tools to create, organise and track your systematic review.
+        Create and edit your search queries making sure you only have the results that are important to you.</p>
+        <p>Review and approve papers at each stage of your systematic review.
+        SysReviewer gives you quick access to each stage of your systematic review.</p>
+
+        <h2>The SysReviewer Systematic Review Building Blocks</h2>
+        <ul>
+            <li>Create/edit Multiple Reviews</li>
+            <li>Create multiple queries, test your results, select the best query for your review</li>
+            <li>Abstract Pool - Review,approve or reject your reviews papers based on their abstracts </li>
+            <li>Document Pool - Visit the full paper, select the papers that are relevant to your review</li>
+            <li>Final Pool - View the final papers that are necessary for your review</li>
+        </ul>
+
+        <a href="{% url 'login_register' %}" class="pure-button pure-button-primary">Login</a>
+        <a href="{% url 'login_register' %}" class="pure-button pure-button-primary">Register</a>
 {% endblock %}
