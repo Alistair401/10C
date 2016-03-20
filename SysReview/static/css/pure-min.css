@@ -1246,7 +1246,7 @@ div.container{
 }
 .cust-pure-table #abstract_pool {
     overflow: scroll;
-    height: 400px
+    height: 800px
 }
 .cust-centered{
     text-align: center;
@@ -1276,4 +1276,11 @@ div.container{
     transition-duration: 0.25s;
     transition-timing-function: ease-out;
     cursor: pointer;
+}
+
+.morecontent span {
+    display: none;
+}
+.morelink {
+    display: block;
 }
