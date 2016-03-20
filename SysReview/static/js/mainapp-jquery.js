@@ -311,7 +311,7 @@ $(document).on('click', '#confirmStd', function () {
         var keyword = $(this).next().val();
         query = query + $(this).val() + "," + keyword + ",";
     });
-    button = $(this);
+    var button = $(this);
     query = query.slice(0, -2);
     $.ajax({
         type: "GET",
@@ -341,4 +341,47 @@ $(document).on({
 $(document).on('mouseup', '#confirmDel', function () {
     $(this).attr("type","submit");
     $(this).attr("value","CONFIRM DELETION");
+});
+$(document).on('input','#standard_builder,#standard_keywords',function(){
+    $("#confirmStd").text("Check Results");
+    $("#confirmStd").attr("class","cust-button");
+    $("#confirmStd").attr("id", "checkAPIstd");
+});
+$(document).on('input','#adv_textarea',function(){
+    $("#confirmAdv").text("Check Results");
+    $("#confirmAdv").attr("class","cust-button");
+    $("#confirmAdv").attr("id", "checkAPIadv");
+});
+$(document).on('click', '#savequerystd', function () {
+    var query = "";
+    $('input#standard_keywords').each(function(){
+        var keyword = $(this).next().val();
+        query = query + $(this).val() + "," + keyword + ",";
+    });
+    var button = $(this);
+    query = query.slice(0, -2);
+    $.ajax({
+        type: "GET",
+        url: "savestdquerynottopool/" + query,
+        success: function (data) {
+            $(button).text("Saved")
+        }
+    });
+});
+$(document).on('click', '#savequeryadv', function () {
+    var txt = $('textarea#adv_textarea');
+    var button = $(this);
+    var unformattedquery = txt.val().split("\n");
+    var formattedquery = "";
+    $.each(unformattedquery, function (l) {
+        formattedquery = formattedquery + unformattedquery[l] + ",";
+    });
+    formattedquery = formattedquery.slice(0, -1);
+    $.ajax({
+        type: "GET",
+        url: "saveadvquerynottopool/" + formattedquery,
+        success: function (data) {
+            $(button).text("Saved")
+        }
+    });
 });
