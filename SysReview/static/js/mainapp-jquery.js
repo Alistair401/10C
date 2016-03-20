@@ -50,11 +50,6 @@ $(document).ready(function() {
         }
     });
 
-    $('#adv_textarea').numberedtextarea({
-        // if true Tab key creates indentation
-        allowTabChar: false
-    });
-
     //function for clone input fields for standard query creation
     //if operator selector changed
     $("#standard_builder").change(function(){
@@ -70,6 +65,11 @@ $(document).ready(function() {
             $(this).off();
         }
     });
+
+    $('#adv_textarea').numberedtextarea({
+        // if true Tab key creates indentation
+        allowTabChar: false
+    });
 });
 $(document).on('click','#checkAPIadv', function () {
     var txt = $('textarea#adv_textarea');
@@ -84,28 +84,10 @@ $(document).on('click','#checkAPIadv', function () {
         type: "GET",
         url: "advquery/" + formattedquery,
         success: function (data) {
-            $(button).text("+ Add results to review");
-            $(button).attr("id", "confirmAdv");
+            $(button).text("Save Query");
+            $(button).attr("id", "savequeryadv");
             $(button).attr("class","cust-button-g");
             $('#advresults').text("Number of results: " + data.toString());
-        }
-    });
-});
-$(document).on('click','#confirmAdv', function () {
-    var txt = $('textarea#adv_textarea');
-    var button = $(this);
-    var unformattedquery = txt.val().split("\n");
-    var formattedquery = "";
-    $.each(unformattedquery, function (l) {
-        formattedquery = formattedquery + unformattedquery[l] + ",";
-    });
-    formattedquery = formattedquery.slice(0, -1);
-    $.ajax({
-        type: "GET",
-        url: "saveadvquery/" + formattedquery,
-        success: function (data) {
-            $(button).text("Added");
-            $(button).attr("id","done");
         }
     });
 });
@@ -121,27 +103,10 @@ $(document).on('click','#checkAPIstd', function () {
         type: "GET",
         url: "stdquery/" + query,
         success: function (data) {
-            $(button).text("+ Add results to review");
-            $(button).attr("id", "confirmStd");
+            $(button).text("Save Query Part");
+            $(button).attr("id", "savequerystd");
             $(button).attr("class","cust-button-g");
             $('#stdresults').text("Number of results: " + data.toString());
-        }
-    });
-});
-$(document).on('click','#confirmStd', function () {
-    var query = "";
-    $('input#standard_keywords').each(function(){
-        var keyword = $(this).next().val();
-        query = query + $(this).val() + "," + keyword + ",";
-    });
-    var button = $(this);
-    query = query.slice(0, -2);
-    $.ajax({
-        type: "GET",
-        url: "savestdquery/" + query,
-        success: function (data) {
-            $(button).text("Added");
-            $(button).attr("id", "done");
         }
     });
 });
@@ -166,14 +131,14 @@ $(document).on('mouseup','#confirmDel', function () {
     $(this).attr("value","CONFIRM DELETION");
 });
 $(document).on('input','#standard_builder,#standard_keywords',function(){
-    $("#confirmStd").text("Check Results");
-    $("#confirmStd").attr("class","cust-button");
-    $("#confirmStd").attr("id", "checkAPIstd");
+    $("#savequerystd").text("Check Part Results");
+    $("#savequerystd").attr("class","cust-button");
+    $("#savequerystd").attr("id", "checkAPIstd");
 });
 $(document).on('input','#adv_textarea',function(){
-    $("#confirmAdv").text("Check Results");
-    $("#confirmAdv").attr("class","cust-button");
-    $("#confirmAdv").attr("id", "checkAPIadv");
+    $("#savequeryadv").text("Check Part Results");
+    $("#savequeryadv").attr("class","cust-button");
+    $("#savequeryadv").attr("id", "checkAPIadv");
 });
 $(document).on('click','#savequerystd', function () {
     var query = "";
@@ -185,7 +150,7 @@ $(document).on('click','#savequerystd', function () {
     query = query.slice(0, -2);
     $.ajax({
         type: "GET",
-        url: "savestdquerynottopool/" + query,
+        url: "savestdquery/" + query,
         success: function (data) {
             $(button).text("Saved")
         }
@@ -202,7 +167,7 @@ $(document).on('click','#savequeryadv', function () {
     formattedquery = formattedquery.slice(0, -1);
     $.ajax({
         type: "GET",
-        url: "saveadvquerynottopool/" + formattedquery,
+        url: "saveadvquery/" + formattedquery,
         success: function (data) {
             $(button).text("Saved")
         }
@@ -242,8 +207,8 @@ $(document).on('click','#add2DP',function(){
 } );
 $(document).on('click',"[id*='deleteQuery']",function(){
     var confirm = $(this).val();
-        //if button value now Confirm delete
-        if (confirm == 'Confirm delete'){
+    //if button value now Confirm delete
+    if (confirm == 'Confirm delete'){
             var td = $(this).parent();
             //var of td tr parent
             var tr = td.parent();
@@ -364,7 +329,7 @@ $(document).on('click','#removefromAP',function(){
     if ($('#abstract_pool :checkbox:checked').length > 0){
             var confirm = $(this).val();
             if (confirm == 'Confirm?'){
-                var removed_rows = ""   //List to hold row id's being removed
+                var removed_rows = "";  //List to hold row id's being removed
                 $("#abstract_pool tbody tr").each(function(){   //For each row in table
                     if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
                         var pk = this.id.slice(5); //Set the pk variable to the row id (ONLY THE NUMBER)
@@ -378,7 +343,7 @@ $(document).on('click','#removefromAP',function(){
                     success: function(){
                         $("#abstract_pool tbody tr").each(function(){   //For each row in table
                             if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
-                                var row = this
+                                var row = this;
                                 $(row).fadeOut(400, function () {
                                     $(row).remove()
                                 });

@@ -6,7 +6,7 @@
 
 {% block main_block %}
 
-    <h1>Create Query</h1>
+    <h1>Create Query Part</h1>
     <div class="cust-button" id="switchToAdv">Advanced Query Editor</div>
 
     <div class="pure-form pure-form-aligned cust-remove-formatting" id="adv-form">
@@ -15,13 +15,10 @@
         <br/>
         <div class="pure-g">
             <div class="pure-u-1-5">
-                <div id="checkAPIadv" class="cust-button">Query Part Results</div>
+                <div id="checkAPIadv" class="cust-button">Check Part Results</div>
             </div>
             <div class="pure-u-1-5 cust-centered">
                 <div id="advresults" class="cust-notifier">Number of results: 0</div>
-            </div>
-            <div class="pure-u-1-5" id="savequerydiv">
-                <div id="savequeryadv" class="cust-button-g">Save Query</div>
             </div>
             <div class="pure u 1-5">
                 <img id="ajaxloading" src="{% static 'css/rolling.gif' %}">
@@ -44,13 +41,10 @@
         <br/>
         <div class="pure-g">
             <div class="pure-u-1-5">
-                <div id="checkAPIstd" class="cust-button">Check Results</div>
+                <div id="checkAPIstd" class="cust-button">Check Part Results</div>
             </div>
             <div class="pure-u-1-5">
                 <div id="stdresults" class="cust-notifier">Number of results: 0</div>
-            </div>
-            <div class="pure-u-1-5" id="savequerydiv">
-                <div id="savequerystd" class="cust-button-g">Save Query</div>
             </div>
         </div>
         <br/>
