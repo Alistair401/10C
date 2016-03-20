@@ -144,7 +144,7 @@ $(document).ready(function() {
                     }
                 });
             } else {
-                %(this).val("Confirm?");
+                $(this).val("Confirm?");
             }
         }
     });
@@ -173,6 +173,7 @@ $(document).ready(function() {
                                 });
                             }
                         });
+
                     }
                 });
             } else {

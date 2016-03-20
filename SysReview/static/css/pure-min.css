@@ -1143,6 +1143,18 @@ div.abstract{
     overflow: auto;
 }
 
+div.container{
+    position: relative;
+    text-align: center;
+    margin-top: -2%;
+
+}
+
+div.rows{
+    max-width: 100px;
+    max-height: 100px;
+}
+
 .cust-pure-table-bordered td {
     border-bottom: 1px solid #cbcbcb
 }
@@ -1246,40 +1258,7 @@ div.abstract{
     transition-timing-function: ease-out;
 }
 
-#add2DP {
-    position:absolute;
-    transition: .5s ease;
-    top: 93%;
-    left: 45%;
-}
 
-#removefromAP {
-    position:absolute;
-    transition: .5s ease;
-    top: 93%;
-    left: 60%;
-}
-
-#add2FP {
-    position:absolute;
-    transition: .5s ease;
-    top: 93%;
-    left: 45%;
-}
-
-#removefromDP {
-    position:absolute;
-    transition: .5s ease;
-    top: 93%;
-    left: 60%;
-}
-
-#removefromFP {
-    position:absolute;
-    transition: .5s ease;
-    top: 93%;
-    left: 50%;
-}
 
 
 .cust-logo{
