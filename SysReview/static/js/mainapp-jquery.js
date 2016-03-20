@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    $('#adv-form').hide();
-    $('#std-form').fadeIn();
     $('[id=ajaxloading]').each(function(){
         $(this).hide();
     });
@@ -81,9 +79,11 @@ $(document).ready(function() {
         });
     });
 
-    $('textarea#adv_textarea').numberedtextarea({
-        // if true Tab key creates indentation
-        allowTabChar: false
+    $('#adv-form').hide();
+    $('#std-form').fadeIn();
+
+    $('[id=adv_textarea]').each(function(){
+        $(this).numberedtextarea({});
     });
 
 });
@@ -411,4 +411,5 @@ $(document).on('click','#full_query_results',function(){
             }
         })
 });
+
 
