@@ -32,7 +32,7 @@
                     <tr id="paper{{paper.pk}}">
                         <td><input type="checkbox" class = "case"/></td>
                         <td>{{paper.title}}</td>
-                        <td>{{paper.abstract}}</td>
+                        <td><div class = abstract>{{paper.abstract}}</div></td>
                         <td>{{paper.authors}}</td>
                         <td>{{paper.paper_url}}</td>
                         <td>{{paper.publish_date}}</td>
@@ -41,10 +41,11 @@
             </tbody>
         </table>
     </div>
-
          <br><br>
-            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Add selected document(s) to final pool" id="add2FP"/>
-            <input class="pure-button pure-button-primary" type="submit" name="abstract" value="Remove selected document(s) from document pool" id ="removefromDP" />
+         <div class = "container">
+            <input class="pure-button cust-button-g" type="submit" name="abstract" value="Mark as relevant" id="add2FP"/>
+            <input class="pure-button cust-pure-button-r" type="submit" name="abstract" value="Mark as not relevant" id ="removefromDP" />
+         </div>
     {% else %}
         <h2> There are no documents in your document pool!</h2>
     {% endif %}

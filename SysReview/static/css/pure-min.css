@@ -1136,6 +1136,25 @@ div.numberedtextarea-number {
     vertical-align: center;
 }
 
+div.abstract{
+    max-height: 100px;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+div.container{
+    position: relative;
+    text-align: center;
+    margin-top: -2%;
+
+}
+
+div.rows{
+    max-width: 100px;
+    max-height: 100px;
+}
+
 .cust-pure-table-bordered td {
     border-bottom: 1px solid #cbcbcb
 }
@@ -1146,9 +1165,8 @@ div.numberedtextarea-number {
     border-width: 0 0 0 1px;
     font-size: inherit;
     margin: 0;
-    overflow: visible;
+    overflow: scroll;
     padding: .5em 1em
-
 }
 
 .cust-pure-table td {
@@ -1159,8 +1177,10 @@ div.numberedtextarea-number {
 }
 .scrollit {
     overflow-y:scroll;
-    height:390px;
+    overflow-x: scroll;
+    height:410px;
 }
+
 .cust-bubble {
     background: #3C8DC5;
     padding: .5em 1em;
@@ -1229,7 +1249,18 @@ div.numberedtextarea-number {
 }
 .cust-pure-button-r{
     background-color: #FF0000;
+    border-radius: 3px;
+    box-shadow: 0px 5px #CD0000;
+    padding: .5em 1em;
+    display: inline-block;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
 }
+
+
+
+
 .cust-logo{
     width: 50%;
     padding-top: 15px;
