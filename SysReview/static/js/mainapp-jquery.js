@@ -300,9 +300,9 @@ $(document).on('click', '#confirmAdv', function () {
         }
     });
 });
+$(document).on('click', '#checkAPIstd', function () {
     var query = "";
     $('input#standard_keywords').each(function(){
-$(document).on('click', '#checkAPIstd', function () {
         var keyword = $(this).next().val();
         query = query + $(this).val() + "," + keyword + ",";
     });
