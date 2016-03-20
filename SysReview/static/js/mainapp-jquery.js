@@ -120,88 +120,97 @@ $(document).ready(function() {
     $("#removefromDP").click(function(){
         var removed_rows = ""
         if ($('#document_pool :checkbox:checked').length > 0){
-            $("#document_pool tbody tr").each(function(){
-                if($(this).find('input:checkbox:checked').length == 1){
-                    var pk=this.id.slice(5)
-                    removed_rows = removed_rows + pk + ","
-                }
-            });
-            $.ajax({
-                type:       "POST",
-                url:        "remove_from_dp/",
-                data:       {'removed_rows':removed_rows},
-                success: function(){
-                    $("#document_pool tbody tr").each(function(){   //For each row in table
-                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
-                            var row = this
-                            $(row).fadeOut(400, function () {
-                                $(row).remove()
-                            });
-                        }
-                    });
-                }
-            });
-        } else {
-            alert("WARNING: \nNo papers are selected to be removed from pool!")
+            var confirm = $(this).val();
+            if (confirm == 'Confirm?'){
+                $("#document_pool tbody tr").each(function(){
+                    if($(this).find('input:checkbox:checked').length == 1){
+                        var pk=this.id.slice(5)
+                        removed_rows = removed_rows + pk + ","
+                    }
+                });
+                $.ajax({
+                    type:       "POST",
+                    url:        "remove_from_dp/",
+                    data:       {'removed_rows':removed_rows},
+                    success: function(){
+                        $("#document_pool tbody tr").each(function(){   //For each row in table
+                            if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                                var row = this
+                                $(row).fadeOut(400, function () {
+                                    $(row).remove()
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                %(this).val("Confirm?");
+            }
         }
     });
 
     $("#add2FP").click(function(){
         var removed_rows = ""
         if ($('#document_pool :checkbox:checked').length > 0){
-            $("#document_pool tbody tr").each(function(){
-                if($(this).find('input:checkbox:checked').length == 1){
-                    var pk=this.id.slice(5)
-                    removed_rows = removed_rows + pk + ","
-                }
-            });
-            $.ajax({
-                type:       "POST",
-                url:        "add_to_fp/",
-                data:       {'removed_rows':removed_rows},
-                success: function(){
-                    $("#document_pool tbody tr").each(function(){   //For each row in table
-                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
-                            var row = this
-                            $(row).fadeOut(400, function () {
-                                $(row).remove()
-                            });
-                        }
-                    });
-                }
-            });
-        } else {
-            alert("WARNING: No papers are selected! \nPlease select papers to add to final pool")
+            var confirm = $(this).val();
+            if (confirm == 'Confirm?'){
+                $("#document_pool tbody tr").each(function(){
+                    if($(this).find('input:checkbox:checked').length == 1){
+                        var pk=this.id.slice(5)
+                        removed_rows = removed_rows + pk + ","
+                    }
+                });
+                $.ajax({
+                    type:       "POST",
+                    url:        "add_to_fp/",
+                    data:       {'removed_rows':removed_rows},
+                    success: function(){
+                        $("#document_pool tbody tr").each(function(){   //For each row in table
+                            if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                                var row = this
+                                $(row).fadeOut(400, function () {
+                                    $(row).remove()
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                $(this).val("Confirm?");
+            }
         }
     });
 
     $("#removefromFP").click(function(){
         var removed_rows = ""
         if ($('#final_pool :checkbox:checked').length > 0){
-            $("#final_pool tbody tr").each(function(){
-                if($(this).find('input:checkbox:checked').length == 1){
-                    var pk=this.id.slice(5)
-                    var row = this
-                    removed_rows = removed_rows + pk + ","
-                }
-            });
-            $.ajax({
-                type:       "POST",
-                url:        "remove_from_fp/",
-                data:       {'removed_rows':removed_rows},
-                success: function(){
-                    $("#final_pool tbody tr").each(function(){   //For each row in table
-                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
-                            var row = this
-                            $(row).fadeOut(400, function () {
-                                $(row).remove()
-                            });
-                        }
-                    });
-                }
-            });
-        } else {
-            var al = alert("WARNING: \nNo papers are selected to be removed from pool!")
+            var confirm = $(this).val();
+            if (confirm == 'Confirm?'){
+                $("#final_pool tbody tr").each(function(){
+                    if($(this).find('input:checkbox:checked').length == 1){
+                        var pk=this.id.slice(5)
+                        var row = this
+                        removed_rows = removed_rows + pk + ","
+                    }
+                });
+                $.ajax({
+                    type:       "POST",
+                    url:        "remove_from_fp/",
+                    data:       {'removed_rows':removed_rows},
+                    success: function(){
+                        $("#final_pool tbody tr").each(function(){   //For each row in table
+                            if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                                var row = this
+                                $(row).fadeOut(400, function () {
+                                    $(row).remove()
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                $(this).val("Confirm?");
+            }
         }
     });
 
