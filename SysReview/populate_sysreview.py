@@ -27,8 +27,8 @@ def populate():
     user1review2 = add_review(creator=user1,name="Exercise for depression")
     user1review3 = add_review(creator=user1,name="Early skin-to-skin contact for mothers and their healthy newborn infants")
     #create queries
-    create_query(user1review1,"Interventions[All Fields] AND preventing[All Fields] AND (accidental falls[MeSH Terms] OR (accidental[All Fields] AND falls[All Fields]) OR accidental falls[All Fields] OR falls[All Fields]) AND older[All Fields] AND (persons[MeSH Terms] OR persons[All Fields] OR people[All Fields]) AND (life[MeSH Terms] OR life[All Fields] OR living[All Fields]) AND (residence characteristics[MeSH Terms] OR (residence[All Fields] AND characteristics[All Fields]) OR residence characteristics[All Fields] OR community[All Fields])")
-    create_query(user1review2,"(exercise[MeSH Terms] OR exercise[All Fields]) AND (depressive disorder[MeSH Terms] OR (depressive[All Fields] AND disorder[All Fields]) OR depressive disorder[All Fields] OR depression[All Fields] OR depression[MeSH Terms])")
+    create_query(user1review1,"(((((((((((((Interventions ) AND preventing ) AND accidental falls) OR accidental) AND older) AND persons) OR people) AND life) OR living) AND residence characteristics) OR residence) AND characteristics) OR residence characteristics) OR community ")
+    create_query(user1review2,"(((((exercise) AND depressive disorder) OR depressive) NOT disorder) OR depressive disorder) OR depression ")
     create_query(user1review3,"")
 
     #create 2nd user
@@ -40,8 +40,8 @@ def populate():
     user2review2 = add_review(creator=user2,name="Interventions for preventing obesity in children")
     user2review3 = add_review(creator=user2,name="Interprofessional education: effects on professional practice and health care outcomes")
     #create queries
-    create_query(user2review1,"(neuraminidase[MeSH Terms] OR neuraminidase[All Fields]) AND (antagonists and inhibitors[Subheading] OR (antagonists[All Fields] AND inhibitors[All Fields]) OR antagonists and inhibitors[All Fields] OR inhibitors[All Fields]) AND preventing[All Fields] AND (therapy[Subheading] OR therapy[All Fields] OR treating[All Fields]) AND (influenza, human[MeSH Terms] OR (influenza[All Fields] AND human[All Fields]) OR human influenza[All Fields] OR influenza[All Fields]) AND healthy[All Fields] AND (adult[MeSH Terms] OR adult[All Fields] OR adults[All Fields]) AND (child[MeSH Terms] OR child[All Fields] OR children[All Fields])")
-    create_query(user2review2,"Interventions[All Fields] AND preventing[All Fields] AND (pediatric obesity[MeSH Terms] OR (pediatric[All Fields] AND obesity[All Fields]) OR pediatric obesity[All Fields] OR (obesity[All Fields] AND children[All Fields]) OR obesity in children[All Fields])")
+    create_query(user2review1,"((((((((((((((((((neuraminidase) AND antagonists and inhibitors) OR antagonists) AND inhibitors) OR antagonists and inhibitors) OR inhibitors) AND preventing) AND therapy) OR treating) AND influenza) human OR) influenza AND) human OR) human influenza OR) influenza AND) healthy AND) adult AND) child OR) children ")
+    create_query(user2review2,"((((((((Interventions) AND preventing) AND pediatric obesity) OR pediatric) AND obesity) OR pediatric obesity) OR obesity) AND children) OR obesity in children")
     create_query(user2review3,"")
 
     #create 3rd user
@@ -53,8 +53,8 @@ def populate():
     user3review2 = add_review(creator=user3,name="Risk assessment tools for the prevention of pressure ulcers")
     user3review3 = add_review(creator=user3,name="Midwife-led continuity models versus other models of care for childbearing women")
     #create queries
-    create_query(user3review1,"(Interprofessional[All Fields] AND (cooperative behavior[MeSH Terms] OR (cooperative[All Fields] AND behavior[All Fields]) OR cooperative behavior[All Fields] OR collaboration[All Fields])) AND (effects[All Fields] AND practice-based[All Fields] AND interventions[All Fields] AND (professional practice[MeSH Terms] OR (professional[All Fields] AND practice[All Fields]) OR professional practice[All Fields]) AND (delivery of health care[MeSH Terms] OR (delivery[All Fields] AND health[All Fields] AND care[All Fields]) OR delivery of health care[All Fields] OR healthcare[All Fields]) AND outcomes[All Fields])")
-    create_query(user3review2,"(risk assessment[MeSH Terms] OR (risk[All Fields] AND assessment[All Fields]) OR risk assessment[All Fields]) AND tools[All Fields] AND (prevention and control[Subheading] OR (prevention[All Fields] AND control[All Fields]) OR prevention and control[All Fields] OR prevention[All Fields]) AND (pressure ulcer[MeSH Terms] OR (pressure[All Fields] AND ulcer[All Fields]) OR pressure ulcer[All Fields] OR (pressure[All Fields] AND ulcers[All Fields]) OR pressure ulcers[All Fields])")
+    create_query(user3review1,"((((((((((((((((((((Interprofessional) AND cooperative behavior) OR cooperative) AND behavior) OR cooperative behavior) OR collaboration) AND effects) AND practice based) AND interventions) AND professional practice) OR professional practice) OR professional) AND practice) OR professional practice) AND delivery of health care) OR delivery) AND health) AND care) OR delivery of health care) OR healthcare) AND outcomes ")
+    create_query(user3review2,"((((((((((((((((risk assessment) OR risk) AND assessment) OR risk assessment) AND tools) AND prevention and control) OR prevention) AND control) OR prevention and control) OR prevention) AND pressure ulcer) OR pressure) AND ulcer) OR pressure ulcer) OR pressure) AND ulcers) OR pressure ulcers ")
     create_query(user3review3,"")
 
     # Print out what we have added to the users
