@@ -32,13 +32,14 @@
                         <td><input type="checkbox" class = "case"/></td>
                         <td><div class = title>{{paper.title}}</div></td>
                         <td><div class = abstract>{{paper.abstract}}</div></td>
-                        <td><div class = authors>{{paper.authors}}</div></td>
+                        <td>{{paper.authors}}</td>
                         <td>
                             {% if paper.paper_url %}
-                                <a class="cust-button" href="{{paper.paper_url}}">View Paper</a></td>
+                                <a class="pure-button pure-button-primary" href="{{paper.paper_url}}">View Paper</a></td>
                             {% else %}
                                 <p>No Paper Available</p>
                             {% endif %}
+                        </td>
                         <td>{{paper.publish_date}}</td>
                     </tr>
                 {% endfor %}
