@@ -29,14 +29,13 @@
             </table>
         </div>
         <a id="completequeries" class="cust-button-g">Finalize Queries</a>
-        <a href="{% url 'create_query' review_name_slug %}" class="pure-button pure-button-primary">Add Query Part</a>
-
+        <a href="{% url 'create_query' review_name_slug %}" class="cust-button">Add Query Part</a>
+        <div class="cust-notifier">Total Abstracts: {{total_abstracts}}</div>
     {% else %}
         <strong>No saved queries for {{review.name}}</strong>
         <br/>
         <br/>
         <a class="cust-button" href="{% url 'create_query' review_name_slug %}">Create Query</a>
-
     {% endif %}
 
 

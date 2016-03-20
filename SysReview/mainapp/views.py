@@ -218,7 +218,9 @@ def queries(request, review_name_slug):
     current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
     review = Review.objects.get(slug=review_name_slug)
     queries = Query.objects.filter(review=review)
-    queryList =[]
+    totalAbstracts =0
+    for query in queries:
+        totalAbstracts+=query.pool_size
     # for query in queries:
     #     queryWords=query.query_string.split()
     #     tempString="("
@@ -235,7 +237,7 @@ def queries(request, review_name_slug):
     #     tempString+=")"
     #     queryList+=[tempString]
 
-    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'queryList':queryList,'current_review':current_review}
+    context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'current_review':current_review,'total_abstracts':totalAbstracts}
     return render(request,'mainapp/queries.html',context_dict)
 
 #create new query
