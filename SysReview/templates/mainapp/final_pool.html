@@ -32,7 +32,12 @@
                         <td>{{paper.title}}</td>
                         <td><div class = abstract>{{paper.abstract}}</div></td>
                         <td>{{paper.authors}}</td>
-                        <td><a href="{{paper.paper_url}}">{{paper.paper_url}}</a></td>
+                        <td>
+                            {% if paper.paper_url %}
+                                <a class="cust-button" href="{{paper.paper_url}}">View Paper</a></td>
+                            {% else %}
+                                <p>No Paper Available</p>
+                            {% endif %}
                         <td>{{paper.publish_date}}</td>
                         <td><textarea id="addNotes{{paper.pk}}">{{paper.notes}}</textarea></td>
                     </tr>

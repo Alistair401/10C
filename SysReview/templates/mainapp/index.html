@@ -10,10 +10,16 @@
 
     <div class="cust-centered">
         <h1>Welcome {{user}}</h1>
-        <h2>You are currently working on the</h2>
-        <h2>{{ current_review }} review.</h2>
-        <a href="{% url 'reviews' %}" class="pure-button pure-button-primary">Change Review</a>
-        <a href="{% url 'create_review' %}" class="pure-button pure-button-primary">Create Review</a>
+        {% if current_review %}
+            <h2>You are currently working on the</h2>
+            <h2>{{ current_review }} review.</h2>
+            <a href="{% url 'reviews' %}" class="cust-button">Change Review</a>
+            <a href="{% url 'create_review' %}" class="cust-button">Create Review</a>
+        {% else %}
+            <h2>You aren't working on any reviews</h2>
+            <a href="{% url 'reviews' %}" class="cust-button">Select Review</a>
+            <a href="{% url 'create_review' %}" class="cust-button">Create Review</a>
+        {% endif %}
     </div>
     {% else %}
 
