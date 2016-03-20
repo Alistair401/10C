@@ -66,7 +66,24 @@ $(document).ready(function() {
         }
     });
 
-    $('#adv_textarea').numberedtextarea({
+
+        //delete table row if deletebutton with id containing deleteQuery
+    $("[id*='addNotes']").keyup(function() {
+        var	editText=$("[id*='addNotes']").val();
+        //var of td tr parent
+        //slice id name so only pk left
+        var pk = this.id.slice(8);
+        //ajax post call
+        $.ajax({
+            type: "POST",
+            url: pk + "/add_notes/",
+            data: {'pk': pk,'editText':editText},
+            success: function () {
+            }
+        });
+    });
+
+    $('textarea').numberedtextarea({
         // if true Tab key creates indentation
         allowTabChar: false
     });
@@ -113,13 +130,13 @@ $(document).on('click','#checkAPIstd', function () {
 $(document).on('click','#switchToAdv', function () {
     $('#std-form').hide();
     $('#adv-form').fadeIn();
-    $(this).text("Standard Query Editor")
+    $(this).text("Standard Query Editor");
     $(this).attr("id","switchToStd")
 });
 $(document).on('click','#switchToStd', function () {
     $('#adv-form').hide();
     $('#std-form').fadeIn();
-    $(this).text("Advanced Query Editor")
+    $(this).text("Advanced Query Editor");
     $(this).attr("id","switchToAdv")
 });
 $(document).on({
@@ -130,6 +147,7 @@ $(document).on('mouseup','#confirmDel', function () {
     $(this).attr("type","submit");
     $(this).attr("value","CONFIRM DELETION");
 });
+
 $(document).on('input','#standard_builder,#standard_keywords',function(){
     $("#savequerystd").text("Check Part Results");
     $("#savequerystd").attr("class","cust-button");
@@ -173,72 +191,80 @@ $(document).on('click','#savequeryadv', function () {
         }
     });
 });
-$(document).on('click','#add2DP',function(){
-    if ($('#abstract_pool :checkbox:checked').length > 0){
-            var confirm = $(this).val();
-            if (confirm == 'Confirm?'){
-                var removed_rows = ""
-                $("#abstract_pool tbody tr").each(function(){
-                    if($(this).find('input:checkbox:checked').length == 1){
-                        var pk=this.id.slice(5)
-                        removed_rows = removed_rows + pk + ","  // add row being removed to the list
-                    }
-                });
-                $.ajax({
-                    type:       "POST",
-                    url:        "add_to_dp/",
-                    data:       {'removed_rows':removed_rows},
-                    success: function(){
-                        $("#abstract_pool tbody tr").each(function(){   //For each row in table
-                            if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
-                                var row = this
-                                $(row).fadeOut(400, function () {
-                                    $(row).remove()
-                                });
-                            }
-                        });
 
-                    }
-                });
-            }else{
-                $(this).val("Confirm?");
-            }
-        }
-} );
 $(document).on('click',"[id*='deleteQuery']",function(){
     var confirm = $(this).val();
     //if button value now Confirm delete
     if (confirm == 'Confirm delete'){
-            var td = $(this).parent();
+        var td = $(this).parent();
+        alert(confirm);
+    }
+
+        //if button value now Confirm delete
+       // if (confirm == 'Confirm delete'){
+         //   var td = $(this).parent();
             //var of td tr parent
-            var tr = td.parent();
+           // var tr = td.parent();
             //slice id name so only pk left
-            var pk = this.id.slice(11);
+            //var pk = this.id.slice(11);
             //ajax post call
-            $.ajax({
-                type: "POST",
-                url: pk + "/delete_query/",
-                data: "pk=" + pk,
-                success: function () {
+            //$.ajax({
+              //  type: "POST",
+                //url: pk + "/delete_query/",
+               // data: "pk=" + pk,
+                //success: function () {
                     //fade and remove row
-                    tr.fadeOut(400, function () {
-                        tr.remove()
-                    })
+                  //  tr.fadeOut(400, function () {
+                    //    tr.remove()
+                   // })
+               // }
+           // });
+       // }else{
+         //   $(this).val("Confirm delete");
+       // }
+});
+
+$(document).unbind("click").on('click','#add2DP',function(){
+    var removed_rows = "";
+    if ($('#abstract_pool :checkbox:checked').length > 0){  // If at least 1 checkbox is checked
+        var confirm = $(this).val();
+        if (confirm == 'Confirm?'){
+            $("#abstract_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    var pk=this.id.slice(5);
+                    removed_rows = removed_rows + pk + ",";  // add row being removed to the list
                 }
             });
-        }else{
-            $(this).val("Confirm delete");
+            $.ajax({
+                type:       "POST",
+                url:        "add_to_dp/",
+                data:       {'removed_rows':removed_rows},
+                success: function(){
+                    $("#abstract_pool tbody tr").each(function(){   //For each row in table
+                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                            var row = this;
+                            $(row).fadeOut(400, function () {
+                                $(row).remove()
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            $(this).val("Confirm?");
         }
+    }
 });
+
 $(document).on('click',"#removefromFP",function(){
-    var removed_rows = ""
+    var removed_rows = "";
     if ($('#final_pool :checkbox:checked').length > 0){
             var confirm = $(this).val();
             if (confirm == 'Confirm?'){
                 $("#final_pool tbody tr").each(function(){
                     if($(this).find('input:checkbox:checked').length == 1){
-                        var pk=this.id.slice(5)
-                        var row = this
+                        var pk=this.id.slice(5);
+                        var row = this;
                         removed_rows = removed_rows + pk + ","
                     }
                 });
@@ -249,7 +275,7 @@ $(document).on('click',"#removefromFP",function(){
                     success: function(){
                         $("#final_pool tbody tr").each(function(){   //For each row in table
                             if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
-                                var row = this
+                                var row = this;
                                 $(row).fadeOut(400, function () {
                                     $(row).remove()
                                 });
@@ -269,7 +295,7 @@ $(document).on('click','#removefromDP',function(){
             if (confirm == 'Confirm?'){
                 $("#document_pool tbody tr").each(function(){
                     if($(this).find('input:checkbox:checked').length == 1){
-                        var pk=this.id.slice(5)
+                        var pk=this.id.slice(5);
                         removed_rows = removed_rows + pk + ","
                     }
                 });
@@ -280,7 +306,7 @@ $(document).on('click','#removefromDP',function(){
                     success: function(){
                         $("#document_pool tbody tr").each(function(){   //For each row in table
                             if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
-                                var row = this
+                                var row = this;
                                 $(row).fadeOut(400, function () {
                                     $(row).remove()
                                 });
@@ -294,7 +320,7 @@ $(document).on('click','#removefromDP',function(){
         }
 });
 $(document).on('click','#add2FP',function(){
-    var removed_rows = ""
+    var removed_rows = "";
     if ($('#document_pool :checkbox:checked').length > 0){
             var confirm = $(this).val();
             if (confirm == 'Confirm?'){
@@ -356,3 +382,4 @@ $(document).on('click','#removefromAP',function(){
             }
         }
 });
+
