@@ -208,63 +208,66 @@ $(document).on('click','#savequeryadv', function () {
         }
     });
 });
-$(document).on('click','#add2DP',function(){
-    if ($('#abstract_pool :checkbox:checked').length > 0){
-            var confirm = $(this).val();
-            if (confirm == 'Confirm?'){
-                var removed_rows = ""
-                $("#abstract_pool tbody tr").each(function(){
-                    if($(this).find('input:checkbox:checked').length == 1){
-                        var pk=this.id.slice(5)
-                        removed_rows = removed_rows + pk + ","  // add row being removed to the list
-                    }
-                });
-                $.ajax({
-                    type:       "POST",
-                    url:        "add_to_dp/",
-                    data:       {'removed_rows':removed_rows},
-                    success: function(){
-                        $("#abstract_pool tbody tr").each(function(){   //For each row in table
-                            if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
-                                var row = this
-                                $(row).fadeOut(400, function () {
-                                    $(row).remove()
-                                });
-                            }
-                        });
 
-                    }
-                });
-            }else{
-                $(this).val("Confirm?");
-            }
-        }
-} );
 $(document).on('click',"[id*='deleteQuery']",function(){
     var confirm = $(this).val();
+    alert(confirm)
         //if button value now Confirm delete
-        if (confirm == 'Confirm delete'){
-            var td = $(this).parent();
+       // if (confirm == 'Confirm delete'){
+         //   var td = $(this).parent();
             //var of td tr parent
-            var tr = td.parent();
+           // var tr = td.parent();
             //slice id name so only pk left
-            var pk = this.id.slice(11);
+            //var pk = this.id.slice(11);
             //ajax post call
-            $.ajax({
-                type: "POST",
-                url: pk + "/delete_query/",
-                data: "pk=" + pk,
-                success: function () {
+            //$.ajax({
+              //  type: "POST",
+                //url: pk + "/delete_query/",
+               // data: "pk=" + pk,
+                //success: function () {
                     //fade and remove row
-                    tr.fadeOut(400, function () {
-                        tr.remove()
-                    })
+                  //  tr.fadeOut(400, function () {
+                    //    tr.remove()
+                   // })
+               // }
+           // });
+       // }else{
+         //   $(this).val("Confirm delete");
+       // }
+});
+
+$(document).unbind("click").on('click','#add2DP',function(){
+    var removed_rows = "";
+    if ($('#abstract_pool :checkbox:checked').length > 0){  // If at least 1 checkbox is checked
+        var confirm = $(this).val();
+        if (confirm == 'Confirm?'){
+            $("#abstract_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    var pk=this.id.slice(5);
+                    removed_rows = removed_rows + pk + ",";  // add row being removed to the list
                 }
             });
-        }else{
-            $(this).val("Confirm delete");
+            $.ajax({
+                type:       "POST",
+                url:        "add_to_dp/",
+                data:       {'removed_rows':removed_rows},
+                success: function(){
+                    $("#abstract_pool tbody tr").each(function(){   //For each row in table
+                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                            var row = this;
+                            $(row).fadeOut(400, function () {
+                                $(row).remove()
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            $(this).val("Confirm?");
         }
+    }
 });
+
 $(document).on('click',"#removefromFP",function(){
     var removed_rows = ""
     if ($('#final_pool :checkbox:checked').length > 0){
