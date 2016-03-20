@@ -39,7 +39,7 @@
                                 <p>No Paper Available</p>
                             {% endif %}
                         <td>{{paper.publish_date}}</td>
-                        <td><textarea rows="8" cols="20" id="addNotes{{paper.pk}}">{{paper.notes}}</textarea></td>
+                        <td><div class = "notes"><textarea rows="8" cols="28" id="addNotes{{paper.pk}}">{{paper.notes}}</textarea></div></td>
                     </tr>
                 {% endfor %}
             </tbody>

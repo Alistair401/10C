@@ -1155,6 +1155,11 @@ div.authors{
     width: 250px;
 }
 
+div.notes{
+    overflow: auto;
+    width: 250px;
+}
+
 div.title{
     overflow: auto;
     width: 250px;
