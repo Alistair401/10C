@@ -3,34 +3,45 @@
 {% load staticfiles %}
 
 {% block main_block %}
-    <img class="cust-logo" src={% static "css/SysReviewer.svg" %}>
-
+    <div class="cust-centered">
+        <img class="cust-logo" src={% static "css/SysReviewer.svg" %}>
+    </div>
     {% if user.is_authenticated %}
 
-    <h1>Welcome {{user}} you are currently working on the {{ current_review }} review.</h1>
-
+    <div class="cust-centered">
+        <h1>Welcome {{user}}</h1>
+        <h2>You are currently working on the</h2>
+        <h2>{{ current_review }} review.</h2>
+        <a href="{% url 'reviews' %}" class="pure-button pure-button-primary">Change Review</a>
+        <a href="{% url 'create_review' %}" class="pure-button pure-button-primary">Create Review</a>
+    </div>
     {% else %}
 
-    <div class="pure-g">
-        <div class="pure-u-24-24">
+
+        <div class="cust-centered">
             <h2 >Welcome to SysReviewer - The Systematic Review App</h2>
         </div>
-    </div>
-        <p>Powered by PubMed, SysReview gives you the tools to create, organise and track your systematic review.
-        Create and edit your search queries making sure you only have the results that are important to you.</p>
-        <p>Review and approve papers at each stage of your systematic review.
-        SysReviewer gives you quick access to each stage of your systematic review.</p>
 
-        <h2>The SysReviewer Systematic Review Building Blocks</h2>
-        <ul>
-            <li>Create/edit Multiple Reviews</li>
-            <li>Create multiple queries, test your results, select the best query for your review</li>
-            <li>Abstract Pool - Review,approve or reject your reviews papers based on their abstracts </li>
-            <li>Document Pool - Visit the full paper, select the papers that are relevant to your review</li>
-            <li>Final Pool - View the final papers that are necessary for your review</li>
-        </ul>
+        <div class="cust-centered">
+            <p>Powered by PubMed, SysReview gives you the tools to create, organise and track your systematic review.</p>
+            <p>Create and edit your search queries making sure you only have the results that are important to you.</p>
+            <p>Review and approve papers at each stage of your systematic review.</p>
+            <p>SysReviewer gives you quick access to each stage of your systematic review.</p>
+        </div>
 
-        <a href="{% url 'login_register' %}" class="pure-button pure-button-primary">Login</a>
-        <a href="{% url 'login_register' %}" class="pure-button pure-button-primary">Register</a>
+        <div class="cust-centered">
+            <h2>The SysReviewer Systematic Review Building Blocks</h2>
+        </div>
+        <div class="cust-centered">
+            <p>Create/edit Multiple Reviewd</p>
+            <p>Create multiple queries, test your results, select the best query for your review</p>
+            <p>Abstract Pool - Review,approve or reject your reviews papers based on their abstracts</p>
+            <p>Document Pool - Visit the full paper, select the papers that are relevant to your review</p>
+            <p>Final Pool - View the final papers that are necessary for your review</p>
+        </div>
+        <div class="cust-centered">
+            <a href="{% url 'login_register' %}" class="pure-button pure-button-primary">Login</a>
+            <a href="{% url 'login_register' %}" class="pure-button pure-button-primary">Register</a>
+        </div>
     {% endif %}
 {% endblock %}
