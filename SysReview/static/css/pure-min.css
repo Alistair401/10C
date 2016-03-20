@@ -1024,6 +1024,9 @@ a.pure-button-selected {
 .cust-blacktext {
     color: #000000
 }
+.cust-whitetext {
+    color: #FFF
+}
 .cust-divider {
     position: absolute;
     right: 45%;

@@ -65,8 +65,6 @@ $(document).ready(function() {
             $(this).off();
         }
     });
-
-
         //delete table row if deletebutton with id containing deleteQuery
     $("[id*='addNotes']").keyup(function() {
         //store current value of textarea
@@ -87,6 +85,7 @@ $(document).ready(function() {
         // if true Tab key creates indentation
         allowTabChar: false
     });
+
 });
 $(document).on('click','#checkAPIadv', function () {
     var txt = $('textarea#adv_textarea');
@@ -104,7 +103,7 @@ $(document).on('click','#checkAPIadv', function () {
             $(button).text("Save Query");
             $(button).attr("id", "savequeryadv");
             $(button).attr("class","cust-button-g");
-            $('#advresults').text("Number of results: " + data.toString());
+            $('#advresults').text("Results: " + data.toString());
         }
     });
 });
@@ -123,7 +122,7 @@ $(document).on('click','#checkAPIstd', function () {
             $(button).text("Save Query Part");
             $(button).attr("id", "savequerystd");
             $(button).attr("class","cust-button-g");
-            $('#stdresults').text("Number of results: " + data.toString());
+            $('#stdresults').text("Results: " + data.toString());
         }
     });
 });
@@ -394,5 +393,14 @@ $(document).on('click','#completequeries',function(){
         button.text("Click again to confirm")
     }
 });
-
+$(document).on('click','#full_query_results',function(){
+        var button = $(this);
+        $.ajax({
+            type: "GET",
+            url: "total_results/",
+            success: function (data) {
+                $(button).text("Query Results: " + data);
+            }
+        })
+});
 
