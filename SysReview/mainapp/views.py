@@ -170,6 +170,10 @@ def review(request, review_name_slug):
 
         context_dict['pool_size']=slugged_review.pool_size
 
+        context_dict['abstracts_judged']=slugged_review.abstracts_judged
+
+        context_dict['document_judged']=slugged_review.document_judged
+
         context_dict['review'] = slugged_review
 
         context_dict['review_name_slug'] = review_name_slug
@@ -419,12 +423,11 @@ def remove_from_ap(request, review_name_slug):
     paperCounter=0 #counter for number of papers judged
 
     for id in list_pks[:-1]:
-        Paper.objects.filter(pk=id).delete();
+        Paper.objects.filter(pk=id).delete()
         paperCounter= paperCounter + 1 #increase counter
 
     review = Review.objects.get(slug=review_name_slug)
     review.pool_size = review.pool_size - paperCounter #decrease pool size as these papers now not relevant
-    review.abstracts_judged = review.abstracts_judged + paperCounter #record number of abstracts judged
     review.save()
     return HttpResponse()
 
@@ -439,6 +442,7 @@ def add_to_dp(request, review_name_slug):
         paperCounter= paperCounter + 1 #increase counter
 
     review = Review.objects.get(slug=review_name_slug)
+    review.pool_size = review.pool_size - paperCounter #decrease pool size as these papers now not releva
     review.abstracts_judged = review.abstracts_judged + paperCounter #record number of abstracts judged
     review.save()
     return HttpResponse()
@@ -454,8 +458,8 @@ def remove_from_dp(request, review_name_slug):
         paperCounter= paperCounter + 1 #increase counter
 
     review = Review.objects.get(slug=review_name_slug)
-    review.pool_size = review.pool_size - paperCounter #decrease pool size as these papers now not relevant
-    review.document_judged = review.document_judged + paperCounter #record number of documents judged
+    review.abstracts_judged = review.abstracts_judged - paperCounter #decrease pool size as these papers now not relevant
+    review.pool_size = review.pool_size + paperCounter
     review.save()
 
     return HttpResponse()
@@ -472,6 +476,7 @@ def add_to_fp(request, review_name_slug):
 
     review = Review.objects.get(slug=review_name_slug)
     review.document_judged = review.document_judged + paperCounter #record number of documents judged
+    review.abstracts_judged = review.abstracts_judged - paperCounter #decrease pool size as these papers now not relevant
     review.save()
 
     return HttpResponse()
@@ -487,8 +492,8 @@ def remove_from_fp(request, review_name_slug):
         paperCounter= paperCounter + 1 #increase counter
 
     review = Review.objects.get(slug=review_name_slug)
-    review.pool_size = review.pool_size - paperCounter #decrease pool size as these papers now not releva
-    review.save()
+    review.document_judged = review.document_judged - paperCounter #record number of documents judged
+    review.abstracts_judged = review.abstracts_judged + paperCounter #decrease pool size as these papers    review.save()
     return HttpResponse()
 
 @commit_on_success
