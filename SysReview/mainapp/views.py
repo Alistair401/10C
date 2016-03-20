@@ -406,26 +406,38 @@ def parseKeywords(line,list,keyword):
     return result
 
 def remove_from_ap(request, review_name_slug):
+    pks = request.POST.get("removed_rows", None)
+    list_pks = pks.split(",")
+    for id in list_pks[:-1]:
+        Paper.objects.filter(pk=id).delete();
+    return HttpResponse()
+
+def add_to_dp(request, review_name_slug):
     pks = request.POST.get("removed_rows")
-    print request.POST
-   # for id in list_pks:
-     #   Paper.objects.filter(pk=id).delete();
+    list_pks = pks.split(",")
+    for id in list_pks[:-1]:
+        Paper.objects.filter(pk=id).update(abstract_relevance=True)
     return HttpResponse()
 
-def add_to_dp(request, review_name_slug,id):
-    Paper.objects.filter(pk=id).update(abstract_relevance=True)
+def remove_from_dp(request, review_name_slug):
+    pks = request.POST.get("removed_rows")
+    list_pks = pks.split(",")
+    for id in list_pks[:-1]:
+        Paper.objects.filter(pk=id).update(abstract_relevance=False)
     return HttpResponse()
 
-def remove_from_dp(request, review_name_slug,id):
-    Paper.objects.filter(pk=id).update(abstract_relevance=False)
+def add_to_fp(request, review_name_slug):
+    pks = request.POST.get("removed_rows")
+    list_pks = pks.split(",")
+    for id in list_pks[:-1]:
+        Paper.objects.filter(pk=id).update(document_relevance=True)
     return HttpResponse()
 
-def add_to_fp(request, review_name_slug,id):
-    Paper.objects.filter(pk=id).update(document_relevance=True)
-    return HttpResponse()
-
-def remove_from_fp(request, review_name_slug,id):
-    Paper.objects.filter(pk=id).update(document_relevance=False)
+def remove_from_fp(request, review_name_slug):
+    pks = request.POST.get("removed_rows")
+    list_pks = pks.split(",")
+    for id in list_pks[:-1]:
+        Paper.objects.filter(pk=id).update(document_relevance=False)
     return HttpResponse()
 
 @commit_on_success

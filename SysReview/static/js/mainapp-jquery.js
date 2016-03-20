@@ -53,7 +53,6 @@ $(document).ready(function() {
     $("#removefromAP").click(function(){
         if ($('#abstract_pool :checkbox:checked').length > 0){//If there is at least 1 checkbox checked
             var removed_rows = ""   //List to hold row id's being removed
-             var row = this  // Variable containing reference to current row
             $("#abstract_pool tbody tr").each(function(){   //For each row in table
                 if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
                     var pk = this.id.slice(5) //Set the pk variable to the row id (ONLY THE NUMBER)
@@ -61,13 +60,18 @@ $(document).ready(function() {
                 }
             });
             $.ajax({
-                type:       "POST",
-                url:        "remove_from_ap/",
-                data:       removed_rows,
-                success:    function(){
-                            $(row).fadeOut(400, function(){
-                                $(row).remove();
+                type: "POST",
+                url: "remove_from_ap/",
+                data: {'removed_rows':removed_rows},
+                success: function(){
+                    $("#abstract_pool tbody tr").each(function(){   //For each row in table
+                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                            var row = this
+                            $(row).fadeOut(400, function () {
+                                $(row).remove()
                             });
+                        }
+                    });
                 }
             });
         } else {
@@ -79,16 +83,24 @@ $(document).ready(function() {
 
     $("#add2DP").click(function(){
         if ($('#abstract_pool :checkbox:checked').length > 0){
+            var removed_rows = ""
             $("#abstract_pool tbody tr").each(function(){
                 if($(this).find('input:checkbox:checked').length == 1){
                     var pk=this.id.slice(5)
-                    $.ajax({
-                        type:	"POST",
-                        url:	pk+"/add_to_dp/",
-                        data:	"pk="+pk,
-                        success: function(){
-                            $(row).fadeOut(400, function(){
-                                $(row).remove();
+                    removed_rows = removed_rows + pk + ","  // add row being removed to the list
+
+                }
+            });
+            $.ajax({
+                type:       "POST",
+                url:        "add_to_dp/",
+                data:       {'removed_rows':removed_rows},
+                success: function(){
+                    $("#abstract_pool tbody tr").each(function(){   //For each row in table
+                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                            var row = this
+                            $(row).fadeOut(400, function () {
+                                $(row).remove()
                             });
                         }
                     });
@@ -100,18 +112,24 @@ $(document).ready(function() {
     });
 
     $("#removefromDP").click(function(){
+        var removed_rows = ""
         if ($('#document_pool :checkbox:checked').length > 0){
             $("#document_pool tbody tr").each(function(){
                 if($(this).find('input:checkbox:checked').length == 1){
                     var pk=this.id.slice(5)
-                    var row = this
-                    $.ajax({
-                        type:	"POST",
-                        url:	pk+"/remove_from_dp/",
-                        data:	"pk="+pk,
-                        success: function(){
-                            $(row).fadeOut(400, function(){
-                                $(row).remove();
+                    removed_rows = removed_rows + pk + ","
+                }
+            });
+            $.ajax({
+                type:       "POST",
+                url:        "remove_from_dp/",
+                data:       {'removed_rows':removed_rows},
+                success: function(){
+                    $("#document_pool tbody tr").each(function(){   //For each row in table
+                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                            var row = this
+                            $(row).fadeOut(400, function () {
+                                $(row).remove()
                             });
                         }
                     });
@@ -123,18 +141,24 @@ $(document).ready(function() {
     });
 
     $("#add2FP").click(function(){
+        var removed_rows = ""
         if ($('#document_pool :checkbox:checked').length > 0){
             $("#document_pool tbody tr").each(function(){
                 if($(this).find('input:checkbox:checked').length == 1){
                     var pk=this.id.slice(5)
-                    var row = this
-                    $.ajax({
-                        type:	"POST",
-                        url:	pk+"/add_to_fp/",
-                        data:	"pk="+pk,
-                        success: function(){
-                            $(row).fadeOut(400, function(){
-                                $(row).remove();
+                    removed_rows = removed_rows + pk + ","
+                }
+            });
+            $.ajax({
+                type:       "POST",
+                url:        "add_to_fp/",
+                data:       {'removed_rows':removed_rows},
+                success: function(){
+                    $("#document_pool tbody tr").each(function(){   //For each row in table
+                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                            var row = this
+                            $(row).fadeOut(400, function () {
+                                $(row).remove()
                             });
                         }
                     });
@@ -146,25 +170,32 @@ $(document).ready(function() {
     });
 
     $("#removefromFP").click(function(){
+        var removed_rows = ""
         if ($('#final_pool :checkbox:checked').length > 0){
-                $("#final_pool tbody tr").each(function(){
-                    if($(this).find('input:checkbox:checked').length == 1){
-                        var pk=this.id.slice(5)
-                        var row = this
-                        $.ajax({
-                            type:	"POST",
-                            url:	pk+"/remove_from_fp/",
-                            data:	"pk="+pk,
-                            success: function(){
-                                $(row).fadeOut(400, function(){
-                                    $(row).remove();
-                                });
-                            }
-                        });
-                    }
-                });
+            $("#final_pool tbody tr").each(function(){
+                if($(this).find('input:checkbox:checked').length == 1){
+                    var pk=this.id.slice(5)
+                    var row = this
+                    removed_rows = removed_rows + pk + ","
+                }
+            });
+            $.ajax({
+                type:       "POST",
+                url:        "remove_from_fp/",
+                data:       {'removed_rows':removed_rows},
+                success: function(){
+                    $("#final_pool tbody tr").each(function(){   //For each row in table
+                        if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
+                            var row = this
+                            $(row).fadeOut(400, function () {
+                                $(row).remove()
+                            });
+                        }
+                    });
+                }
+            });
         } else {
-                var al = alert("WARNING: \nNo papers are selected to be removed from pool!")
+            var al = alert("WARNING: \nNo papers are selected to be removed from pool!")
         }
     });
 
