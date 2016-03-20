@@ -570,3 +570,9 @@ def save_query_std(request, review_name_slug, query_string):
     id_string = id_string[:-1]
     query_object = Query.objects.create(review=review,query_string=formatted,pool_size=len(esearch_result),results=id_string)
     return HttpResponse()
+
+#function for adding notes to paper in final pool
+def add_notes(request,review_name_slug,id):
+    notes = request.POST['editText']
+    Paper.objects.filter(pk=id).update(notes=notes)
+    return HttpResponse()
