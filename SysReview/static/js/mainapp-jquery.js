@@ -69,8 +69,8 @@ $(document).ready(function() {
 
         //delete table row if deletebutton with id containing deleteQuery
     $("[id*='addNotes']").keyup(function() {
+        //store current value of textarea
         var	editText=$("[id*='addNotes']").val();
-        //var of td tr parent
         //slice id name so only pk left
         var pk = this.id.slice(8);
         //ajax post call
@@ -215,6 +215,7 @@ $(document).on('click', "[id*='deleteQuery']", function () {
                 }
             });
         }
+
 
     } else {
         $(this).val("Confirm delete");
