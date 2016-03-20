@@ -26,15 +26,13 @@
             </thead>
             <tbody>
                 {% for paper in papers %}
-                    <div class = "rows" >
                         <tr id="paper{{paper.pk}}">
                             <td><input type="checkbox" class="case"/></td>
                             <td>{{paper.title}}</td>
                             <td><div class = abstract>{{paper.abstract}}</div></td>
-                            <td>{{paper.authors}}</td>
+                            <td>{% for author in paper.authors %} {{author}} {% endfor %}</td>
                             <td>{{paper.publish_date}}</td>
                         </tr>
-                    </div>
                 {% endfor %}
             </tbody>
         </table>

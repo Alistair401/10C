@@ -1150,11 +1150,6 @@ div.container{
 
 }
 
-div.rows{
-    max-width: 100px;
-    max-height: 100px;
-}
-
 .cust-pure-table-bordered td {
     border-bottom: 1px solid #cbcbcb
 }
@@ -1165,7 +1160,6 @@ div.rows{
     border-width: 0 0 0 1px;
     font-size: inherit;
     margin: 0;
-    overflow: scroll;
     padding: .5em 1em
 }
 
