@@ -82,6 +82,7 @@ def add_user(username):
 def add_review(creator,name):
     #get or create new user
     review = Review.objects.get_or_create(creator=creator, name=name)[0]
+    review.description = "This is a review on "+ name
     review.save()
     return review
 

@@ -494,10 +494,11 @@ def remove_from_fp(request, review_name_slug):
     review = Review.objects.get(slug=review_name_slug)
     review.document_judged = review.document_judged - paperCounter #record number of documents judged
     review.abstracts_judged = review.abstracts_judged + paperCounter #decrease pool size as these papers    review.save()
+    review.save()
     return HttpResponse()
 
 @commit_on_success
-def save_query_adv(request,review_name_slug,query_string):
+def save_to_pool_adv(request, review_name_slug, query_string):
     review = Review.objects.get(slug=review_name_slug)
     # get list of ID results from the PubMed API
     formatted = format_query_advanced(query_string)
@@ -517,7 +518,7 @@ def save_query_adv(request,review_name_slug,query_string):
     return HttpResponse()
 
 @commit_on_success
-def save_query_std(request,review_name_slug,query_string):
+def save_to_pool_std(request, review_name_slug, query_string):
     review = Review.objects.get(slug=review_name_slug)
     # get list of ID results from the PubMed API
     formatted = format_query_novice(query_string)
@@ -534,4 +535,29 @@ def save_query_std(request,review_name_slug,query_string):
     #set Review pool size
     review.pool_size=len(esearch_result)
     review.save()
+    return HttpResponse()
+
+@commit_on_success
+def save_query_adv(request, review_name_slug, query_string):
+    review = Review.objects.get(slug=review_name_slug)
+    # get list of ID results from the PubMed API
+    formatted = format_query_advanced(query_string)
+    esearch_result = pubmed.esearch_query(formatted)
+    for id in esearch_result:
+        esearch_result += id + ","
+    id_string = esearch_result[:-1]
+    query_object = Query.objects.create(review=review,query_string=formatted,pool_size=len(esearch_result),results=id_string)
+    return HttpResponse()
+
+@commit_on_success
+def save_query_std(request, review_name_slug, query_string):
+    review = Review.objects.get(slug=review_name_slug)
+    # get list of ID results from the PubMed API
+    formatted = format_query_novice(query_string)
+    esearch_result = pubmed.esearch_query(formatted)
+    id_string = ""
+    for id in esearch_result:
+        id_string += id + ","
+    id_string = id_string[:-1]
+    query_object = Query.objects.create(review=review,query_string=formatted,pool_size=len(esearch_result),results=id_string)
     return HttpResponse()
