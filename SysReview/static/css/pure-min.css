@@ -1239,16 +1239,6 @@ div.container{
 .cust-centered{
     text-align: center;
 }
-.cust-pure-button-r{
-    background-color: #FF0000;
-    border-radius: 3px;
-    box-shadow: 0px 5px #CD0000;
-    padding: .5em 1em;
-    display: inline-block;
-    transition-property: background-color;
-    transition-duration: 0.25s;
-    transition-timing-function: ease-out;
-}
 .cust-logo{
     width: 50%;
     padding-top: 15px;
@@ -1256,4 +1246,22 @@ div.container{
 .cust-remove-formatting{
     display: block;
     width:100%;
+}
+.cust-button-r{
+    background-color: #FF0000;
+    border-radius: 3px;
+    box-shadow: 0px 5px #FF6666;
+    padding: .5em 1em;
+    display: inline-block;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+.cust-button-r:hover {
+    background-color: #FF6666;
+    border-radius: 3px;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+    cursor: pointer;
 }
