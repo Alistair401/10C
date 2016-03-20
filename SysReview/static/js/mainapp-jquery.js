@@ -218,7 +218,7 @@ $(document).on('click',"[id*='deleteQuery']",function(){
     }
 });
 
-$(document).unbind("click").on('click','#add2DP',function(){
+$(document).one('click','#add2DP',function(){
     var removed_rows = "";
     if ($('#abstract_pool :checkbox:checked').length > 0){  // If at least 1 checkbox is checked
         var confirm = $(this).val();
@@ -248,6 +248,7 @@ $(document).unbind("click").on('click','#add2DP',function(){
             $(this).val("Confirm?");
         }
     }
+    return false;
 });
 
 $(document).on('click',"#removefromFP",function(){
