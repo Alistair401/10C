@@ -3,15 +3,6 @@
 {% load staticfiles %}
 
 {% block main_block %}
-<<<<<<< HEAD
-    <img class="cust-logo" src={% static "css/SysReviewer.svg" %}>
-
-   {% if user.is_authenticated %}
-
-    <h1>Welcome back, {{user}}!<br>
-    You are currently working on the {{ current_review }} review.</h1>
-
-=======
     <div class="cust-centered">
         <img class="cust-logo" src={% static "css/SysReviewer.svg" %}>
     </div>
@@ -24,7 +15,6 @@
         <a href="{% url 'reviews' %}" class="pure-button pure-button-primary">Change Review</a>
         <a href="{% url 'create_review' %}" class="pure-button pure-button-primary">Create Review</a>
     </div>
->>>>>>> 506bc50a3ea466f372322d05b10a9f67f1db118e
     {% else %}
 
 
