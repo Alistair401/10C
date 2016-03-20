@@ -1140,10 +1140,29 @@ div.numberedtextarea-number {
 }
 
 div.abstract{
-    max-height: 100px;
+    max-height: 150px;
     margin: 0;
     padding: 0;
     overflow: auto;
+    width: 500px;
+}
+
+div.authors{
+    max-height: 150px;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    width: 250px;
+}
+
+div.notes{
+    overflow: auto;
+    width: 250px;
+}
+
+div.title{
+    overflow: auto;
+    width: 250px;
 }
 
 div.container{

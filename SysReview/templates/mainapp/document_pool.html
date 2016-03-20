@@ -30,10 +30,16 @@
                 {% for paper in papers %}
                     <tr id="paper{{paper.pk}}">
                         <td><input type="checkbox" class = "case"/></td>
-                        <td>{{paper.title}}</td>
+                        <td><div class = title>{{paper.title}}</div></td>
                         <td><div class = abstract>{{paper.abstract}}</div></td>
-                        <td>{{paper.authors}}</td>
-                        <td><a href="{{paper.paper_url}}">{{paper.paper_url}}</a></td>
+                        <td><div class = authors>{{paper.authors}}</div></td>
+                        <td>
+                            {% if paper.paper_url %}
+                                <a class="pure-button pure-button-primary" href="{{paper.paper_url}}">View Paper</a></td>
+                            {% else %}
+                                <p>No Paper Available</p>
+                            {% endif %}
+                        </td>
                         <td>{{paper.publish_date}}</td>
                     </tr>
                 {% endfor %}
