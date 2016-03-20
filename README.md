@@ -26,13 +26,12 @@ This application was created for the University of Glasgow Computing Science Web
 <div id='Installation'/>
 ## Installation
 
- 1. Create new Directory in your workspace
- 2. Open a terminal and navigate to new directory
- 3. Clone repository by using command: ``` git clone https://github.com/Alistair401/10C.git ```
- 4. We would recommend creating a virtual directory at this stage and ``` workon <virtualenv> ```
- 5. Set up your virtual environment using the [requirements.txt](../master/requirements.txt) using the command: ```  pip install -r requirements.txt ```
- 6. To deploy the app locally navigate to the SysReview directory then run the command: ```python manage.py runserver```
- 7. To launch the SysReview application open a web browser and go to: ```http://localhost:8000/```
+ 1. Open a terminal and navigate to your workspace
+ 2. Clone repository by using command: ``` git clone https://github.com/Alistair401/10C.git ```
+ 3. We would recommend creating a virtual directory at this stage and ``` workon <virtualenv> ```
+ 4. Set up your virtual environment using the [requirements.txt](../master/requirements.txt) using the command: ```  pip install -r requirements.txt ```
+ 5. To deploy the app locally navigate to the SysReview directory then run the command: ```python manage.py runserver```
+ 6. To launch the SysReview application open a web browser and go to: ```http://localhost:8000/```
 
 <div id='Populate SysReview'/>
 ## Populate SysReview

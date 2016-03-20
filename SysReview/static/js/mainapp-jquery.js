@@ -55,8 +55,8 @@ $(document).ready(function() {
             var removed_rows = ""   //List to hold row id's being removed
             $("#abstract_pool tbody tr").each(function(){   //For each row in table
                 if($(this).find('input:checkbox:checked').length == 1){ //If the row has a checked input box
-                    var pk = this.id.slice(5) //Set the pk variable to the row id (ONLY THE NUMBER)
-                    removed_rows = removed_rows + pk + ","  // add row being removed to the list
+                    var pk = this.id.slice(5); //Set the pk variable to the row id (ONLY THE NUMBER)
+                    removed_rows = removed_rows + pk + ",";  // add row being removed to the list
                 }
             });
             $.ajax({
