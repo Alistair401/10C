@@ -69,8 +69,8 @@ $(document).ready(function() {
 
         //delete table row if deletebutton with id containing deleteQuery
     $("[id*='addNotes']").keyup(function() {
+        //store current value of textarea
         var	editText=$("[id*='addNotes']").val();
-        //var of td tr parent
         //slice id name so only pk left
         var pk = this.id.slice(8);
         //ajax post call
@@ -194,34 +194,27 @@ $(document).on('click','#savequeryadv', function () {
 
 $(document).on('click',"[id*='deleteQuery']",function(){
     var confirm = $(this).val();
-    //if button value now Confirm delete
+       //if button value now Confirm delete
     if (confirm == 'Confirm delete'){
         var td = $(this).parent();
-        alert(confirm);
+        var tr = td.parent();
+        //slice id name so only pk left
+        var pk = this.id.slice(11);
+        //ajax post call
+        $.ajax({
+            type: "POST",
+            url: pk + "/delete_query/",
+            data: "pk=" + pk,
+            success: function () {
+                //fade and remove row
+                tr.fadeOut(400, function () {
+                    tr.remove()
+                })
+            }
+        });
+    }else{
+        $(this).val("Confirm delete");
     }
-
-        //if button value now Confirm delete
-       // if (confirm == 'Confirm delete'){
-         //   var td = $(this).parent();
-            //var of td tr parent
-           // var tr = td.parent();
-            //slice id name so only pk left
-            //var pk = this.id.slice(11);
-            //ajax post call
-            //$.ajax({
-              //  type: "POST",
-                //url: pk + "/delete_query/",
-               // data: "pk=" + pk,
-                //success: function () {
-                    //fade and remove row
-                  //  tr.fadeOut(400, function () {
-                    //    tr.remove()
-                   // })
-               // }
-           // });
-       // }else{
-         //   $(this).val("Confirm delete");
-       // }
 });
 
 $(document).unbind("click").on('click','#add2DP',function(){
