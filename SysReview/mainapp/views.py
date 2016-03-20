@@ -244,8 +244,17 @@ def queries(request, review_name_slug):
 #create new query
 @login_required
 def create_query(request, review_name_slug):
+    query_to_edit = ""
+    query_pk = "";
+    if (request.method == "POST"):
+        for key,value in request.POST.iteritems():
+            if "Edit" in value:
+                query_pk = key[9:]
+    if query_pk != "":
+        query_to_edit = Query.objects.get(pk=query_pk).query_string
+
     current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
-    context_dict = {'review_name_slug': review_name_slug,'current_review':current_review}
+    context_dict = {'review_name_slug': review_name_slug,'current_review':current_review,'query_to_edit':query_to_edit}
     return render(request,'mainapp/create_query.html', context_dict)
 
 # view abstract pool and authorise abstracts and add to document pool

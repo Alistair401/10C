@@ -79,8 +79,6 @@ $(document).ready(function() {
         }
     });
 
-
-
     $("#add2DP").click(function(){
         if ($('#abstract_pool :checkbox:checked').length > 0){
             var removed_rows = ""
@@ -243,7 +241,7 @@ $(document).ready(function() {
     });
 
 
-    $('textarea').numberedtextarea({
+    $('#adv_textarea').numberedtextarea({
         // if true Tab key creates indentation
         allowTabChar: false
     });
