@@ -3,6 +3,7 @@
 {% load staticfiles %}
 <script type="text/javascript" src="{% static 'js/jquery-1.12.1.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/mainapp-jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.numberedtextarea.js' %}"></script>
 
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'css/pure-min.css' %}">
@@ -50,6 +51,8 @@
                         <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'document_pool' current_review %}">Document Pool</a></li>
                         <br/>
                         <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'final_pool' current_review %}">Final Pool</a></li>
+                        <br/>
+                        <li class="pure-menu-item cust-button-container"><a class="pure-menu-link cust-menu-link" href="{% url 'review' current_review %}">Details</a></li>
                     </ul>
                 </div>
             {% elif user.is_authenticated %}

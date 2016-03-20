@@ -244,8 +244,17 @@ def queries(request, review_name_slug):
 #create new query
 @login_required
 def create_query(request, review_name_slug):
+    query_to_edit = ""
+    query_pk = "";
+    if (request.method == "POST"):
+        for key,value in request.POST.iteritems():
+            if "Edit" in value:
+                query_pk = key[9:]
+    if query_pk != "":
+        query_to_edit = Query.objects.get(pk=query_pk).query_string
+
     current_review = Researcher.objects.all().get_or_create(user=request.user)[0].selected_review
-    context_dict = {'review_name_slug': review_name_slug,'current_review':current_review}
+    context_dict = {'review_name_slug': review_name_slug,'current_review':current_review,'query_to_edit':query_to_edit}
     return render(request,'mainapp/create_query.html', context_dict)
 
 # view abstract pool and authorise abstracts and add to document pool
@@ -498,7 +507,7 @@ def remove_from_fp(request, review_name_slug):
     return HttpResponse()
 
 @commit_on_success
-def save_query_adv(request,review_name_slug,query_string):
+def save_to_pool_adv(request, review_name_slug, query_string):
     review = Review.objects.get(slug=review_name_slug)
     # get list of ID results from the PubMed API
     formatted = format_query_advanced(query_string)
@@ -518,7 +527,7 @@ def save_query_adv(request,review_name_slug,query_string):
     return HttpResponse()
 
 @commit_on_success
-def save_query_std(request,review_name_slug,query_string):
+def save_to_pool_std(request, review_name_slug, query_string):
     review = Review.objects.get(slug=review_name_slug)
     # get list of ID results from the PubMed API
     formatted = format_query_novice(query_string)
@@ -537,9 +546,33 @@ def save_query_std(request,review_name_slug,query_string):
     review.save()
     return HttpResponse()
 
+@commit_on_success
+def save_query_adv(request, review_name_slug, query_string):
+    review = Review.objects.get(slug=review_name_slug)
+    # get list of ID results from the PubMed API
+    formatted = format_query_advanced(query_string)
+    esearch_result = pubmed.esearch_query(formatted)
+    for id in esearch_result:
+        esearch_result += id + ","
+    id_string = esearch_result[:-1]
+    query_object = Query.objects.create(review=review,query_string=formatted,pool_size=len(esearch_result),results=id_string)
+    return HttpResponse()
+
+@commit_on_success
+def save_query_std(request, review_name_slug, query_string):
+    review = Review.objects.get(slug=review_name_slug)
+    # get list of ID results from the PubMed API
+    formatted = format_query_novice(query_string)
+    esearch_result = pubmed.esearch_query(formatted)
+    id_string = ""
+    for id in esearch_result:
+        id_string += id + ","
+    id_string = id_string[:-1]
+    query_object = Query.objects.create(review=review,query_string=formatted,pool_size=len(esearch_result),results=id_string)
+    return HttpResponse()
+
 #function for adding notes to paper in final pool
 def add_notes(request,review_name_slug,id):
     notes = request.POST['editText']
     Paper.objects.filter(pk=id).update(notes=notes)
     return HttpResponse()
-
