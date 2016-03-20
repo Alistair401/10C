@@ -29,7 +29,7 @@
             </table>
         </div>
         <a id="completequeries" class="cust-button-g">Finalize Queries</a>
-        <input type="button" class="pure-button pure-button-primary" id="editQuery" value="Add Query Part">
+        <a href="{% url 'create_query' review_name_slug %}" class="pure-button pure-button-primary">Add Query Part</a>
 
     {% else %}
         <strong>No saved queries for {{review.name}}</strong>
