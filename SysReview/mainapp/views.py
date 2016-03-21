@@ -76,7 +76,8 @@ def profile(request):
             saved = True
     else:
         # Create a new form
-        profile_form = UserProfileForm()
+        data= {'name':current_profile.name,'surname':current_profile.surname,'bio':current_profile.bio,'institution':current_profile.institution}
+        profile_form = UserProfileForm(initial=data)
 
     profile_name = current_profile.name
     profile_surname = current_profile.surname
@@ -221,21 +222,6 @@ def queries(request, review_name_slug):
     totalAbstracts =0
     for query in queries:
         totalAbstracts+=query.pool_size
-    # for query in queries:
-    #     queryWords=query.query_string.split()
-    #     tempString="("
-    #     for word in queryWords:
-    #         if word == 'AND':
-    #             tempString=tempString[:-1]
-    #             tempString+=") AND ("
-    #         elif word == 'NOT':
-    #             tempString=tempString[:-1]
-    #             tempString+=") NOT ("
-    #         else:
-    #             tempString+=word+" "
-    #     tempString=tempString[:-1]
-    #     tempString+=")"
-    #     queryList+=[tempString]
 
     context_dict = {'review_name_slug': review_name_slug,'queries':queries,'review':review,'current_review':current_review,'total_abstracts':totalAbstracts}
     return render(request,'mainapp/queries.html',context_dict)
