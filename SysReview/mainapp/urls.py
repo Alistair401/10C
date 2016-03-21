@@ -27,5 +27,6 @@ urlpatterns = patterns('',
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/document_pool/add_to_fp/$',views.add_to_fp,name='add_to_fp'),
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/final_pool/remove_from_fp/$',views.remove_from_fp,name='remove_from_fp'),
                        url(r'^reviews/(?P<review_name_slug>[\w\-]+)/final_pool/(?P<id>\d+)/add_notes/$',views.add_notes,name='add_notes'),
+                       url(r'^syntax/$',views.syntax,name='syntax'),
                       )
 

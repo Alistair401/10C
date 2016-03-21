@@ -561,3 +561,6 @@ def check_total_results(request,review_name_slug):
     query=query[:-6]
     esearch_result = pubmed.esearch_query(query)
     return HttpResponse(len(esearch_result))
+
+def syntax(request):
+    return render(request,"mainapp/syntax.html")

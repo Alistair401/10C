@@ -32,6 +32,10 @@
                         <td>{{paper.title}}</td>
                         <td><span class ="more">{{paper.abstract}}</span></td>
                         <td><span class ="more">{{paper.authors}}</span></td>
+=======
+                        <td><div class = title>{{paper.title}}</div></td>
+                        <td><span class ="more">{{paper.abstract}}</span></td>
+                        <td><span class ="more">{{paper.authors}}</span></td>
                         <td>
                             {% if paper.paper_url %}
                                 <a class="pure-button pure-button-primary" href="{{paper.paper_url}}">View Paper</a></td>
@@ -39,7 +43,7 @@
                                 <p>No Paper Available</p>
                             {% endif %}
                         <td>{{paper.publish_date}}</td>
-                        <td><textarea rows="8" cols="20" id="addNotes{{paper.pk}}">{{paper.notes}}</textarea></td>
+                        <td><div class = "notes"><textarea rows="8" cols="28" id="addNotes{{paper.pk}}">{{paper.notes}}</textarea></div></td>
                     </tr>
                 {% endfor %}
             </tbody>

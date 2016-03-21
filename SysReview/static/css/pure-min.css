@@ -1152,7 +1152,17 @@ div.authors{
     margin: 0;
     padding: 0;
     overflow: auto;
-    width: 200px;
+    width: 250px;
+}
+
+div.notes{
+    overflow: auto;
+    width: 250px;
+}
+
+div.title{
+    overflow: auto;
+    width: 250px;
 }
 
 div.container{
@@ -1284,3 +1294,4 @@ div.container{
 .morelink {
     display: block;
 }
+

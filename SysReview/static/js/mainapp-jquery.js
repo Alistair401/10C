@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    $('#adv-form').hide();
-    $('#std-form').fadeIn();
     $('[id=ajaxloading]').each(function(){
         $(this).hide();
     });
@@ -81,6 +79,7 @@ $(document).ready(function() {
         });
     });
 
+
     //code to show less text
     var showChar = 200;  // How many characters are shown by default
     var ellipsestext = "...";
@@ -116,9 +115,13 @@ $(document).ready(function() {
         return false;
     });
 
-    $('textarea#adv_textarea').numberedtextarea({
-        // if true Tab key creates indentation
-        allowTabChar: false
+
+    $('#adv-form').hide();
+    $('#std-form').fadeIn();
+
+    $('[id=adv_textarea]').each(function(){
+        $(this).numberedtextarea({});
+
     });
 
 });
@@ -446,4 +449,5 @@ $(document).on('click','#full_query_results',function(){
             }
         })
 });
+
 

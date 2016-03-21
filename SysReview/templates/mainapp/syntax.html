@@ -1,0 +1,54 @@
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/pure-min.css' %}">
+<script type="text/javascript" src="{% static 'js/jquery-1.12.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.numberedtextarea.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/mainapp-jquery.js' %}"></script>
+
+<div class="cust-centered">
+<h2>Syntax for the Advanced Query Editor</h2>
+</div>
+<div class="pure-g">
+    <div class="pure-u-1-5"></div>
+    <div class="pure-u-4-5">
+    <br/>
+    <h4>Basics</h4>
+    Each search term should go on a new line
+    <br/>
+    <br/>
+    Following a block of terms you can then use operators on them using the keywords: <b>AND, OR, NOT</b> and <b>TO</b>
+    <br/>
+    <h4>Example:</h4>
+    <textarea id="adv_textarea" rows="13" cols="100">
+cancer
+carcinoma
+OR 1 TO 2
+medication
+effectiveness
+AND 4 TO 5
+lung
+skin
+brain
+eye
+OR 7 TO 10
+osteosarcoma
+NOT 12</textarea>
+    <br/>
+    Notes: In the keyword line 3, 6 and 11 the TO keyword is used which operates over a range of lines (inclusive)
+
+    <h4>Tags</h4>
+        Tags can be used to filter results further.
+        <br/>
+        Possible tags include [pdat] for publish date, [journal] for journals, [author] for authors and [language] for language.
+    <br/>
+    <h4>Example:</h4>
+    <textarea id="adv_textarea" rows="7" cols="100">
+cancer
+carcinoma
+OR 1 TO 2
+science[journal]
+2010[pdat]
+english[language]
+AND 4 TO 6</textarea>
+        </div>
+</div>
+
