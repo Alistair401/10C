@@ -543,6 +543,8 @@ def query_api(request,review_name_slug):
     esearch_result = pubmed.esearch_query(query)
     efetch_result = pubmed.efetch_query(esearch_result)
     elink_result = pubmed.elink_query(efetch_result)
+    slugged_review.pool_size= len(esearch_result)
+    slugged_review.save()
     for id in elink_result:
         result = elink_result[id]
         authors = ""

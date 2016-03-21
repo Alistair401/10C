@@ -53,8 +53,8 @@ def populate():
     user3review2 = add_review(creator=user3,name="Risk assessment tools for the prevention of pressure ulcers")
     user3review3 = add_review(creator=user3,name="Midwife-led continuity models versus other models of care for childbearing women")
     #create queries
-    create_query(user3review1,"((((((((((((((((((((Interprofessional) AND cooperative behavior) OR cooperative) AND behavior) OR cooperative behavior) OR collaboration) AND effects) AND practice based) AND interventions) AND professional practice) OR professional practice) OR professional) AND practice) OR professional practice) AND delivery of health care) OR delivery) AND health) AND care) OR delivery of health care) OR healthcare) AND outcomes ")
-    create_query(user3review2,"((((((((((((((((risk assessment) OR risk) AND assessment) OR risk assessment) AND tools) AND prevention and control) OR prevention) AND control) OR prevention and control) OR prevention) AND pressure ulcer) OR pressure) AND ulcer) OR pressure ulcer) OR pressure) AND ulcers) OR pressure ulcers ")
+    create_query(user3review1,"(((((((((((((((((((((Interprofessional) AND cooperative behavior) OR cooperative) AND behavior) OR cooperative behavior) OR collaboration) AND effects) AND practice based) AND interventions) AND professional practice) OR professional practice) OR professional) AND practice) OR professional practice) AND delivery of health care) OR delivery) AND health) AND care) OR delivery of health care) OR healthcare) AND outcomes")
+    create_query(user3review2,"(((((((((((((((((risk assessment) OR risk) AND assessment) OR risk assessment) AND tools) AND prevention and control) OR prevention) AND control) OR prevention and control) OR prevention) AND pressure ulcer) OR pressure) AND ulcer) OR pressure ulcer) OR pressure) AND ulcers) OR pressure ulcers")
     create_query(user3review3,"")
 
     # Print out what we have added to the users
