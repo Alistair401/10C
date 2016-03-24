@@ -17,20 +17,20 @@
             <thead>
                 <tr>
                     <th><input type="checkbox" id="selectAll" ></th>
-                    <th>Title</th>
+                    <th>Details</th>
                     <th>Abstract</th>
-                    <th>Author(s)</th>
-                    <th>Publish Date</th>
                 </tr>
             </thead>
             <tbody>
                 {% for paper in papers %}
                         <tr id="paper{{paper.pk}}">
                             <td><input type="checkbox" class="case"/></td>
-                            <td><div class = title>{{paper.title}}</div></td>
+                            <td><div class ="title">{{paper.title}}</div>
+                                <br/>
+                            <div class ="authors">{{paper.authors}}</div>
+                                <br/>
+                            <div class="date">{{paper.publish_date}}</div></td>
                             <td><div class ="abstract">{{paper.abstract}}</div></td>
-                            <td><div class ="authors">{{paper.authors}}</div></td>
-                            <td>{{paper.publish_date}}</td>
                         </tr>
                 {% endfor %}
             </tbody>

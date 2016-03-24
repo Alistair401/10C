@@ -1144,15 +1144,18 @@ div.abstract{
     margin: 0;
     padding: 0;
     overflow: auto;
-    width: 300px;
+    width: 100%;
 }
 
 div.authors{
-    max-height: 150px;
+    background-color: #dddddd;
+    max-height: 200px;
     margin: 0;
     padding: 0;
     overflow: auto;
-    width: 250px;
+    width: 100%;
+    border-radius: 3px;
+    min-width: 200px;
 }
 
 div.notes{
@@ -1162,7 +1165,7 @@ div.notes{
 
 div.title{
     overflow: auto;
-    width: 250px;
+    width: 100%;
 }
 
 div.container{
