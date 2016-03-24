@@ -21,11 +21,11 @@ STATIC_PATH = os.path.join(BASE_DIR,'static')
 SECRET_KEY = 'c91()qd&&8-btfz&5*j2#^je0!z*eh_l+flan8h1yx1ero*pr1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['alistair401.pythonanywhere.com','127.0.0.1','localhost']
 
 TEMPLATE_DIRS = (
     TEMPLATE_PATH,
