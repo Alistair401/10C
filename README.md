@@ -88,7 +88,7 @@ Further reading on the Pubmed API can found [here.](http://www.ncbi.nlm.nih.gov/
    
 **Running the Tests**
 
-1. In your terminal navigate to the mainapp directory
+1. In your terminal navigate to the main SysReview directory
 2. Run the command: ``` python manage.py test mainapp ```
 3. If successful the script should end and display a message ```Ran 9 tests in <time taken> OK```
 
