@@ -111,7 +111,7 @@ class IndexViewTests(TestCase):
 #test CreateReviewForm form
 class CreateReviewFormTests(TestCase):
 
-    def test_valid_form(self):
+    def test_valid_review_form(self):
         #create test data
         data = {'name': 'test the form', 'description':'test the form',}
         #create form
@@ -119,7 +119,7 @@ class CreateReviewFormTests(TestCase):
         #check form is valid
         self.assertTrue(form.is_valid())
 
-    def test_invalid_form(self):
+    def test_invalid_review_form(self):
         #create test incorrect data
         data = {'name': '', 'description':'test the form',}
         #create form
