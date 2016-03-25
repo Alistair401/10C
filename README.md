@@ -69,17 +69,28 @@ Further reading on the Pubmed API can found [here.](http://www.ncbi.nlm.nih.gov/
 <div id='Tests'/>
 ## Tests
 
-Some basic tests included in tests.py are:
+   Sample tests included in tests.py are:
    
    **Model Tests**
    
-   * ResearcherMethodTests
-         *test_unicode_researcher_representation
-   * ReviewMethodTests
-   * QueryMethodTests
-   * paperMethodTests
-   * IndexViewTests
-   * CreateReviewFormTests
+   * ResearcherMethodTests (test_unicode_researcher_representation)
+   * ReviewMethodTests  (test_unicode_Review_representation, test_slug_Review_representation)
+   * QueryMethodTests   (test_unicode_query_representation)
+   * paperMethodTests   (test_unicode_paper_representation)
+
+   **View Test**
+   
+   * IndexViewTests  (test_index_view_with_no_login, test_index_view_with_login)
+   
+   **Form Test**
+
+   * CreateReviewFormTests (test_valid_review_form, test_invalid_review_form)
+   
+**Running the Tests**
+
+1. In your terminal navigate to the mainapp directory
+2. Run the command: ``` python manage.py test mainapp ```
+3. If successful the script should end and display a message ```Ran 9 tests in <time taken> OK```
 
 <div id='Contributors'/>
 ## Contributors
