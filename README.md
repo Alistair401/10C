@@ -69,7 +69,17 @@ Further reading on the Pubmed API can found [here.](http://www.ncbi.nlm.nih.gov/
 <div id='Tests'/>
 ## Tests
 
-**STILL TO DO**
+Some basic tests included in tests.py are:
+   
+   **Model Tests**
+   
+   * ResearcherMethodTests
+         *test_unicode_researcher_representation
+   * ReviewMethodTests
+   * QueryMethodTests
+   * paperMethodTests
+   * IndexViewTests
+   * CreateReviewFormTests
 
 <div id='Contributors'/>
 ## Contributors
